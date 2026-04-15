@@ -8,12 +8,86 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<style>
+/* ── INTRO SPLIT ─────────────────────────────── */
+.ac-intro { display:grid;grid-template-columns:1fr 1fr;min-height:560px; }
+.ac-intro-left { background:var(--midnight);padding:96px 80px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden; }
+.ac-intro-left::before { content:'';position:absolute;bottom:-80px;right:-80px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(217,111,71,.12) 0%,transparent 65%); }
+.ac-intro-left::after { content:'';position:absolute;top:-60px;left:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(122,175,143,.08) 0%,transparent 65%); }
+.ac-intro-heading { font-family:var(--fd);font-size:clamp(38px,3.8vw,58px);font-weight:600;line-height:1.1;color:#fff;margin-bottom:24px;position:relative;z-index:1; }
+.ac-intro-heading em { font-style:italic;color:var(--coral); }
+.ac-intro-para { font-size:16px;font-weight:300;line-height:1.82;color:rgba(255,255,255,.48);max-width:460px;margin-bottom:36px;position:relative;z-index:1; }
+.ac-intro-stats { display:flex;gap:0;position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.08);padding-top:32px; }
+.ac-stat { padding-right:32px;margin-right:32px;border-right:1px solid rgba(255,255,255,.08); }
+.ac-stat:last-child { border-right:none; }
+.ac-stat-num { font-family:var(--fd);font-size:34px;font-weight:700;color:#fff;line-height:1; }
+.ac-stat-lbl { font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:4px; }
+.ac-intro-right { position:relative;overflow:hidden; }
+.ac-intro-right img { width:100%;height:100%;object-fit:cover; }
+.ac-intro-badge { position:absolute;top:28px;right:28px;background:rgba(253,250,245,.95);backdrop-filter:blur(12px);border-radius:14px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,.25);z-index:5; }
+.ac-intro-badge-tag { font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage);margin-bottom:4px; }
+.ac-intro-badge-val { font-size:13px;font-weight:700;color:var(--midnight);line-height:1.3; }
+
+/* ── SERVICES GRID ───────────────────────────── */
+.ac-services { background:var(--linen);padding:104px 80px; }
+.ac-services-header { display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:64px; }
+.ac-services-desc { font-size:16px;font-weight:300;line-height:1.8;color:var(--midnight);opacity:.55;max-width:400px; }
+.ac-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:24px; }
+.ac-card { background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 14px rgba(21,32,48,.06);transition:box-shadow .3s,transform .28s;display:flex;flex-direction:column; }
+.ac-card:hover { box-shadow:0 20px 56px rgba(21,32,48,.12);transform:translateY(-5px); }
+.ac-card-top { padding:28px 28px 0; }
+.ac-card-icon { width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px; }
+.ac-card-cat { font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px; }
+.ac-card-name { font-family:var(--fd);font-size:23px;font-weight:600;color:var(--midnight);line-height:1.2;margin-bottom:10px; }
+.ac-card-desc { font-size:13.5px;line-height:1.72;color:var(--midnight);opacity:.55;margin-bottom:20px; }
+.ac-card-divider { height:1px;background:var(--sand);margin:0 28px; }
+.ac-card-body { padding:20px 28px 28px; }
+.ac-card-list { list-style:none;display:flex;flex-direction:column;gap:8px; }
+.ac-card-list li { display:flex;align-items:flex-start;gap:9px;font-size:13px;line-height:1.55;color:var(--midnight);opacity:.65; }
+.ac-card-list li::before { content:'→';font-weight:700;flex-shrink:0;margin-top:1px; }
+
+/* icon colour themes */
+.ic-1 { background:var(--coral-lt); } .ct-1 { color:var(--coral); } .ac-card-list .cb-1::before { color:var(--coral); }
+.ic-2 { background:var(--fog); }      .ct-2 { color:var(--dust); }
+.ic-3 { background:rgba(122,175,143,.15); } .ct-3 { color:var(--sage); }
+.ic-4 { background:var(--coral-lt); } .ct-4 { color:var(--coral); }
+.ic-5 { background:rgba(196,168,130,.18); } .ct-5 { color:var(--dust); }
+.ic-6 { background:rgba(122,175,143,.15); } .ct-6 { color:var(--sage); }
+
+/* ── HOW IT WORKS ────────────────────────────── */
+.ac-process { background:var(--midnight);padding:96px 80px; }
+.ac-process-inner { display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:center; }
+.ac-process-left h2 { font-family:var(--fd);font-size:clamp(36px,3.4vw,52px);font-weight:600;line-height:1.1;color:#fff;margin-bottom:16px; }
+.ac-process-left h2 em { font-style:italic;color:var(--coral); }
+.ac-process-left p { font-size:15px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.42);margin-bottom:28px; }
+.ac-steps { display:flex;flex-direction:column;gap:0; }
+.ac-step { display:grid;grid-template-columns:48px 1fr;gap:20px;padding:28px 0;border-bottom:1px solid rgba(255,255,255,.06);align-items:start; }
+.ac-step:last-child { border-bottom:none;padding-bottom:0; }
+.ac-step-num { width:48px;height:48px;border-radius:12px;background:var(--coral);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:22px;font-weight:700;color:#fff;flex-shrink:0; }
+.ac-step-content h4 { font-family:var(--fd);font-size:20px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.2; }
+.ac-step-content p { font-size:13.5px;font-weight:300;line-height:1.72;color:rgba(255,255,255,.42); }
+
+/* ── TRUST SECTION ───────────────────────────── */
+.ac-trust { background:var(--fog);padding:96px 80px; }
+.ac-trust-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:56px; }
+.ac-trust-card { background:#fff;border-radius:18px;padding:32px 26px;box-shadow:0 2px 12px rgba(21,32,48,.05);transition:box-shadow .3s,transform .25s; }
+.ac-trust-card:hover { box-shadow:0 16px 48px rgba(21,32,48,.11);transform:translateY(-4px); }
+.ac-trust-icon { width:52px;height:52px;border-radius:13px;background:var(--coral-lt);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px; }
+.ac-trust-title { font-family:var(--fd);font-size:19px;font-weight:600;color:var(--midnight);margin-bottom:8px; }
+.ac-trust-desc { font-size:13.5px;line-height:1.72;color:var(--midnight);opacity:.55; }
+
+/* ── PHOTO BAND ──────────────────────────────── */
+.ac-photo-band { display:flex;height:280px;gap:3px;overflow:hidden; }
+.ac-photo-band img { flex:1;object-fit:cover;min-width:0;transition:flex .4s ease; }
+.ac-photo-band img:hover { flex:2.5; }
+</style>
 </head>
 <body>
 <div id="nav-placeholder"></div>
 
+<!-- HERO -->
 <section class="page-hero">
-  <img class="page-hero-img" src="https://www.livewellsupport.com.au/images/ndis/people.jpg" alt="Aged Care Services">
+  <img class="page-hero-img" src="https://www.livewellsupport.com.au/images/ndis/qualityofcare.jpg" alt="Aged Care Services">
   <div class="page-hero-overlay"></div>
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">›</span><span>Aged Care</span></div>
@@ -24,158 +98,268 @@
   </div>
 </section>
 
+<!-- INTRO SPLIT -->
+<div class="ac-intro reveal">
+  <div class="ac-intro-left">
+    <div class="eyebrow white" style="margin-bottom:24px;">Home Care Support</div>
+    <h2 class="ac-intro-heading">Quality Care That<br><em>Comes to You</em></h2>
+    <p class="ac-intro-para">Live Well Care And Support provides compassionate, professional home care services for older Australians across Darwin, Palmerston, Tiwi, and Casuarina. We believe every person deserves to age with dignity, comfort, and independence — in the place they call home.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px;position:relative;z-index:1;">
+      <a href="referral.html" class="btn-coral">Enquire About Home Care →</a>
+      <a href="contact.html" class="btn-ghost-white">Ask a Question</a>
+    </div>
+    <div class="ac-intro-stats">
+      <div class="ac-stat"><div class="ac-stat-num">6</div><div class="ac-stat-lbl">Care Services</div></div>
+      <div class="ac-stat"><div class="ac-stat-num">24h</div><div class="ac-stat-lbl">Response Time</div></div>
+      <div class="ac-stat"><div class="ac-stat-num">4</div><div class="ac-stat-lbl">Service Regions</div></div>
+    </div>
+  </div>
+  <div class="ac-intro-right">
+    <img src="https://www.livewellsupport.com.au/images/ndis/people.jpg" alt="Home care support">
+    <div class="ac-intro-badge">
+      <div class="ac-intro-badge-tag">Aged Care Provider</div>
+      <div class="ac-intro-badge-val">In-Home Support<br>Darwin Region</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES GRID -->
+<section class="ac-services reveal">
+  <div class="ac-services-header">
+    <div>
+      <div class="eyebrow">What We Provide</div>
+      <h2 class="display">Six Ways We Support<br><em>Life at Home</em></h2>
+    </div>
+    <p class="ac-services-desc">All services are delivered in your home by experienced, vetted care workers — consistently matched to you so you build genuine, trusted relationships.</p>
+  </div>
+
+  <div class="ac-grid">
+
+    <!-- Personal Care -->
+    <div class="ac-card" id="personal-care">
+      <div class="ac-card-top">
+        <div class="ac-card-icon ic-1">🩺</div>
+        <div class="ac-card-cat ct-1">Daily Living</div>
+        <div class="ac-card-name">Personal Care</div>
+        <div class="ac-card-desc">Dignified, respectful support with personal hygiene and daily routines — delivered with care and sensitivity.</div>
+      </div>
+      <div class="ac-card-divider"></div>
+      <div class="ac-card-body">
+        <ul class="ac-card-list">
+          <li>Bathing, showering &amp; personal hygiene</li>
+          <li>Dressing and grooming assistance</li>
+          <li>Oral health and skin care</li>
+          <li>Continence management</li>
+          <li>Morning and evening routines</li>
+          <li>Mobility and transfer assistance</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Domestic Support -->
+    <div class="ac-card" id="domestic">
+      <div class="ac-card-top">
+        <div class="ac-card-icon ic-2">🧹</div>
+        <div class="ac-card-cat ct-2">Home Support</div>
+        <div class="ac-card-name">Domestic Support</div>
+        <div class="ac-card-desc">Keeping your home clean, safe, and comfortable so you can focus on what matters most to you.</div>
+      </div>
+      <div class="ac-card-divider"></div>
+      <div class="ac-card-body">
+        <ul class="ac-card-list">
+          <li>House cleaning and vacuuming</li>
+          <li>Laundry, ironing &amp; linen changes</li>
+          <li>Meal planning, prep &amp; cooking</li>
+          <li>Grocery shopping and errands</li>
+          <li>Dishwashing and kitchen hygiene</li>
+          <li>Waste management and recycling</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Social Support -->
+    <div class="ac-card" id="social">
+      <div class="ac-card-top">
+        <div class="ac-card-icon ic-3">💬</div>
+        <div class="ac-card-cat ct-3">Social Wellbeing</div>
+        <div class="ac-card-name">Social Support</div>
+        <div class="ac-card-desc">Meaningful companionship and connection to reduce isolation and keep you engaged in life.</div>
+      </div>
+      <div class="ac-card-divider"></div>
+      <div class="ac-card-body">
+        <ul class="ac-card-list">
+          <li>In-home companionship &amp; visits</li>
+          <li>Accompanying to community events</li>
+          <li>Support for hobbies and interests</li>
+          <li>Video calls and staying connected</li>
+          <li>Day programs and group activities</li>
+          <li>Social outings and appointments</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Transport -->
+    <div class="ac-card" id="transport">
+      <div class="ac-card-top">
+        <div class="ac-card-icon ic-4">🚗</div>
+        <div class="ac-card-cat ct-4">Getting Around</div>
+        <div class="ac-card-name">Transport</div>
+        <div class="ac-card-desc">Safe, reliable transport so getting around is never a barrier to living your life.</div>
+      </div>
+      <div class="ac-card-divider"></div>
+      <div class="ac-card-body">
+        <ul class="ac-card-list">
+          <li>Medical &amp; allied health appointments</li>
+          <li>Shopping and errands</li>
+          <li>Social outings and activities</li>
+          <li>Community programs &amp; day centres</li>
+          <li>Family and social visits</li>
+          <li>Wheelchair-accessible transport</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Medication Support -->
+    <div class="ac-card" id="medication">
+      <div class="ac-card-top">
+        <div class="ac-card-icon ic-5">💊</div>
+        <div class="ac-card-cat ct-5">Health Support</div>
+        <div class="ac-card-name">Medication Support</div>
+        <div class="ac-card-desc">Reminders, prompts, and health monitoring to keep you safe and on schedule every day.</div>
+      </div>
+      <div class="ac-card-divider"></div>
+      <div class="ac-card-body">
+        <ul class="ac-card-list">
+          <li>Medication reminders and prompts</li>
+          <li>Assistance with self-administration</li>
+          <li>Health monitoring (BP, weight)</li>
+          <li>Coordination with GPs &amp; pharmacists</li>
+          <li>Organising dosette boxes</li>
+          <li>Reporting health changes to family</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Home Maintenance -->
+    <div class="ac-card" id="home">
+      <div class="ac-card-top">
+        <div class="ac-card-icon ic-6">🏡</div>
+        <div class="ac-card-cat ct-6">Home Safety</div>
+        <div class="ac-card-name">Home Maintenance</div>
+        <div class="ac-card-desc">Light maintenance and garden upkeep to keep your home safe, pleasant, and functional.</div>
+      </div>
+      <div class="ac-card-divider"></div>
+      <div class="ac-card-body">
+        <ul class="ac-card-list">
+          <li>Garden care and lawn mowing</li>
+          <li>Watering plants and weeding</li>
+          <li>Minor home repairs</li>
+          <li>Window cleaning &amp; outdoor tidying</li>
+          <li>Light bulb changes &amp; safety checks</li>
+          <li>Home safety assessments</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PHOTO BAND -->
+<div class="ac-photo-band reveal">
+  <img src="https://www.livewellsupport.com.au/images/ndis/community.jpg" alt="Community">
+  <img src="https://www.livewellsupport.com.au/images/ndis/empower.jpg" alt="Care">
+  <img src="https://www.livewellsupport.com.au/images/ndis/social.jpg" alt="Social">
+  <img src="https://www.livewellsupport.com.au/images/ndis/strength.jpg" alt="Strength">
+  <img src="https://www.livewellsupport.com.au/images/ndis/sunflower.jpg" alt="Wellbeing">
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="ac-process reveal">
+  <div class="ac-process-inner">
+    <div class="ac-process-left">
+      <div class="eyebrow white" style="margin-bottom:20px;">Getting Started</div>
+      <h2>How Home Care<br><em>Works</em></h2>
+      <p>Starting home care is simple. We handle the complexity so you can focus on what matters — living well at home.</p>
+      <a href="referral.html" class="btn-coral" style="margin-top:8px;">Start Today →</a>
+    </div>
+    <div class="ac-steps">
+      <div class="ac-step">
+        <div class="ac-step-num">1</div>
+        <div class="ac-step-content">
+          <h4>Get in Touch</h4>
+          <p>Call us or submit an enquiry online. Our friendly team will have an initial conversation to understand your situation, needs, and what level of support would be right for you.</p>
+        </div>
+      </div>
+      <div class="ac-step">
+        <div class="ac-step-num">2</div>
+        <div class="ac-step-content">
+          <h4>Your Personalised Care Plan</h4>
+          <p>We'll create a care plan tailored specifically to you — covering which services you need, how often, and at what times. Everything is designed around your routine and preferences.</p>
+        </div>
+      </div>
+      <div class="ac-step">
+        <div class="ac-step-num">3</div>
+        <div class="ac-step-content">
+          <h4>Meet Your Care Worker</h4>
+          <p>We carefully match you with a care worker who suits your personality and needs. We aim for consistency — the same face, regularly, so you can build real trust over time.</p>
+        </div>
+      </div>
+      <div class="ac-step">
+        <div class="ac-step-num">4</div>
+        <div class="ac-step-content">
+          <h4>Ongoing Support &amp; Reviews</h4>
+          <p>Your care plan is reviewed regularly as your needs change. We stay in close contact with you and your family to make sure everything is working and you're happy with your support.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="ac-trust reveal">
+  <div class="sh center">
+    <div class="eyebrow">Why Choose Live Well</div>
+    <h2 class="display">Aged Care You Can<br><em>Trust</em></h2>
+  </div>
+  <div class="ac-trust-grid">
+    <div class="ac-trust-card">
+      <div class="ac-trust-icon">✅</div>
+      <div class="ac-trust-title">Registered Provider</div>
+      <div class="ac-trust-desc">Nationally registered and fully compliant with Australian aged care quality and safety standards.</div>
+    </div>
+    <div class="ac-trust-card">
+      <div class="ac-trust-icon" style="background:var(--sage-lt);">🤝</div>
+      <div class="ac-trust-title">Consistent Carers</div>
+      <div class="ac-trust-desc">We match you with the same care workers every visit so you build genuine, trusted relationships.</div>
+    </div>
+    <div class="ac-trust-card">
+      <div class="ac-trust-icon">📋</div>
+      <div class="ac-trust-title">Personalised Plans</div>
+      <div class="ac-trust-desc">Every care plan is built around your individual needs, preferences, routine, and lifestyle — not a template.</div>
+    </div>
+    <div class="ac-trust-card">
+      <div class="ac-trust-icon" style="background:var(--sage-lt);">📍</div>
+      <div class="ac-trust-title">Local &amp; Experienced</div>
+      <div class="ac-trust-desc">Darwin-based team with deep knowledge of local community services, health providers, and supports.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
 <section class="section linen reveal">
-  <div class="two-col center">
-    <div>
-      <div class="eyebrow">Home Care Support</div>
-      <h2 class="display">Quality Care That<br><em>Comes to You</em></h2>
-      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:16px;">Live Well Care And Support provides compassionate, professional home care services for older Australians across Darwin, Palmerston, Tiwi, and Casuarina. We believe every person deserves to age with dignity, comfort, and independence.</p>
-      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:12px;">Our experienced care workers come to you — delivering the right level of support so you or your loved one can continue living at home safely and happily.</p>
-      <a href="referral.html" class="btn-coral" style="margin-top:28px;">Enquire About Home Care →</a>
+  <div class="cta-band">
+    <div class="cta-left">
+      <h2>Ready to Start<br>Home Care?</h2>
+      <p>Our team is ready to help you or your loved one with a personalised home care plan. Contact us today — we respond within 24 hours.</p>
     </div>
-    <div class="img-rounded" style="height:460px;">
-      <img src="https://www.livewellsupport.com.au/images/ndis/qualityofcare.jpg" alt="Aged care support" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-  </div>
-</section>
-
-<section class="section fog reveal" id="personal-care">
-  <div class="two-col center">
-    <div class="img-rounded" style="height:400px;">
-      <img src="https://www.livewellsupport.com.au/images/ndis/empower.jpg" alt="Personal care" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-    <div>
-      <div class="eyebrow">Personal Care</div>
-      <h2 class="display">Daily Assistance<br><em>With Dignity</em></h2>
-      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:16px;">Our personal care services help older adults maintain their hygiene, grooming, and daily routines with professional, respectful support. We understand that personal care requires trust, and our workers are trained to deliver it with sensitivity.</p>
-      <ul class="bullet-list" style="margin-top:20px;">
-        <li>Bathing, showering, and personal hygiene</li>
-        <li>Dressing and grooming assistance</li>
-        <li>Oral health and skin care</li>
-        <li>Continence management and support</li>
-        <li>Morning and evening routines</li>
-        <li>Mobility and transfer assistance</li>
-      </ul>
+    <div class="cta-right">
+      <h3>Get in Touch</h3>
+      <p>Fast, compassionate care from a team that truly cares.</p>
+      <a href="referral.html" class="btn-white" style="position:relative;z-index:1;">Submit an Enquiry →</a>
+      <a href="contact.html" class="btn-ghost-white" style="position:relative;z-index:1;">📞 Call Us</a>
     </div>
   </div>
 </section>
-
-<section class="section linen reveal" id="domestic">
-  <div class="two-col center">
-    <div>
-      <div class="eyebrow">Domestic Support</div>
-      <h2 class="display">A Clean, Comfortable<br><em>Home</em></h2>
-      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:16px;">Maintaining a clean and safe home environment is essential for wellbeing. Our domestic support services take the pressure off daily household tasks, giving you more time and energy for what matters most.</p>
-      <ul class="bullet-list" style="margin-top:20px;">
-        <li>General house cleaning and vacuuming</li>
-        <li>Laundry, ironing, and linen changes</li>
-        <li>Meal planning, preparation, and cooking</li>
-        <li>Grocery shopping and errands</li>
-        <li>Dishwashing and kitchen hygiene</li>
-        <li>Waste management and recycling</li>
-      </ul>
-    </div>
-    <div class="img-rounded" style="height:400px;">
-      <img src="https://www.livewellsupport.com.au/images/ndis/choose1.jpg" alt="Domestic support" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-  </div>
-</section>
-
-<section class="section fog reveal" id="social">
-  <div class="two-col center">
-    <div class="img-rounded" style="height:400px;">
-      <img src="https://www.livewellsupport.com.au/images/ndis/community.jpg" alt="Social support" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-    <div>
-      <div class="eyebrow">Social Support</div>
-      <h2 class="display">Staying Connected<br><em>& Engaged</em></h2>
-      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:16px;">Loneliness and social isolation can have a serious impact on health and wellbeing. Our social support services bring meaningful companionship, conversation, and connection directly to you.</p>
-      <ul class="bullet-list" style="margin-top:20px;">
-        <li>In-home companionship and social visits</li>
-        <li>Accompanying to community events and outings</li>
-        <li>Support to maintain hobbies and interests</li>
-        <li>Assistance with video calls and staying in touch</li>
-        <li>Engagement in day programs and groups</li>
-        <li>Support for social activities and appointments</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="section linen reveal" id="transport">
-  <div class="two-col center">
-    <div>
-      <div class="eyebrow">Transport</div>
-      <h2 class="display">Safe, Reliable<br><em>Transport Support</em></h2>
-      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:16px;">Getting to appointments, social activities, and everyday destinations shouldn't be a barrier. Our transport support ensures you can get where you need to go safely and comfortably.</p>
-      <ul class="bullet-list" style="margin-top:20px;">
-        <li>Medical and allied health appointments</li>
-        <li>Shopping and errands</li>
-        <li>Social outings and activities</li>
-        <li>Community programs and day centres</li>
-        <li>Family and social visits</li>
-        <li>Accompanied travel and wheelchair-accessible transport</li>
-      </ul>
-    </div>
-    <div class="img-rounded" style="height:400px;">
-      <img src="https://www.livewellsupport.com.au/images/ndis/travel.jpg" alt="Transport support" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-  </div>
-</section>
-
-<section class="section fog reveal" id="medication">
-  <div class="two-col center">
-    <div class="img-rounded" style="height:400px;">
-      <img src="https://www.livewellsupport.com.au/images/ndis/recovery.jpg" alt="Medication support" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-    <div>
-      <div class="eyebrow">Medication Support</div>
-      <h2 class="display">Health Monitoring<br><em>& Medication Help</em></h2>
-      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:16px;">Managing medications can be complex. Our trained care workers provide reminders, prompts, and monitoring support to keep you safe, healthy, and on schedule.</p>
-      <ul class="bullet-list" style="margin-top:20px;">
-        <li>Medication reminders and prompts</li>
-        <li>Assistance with self-administration</li>
-        <li>Health monitoring (blood pressure, weight)</li>
-        <li>Coordination with GPs and pharmacists</li>
-        <li>Medication storage and organising dosette boxes</li>
-        <li>Reporting changes in health to family or clinicians</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="section linen reveal" id="home">
-  <div class="two-col center">
-    <div>
-      <div class="eyebrow">Home Maintenance</div>
-      <h2 class="display">A Safe Home<br><em>Environment</em></h2>
-      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:16px;">A well-maintained home is a safe home. We assist with light maintenance tasks and garden upkeep so your environment stays safe, pleasant, and functional.</p>
-      <ul class="bullet-list" style="margin-top:20px;">
-        <li>Garden care and lawn mowing</li>
-        <li>Watering plants and weeding</li>
-        <li>Minor home repairs and light maintenance</li>
-        <li>Window cleaning and outdoor tidying</li>
-        <li>Changing light bulbs and smoke alarm checks</li>
-        <li>Home safety assessments and hazard removal</li>
-      </ul>
-    </div>
-    <div class="img-rounded" style="height:400px;">
-      <img src="https://www.livewellsupport.com.au/images/ndis/sunflower.jpg" alt="Home maintenance" style="width:100%;height:100%;object-fit:cover;">
-    </div>
-  </div>
-</section>
-
-<section class="section fog reveal">
-  <div class="sh center"><div class="eyebrow">Why Choose Us</div><h2 class="display">Aged Care You Can<br><em>Trust</em></h2></div>
-  <div class="four-col">
-    <div class="feature-card"><div class="fc-icon">🏥</div><div class="fc-title">Registered Provider</div><div class="fc-desc">Nationally registered and fully compliant with Australian aged care quality standards.</div></div>
-    <div class="feature-card"><div class="fc-icon">🤝</div><div class="fc-title">Consistent Carers</div><div class="fc-desc">We match you with the same care workers so you build genuine, trusted relationships.</div></div>
-    <div class="feature-card"><div class="fc-icon">📋</div><div class="fc-title">Personalised Plans</div><div class="fc-desc">Care plans are built around your individual needs, preferences, and lifestyle.</div></div>
-    <div class="feature-card"><div class="fc-icon">📍</div><div class="fc-title">Local & Experienced</div><div class="fc-desc">Darwin-based team with deep knowledge of the local community and services.</div></div>
-  </div>
-</section>
-
-<section class="section linen reveal"><div class="cta-band"><div class="cta-left"><h2>Ready to Start<br>Home Care?</h2><p>Our team is ready to help you or your loved one with a personalised home care plan. Contact us today — we respond within 24 hours.</p></div><div class="cta-right"><h3>Get in Touch</h3><p>Fast, compassionate care from a team that truly cares.</p><a href="referral.html" class="btn-white" style="position:relative;z-index:1;">Submit an Enquiry →</a><a href="contact.html" class="btn-ghost-white" style="position:relative;z-index:1;">📞 Call Us</a></div></div></section>
 
 <div id="footer-placeholder"></div>
 <script src="js/nav.js"></script>
