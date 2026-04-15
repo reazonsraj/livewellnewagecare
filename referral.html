@@ -96,53 +96,74 @@
     <div class="referral-form-card">
       <h3 style="font-family:var(--fd);font-size:28px;font-weight:600;color:var(--midnight);margin-bottom:4px;">Client Referral Form</h3>
       <p style="font-size:14px;opacity:.5;margin-bottom:8px;">Fields marked * are required</p>
-      <form id="referralForm" onsubmit="handleReferralSubmit(event)">
+
+      <!-- SUCCESS STATE -->
+      <div id="formSuccess" style="display:none;background:#f0fdf4;border:1.5px solid #86efac;border-radius:16px;padding:40px 32px;text-align:center;">
+        <div style="font-size:48px;margin-bottom:16px;">✅</div>
+        <h3 style="font-family:var(--fd);font-size:26px;font-weight:600;color:#166534;margin-bottom:10px;">Referral Received!</h3>
+        <p style="font-size:15px;color:#166534;opacity:.75;line-height:1.7;max-width:400px;margin:0 auto 24px;">Thank you — we've received the referral and sent a confirmation to your email. Our team will be in touch within 1–2 business days.</p>
+        <button onclick="resetForm()" style="background:#166534;color:#fff;border:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Submit Another Referral</button>
+      </div>
+
+      <!-- ERROR STATE -->
+      <div id="formError" style="display:none;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:12px;padding:16px 20px;margin-bottom:16px;">
+        <p style="font-size:14px;color:#991b1b;font-weight:500;" id="errorMsg">Something went wrong. Please try again or call us directly.</p>
+      </div>
+
+      <form id="referralForm">
+        <!-- Web3Forms hidden fields -->
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+        <input type="hidden" name="subject" value="New Client Referral — Live Well Care And Support">
+        <input type="hidden" name="from_name" value="Live Well Referral Form">
+        <input type="hidden" name="redirect" value="false">
+        <!-- Collected services (populated by JS before submit) -->
+        <input type="hidden" name="Services Required" id="servicesHidden">
 
         <div class="form-section-title">Referrer Details</div>
         <div class="form-row">
           <div class="form-group">
             <label>Your First Name *</label>
-            <input type="text" required placeholder="First name">
+            <input type="text" name="Referrer First Name" required placeholder="First name">
           </div>
           <div class="form-group">
             <label>Your Last Name *</label>
-            <input type="text" required placeholder="Last name">
+            <input type="text" name="Referrer Last Name" required placeholder="Last name">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label>Organisation / Role</label>
-            <input type="text" placeholder="e.g. Support Coordinator, Family">
+            <input type="text" name="Organisation / Role" placeholder="e.g. Support Coordinator, Family">
           </div>
           <div class="form-group">
             <label>Your Phone *</label>
-            <input type="tel" required placeholder="04XX XXX XXX">
+            <input type="tel" name="Referrer Phone" required placeholder="04XX XXX XXX">
           </div>
         </div>
         <div class="form-group">
           <label>Your Email *</label>
-          <input type="email" required placeholder="your@email.com">
+          <input type="email" name="Referrer Email" required placeholder="your@email.com">
         </div>
 
         <div class="form-section-title">Participant Details</div>
         <div class="form-row">
           <div class="form-group">
             <label>Participant First Name *</label>
-            <input type="text" required placeholder="First name">
+            <input type="text" name="Participant First Name" required placeholder="First name">
           </div>
           <div class="form-group">
             <label>Participant Last Name *</label>
-            <input type="text" required placeholder="Last name">
+            <input type="text" name="Participant Last Name" required placeholder="Last name">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label>Date of Birth</label>
-            <input type="date">
+            <input type="date" name="Date of Birth">
           </div>
           <div class="form-group">
             <label>Gender</label>
-            <select>
+            <select name="Gender">
               <option value="">Select</option>
               <option>Male</option>
               <option>Female</option>
@@ -154,27 +175,27 @@
         <div class="form-row">
           <div class="form-group">
             <label>Participant Phone</label>
-            <input type="tel" placeholder="04XX XXX XXX">
+            <input type="tel" name="Participant Phone" placeholder="04XX XXX XXX">
           </div>
           <div class="form-group">
             <label>Participant Email</label>
-            <input type="email" placeholder="participant@email.com">
+            <input type="email" name="Participant Email" placeholder="participant@email.com">
           </div>
         </div>
         <div class="form-group">
           <label>Address / Suburb *</label>
-          <input type="text" required placeholder="e.g. Palmerston NT 0830">
+          <input type="text" name="Address / Suburb" required placeholder="e.g. Palmerston NT 0830">
         </div>
 
         <div class="form-section-title">NDIS / Funding Information</div>
         <div class="form-row">
           <div class="form-group">
             <label>NDIS Number</label>
-            <input type="text" placeholder="43XXXXXXXX">
+            <input type="text" name="NDIS Number" placeholder="43XXXXXXXX">
           </div>
           <div class="form-group">
             <label>Plan Type</label>
-            <select>
+            <select name="Plan Management Type">
               <option value="">Select plan management type</option>
               <option>NDIA Managed</option>
               <option>Plan Managed</option>
@@ -186,37 +207,37 @@
         </div>
         <div class="form-group">
           <label>Plan Dates (if known)</label>
-          <input type="text" placeholder="e.g. 01/07/2025 – 30/06/2026">
+          <input type="text" name="Plan Dates" placeholder="e.g. 01/07/2025 – 30/06/2026">
         </div>
 
         <div class="form-section-title">Services Required</div>
         <div class="form-group">
-          <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox"><span>Daily Activities & Personal Care</span></label>
-            <label class="checkbox-item"><input type="checkbox"><span>Community Participation</span></label>
-            <label class="checkbox-item"><input type="checkbox"><span>Social Activities</span></label>
-            <label class="checkbox-item"><input type="checkbox"><span>Travel & Transport</span></label>
-            <label class="checkbox-item"><input type="checkbox"><span>Domestic Assistance</span></label>
-            <label class="checkbox-item"><input type="checkbox"><span>Supported Independent Living (SIL)</span></label>
-            <label class="checkbox-item"><input type="checkbox"><span>Support Coordination</span></label>
-            <label class="checkbox-item"><input type="checkbox"><span>Capacity Building</span></label>
-            <label class="checkbox-item"><input type="checkbox"><span>Respite Care</span></label>
-            <label class="checkbox-item"><input type="checkbox"><span>Home Care / Aged Care</span></label>
+          <div class="checkbox-group" id="servicesCheckboxes">
+            <label class="checkbox-item"><input type="checkbox" value="Daily Activities & Personal Care"><span>Daily Activities &amp; Personal Care</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Community Participation"><span>Community Participation</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Social Activities"><span>Social Activities</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Travel & Transport"><span>Travel &amp; Transport</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Domestic Assistance"><span>Domestic Assistance</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Supported Independent Living (SIL)"><span>Supported Independent Living (SIL)</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Support Coordination"><span>Support Coordination</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Capacity Building"><span>Capacity Building</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Respite Care"><span>Respite Care</span></label>
+            <label class="checkbox-item"><input type="checkbox" value="Home Care / Aged Care"><span>Home Care / Aged Care</span></label>
           </div>
         </div>
 
         <div class="form-section-title">Additional Information</div>
         <div class="form-group">
-          <label>Goals & Support Needs</label>
-          <textarea placeholder="Describe the participant's goals, current situation, and any specific support needs..."></textarea>
+          <label>Goals &amp; Support Needs</label>
+          <textarea name="Goals and Support Needs" placeholder="Describe the participant's goals, current situation, and any specific support needs..."></textarea>
         </div>
         <div class="form-group">
           <label>Disability / Diagnosis (if applicable)</label>
-          <input type="text" placeholder="e.g. Autism, Cerebral Palsy, Acquired Brain Injury">
+          <input type="text" name="Disability / Diagnosis" placeholder="e.g. Autism, Cerebral Palsy, Acquired Brain Injury">
         </div>
         <div class="form-group">
           <label>Support Start Date</label>
-          <select>
+          <select name="Support Start Timeframe">
             <option value="">Select timeframe</option>
             <option>As soon as possible (urgent)</option>
             <option>Within 2 weeks</option>
@@ -227,12 +248,11 @@
         </div>
         <div class="form-group">
           <label>Any other information</label>
-          <textarea placeholder="Any other details that would help us prepare for this referral..."></textarea>
+          <textarea name="Additional Information" placeholder="Any other details that would help us prepare for this referral..."></textarea>
         </div>
 
-        <button type="submit" class="form-submit">Submit Referral →</button>
+        <button type="submit" class="form-submit" id="submitBtn">Submit Referral →</button>
         <div class="form-note">Your submission is confidential. We respond within 1–2 business days.</div>
-        <div class="success-msg" id="successMsg">✅ Thank you! Your referral has been received. We'll contact you within 1–2 business days to discuss next steps.</div>
       </form>
     </div>
   </div>
@@ -243,11 +263,62 @@
 <div id="footer-placeholder"></div>
 <script src="js/nav.js"></script>
 <script>
-function handleReferralSubmit(e) {
+const form       = document.getElementById('referralForm');
+const submitBtn  = document.getElementById('submitBtn');
+const successDiv = document.getElementById('formSuccess');
+const errorDiv   = document.getElementById('formError');
+const errorMsg   = document.getElementById('errorMsg');
+
+form.addEventListener('submit', async function(e) {
   e.preventDefault();
-  document.getElementById('successMsg').style.display = 'block';
-  e.target.reset();
-  document.getElementById('successMsg').scrollIntoView({ behavior:'smooth', block:'nearest' });
+
+  // Collect checked services into the hidden field
+  const checked = [...document.querySelectorAll('#servicesCheckboxes input:checked')]
+    .map(cb => cb.value);
+  document.getElementById('servicesHidden').value =
+    checked.length ? checked.join(', ') : 'None selected';
+
+  // Button loading state
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+  errorDiv.style.display = 'none';
+
+  try {
+    const data = Object.fromEntries(new FormData(form));
+
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const json = await res.json();
+
+    if (res.ok && json.success) {
+      form.style.display = 'none';
+      successDiv.style.display = 'block';
+      successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      throw new Error(json.message || 'Submission failed');
+    }
+  } catch (err) {
+    errorMsg.textContent = err.message.includes('access_key')
+      ? 'Form not yet configured. Please call us on 1800 XXX XXX.'
+      : 'Something went wrong. Please try again or call us directly.';
+    errorDiv.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit Referral →';
+  }
+});
+
+function resetForm() {
+  form.reset();
+  document.getElementById('servicesHidden').value = '';
+  form.style.display = 'block';
+  successDiv.style.display = 'none';
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Submit Referral →';
+  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
 </body>

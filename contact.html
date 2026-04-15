@@ -97,21 +97,33 @@
     <div class="contact-form-card">
       <h3 style="font-family:var(--fd);font-size:26px;font-weight:600;color:var(--midnight);margin-bottom:6px;">Send Us a Message</h3>
       <p style="font-size:14px;opacity:.55;margin-bottom:28px;">Fill in the form and we'll get back to you within 24 hours.</p>
-      <form id="contactForm" onsubmit="handleSubmit(event)">
+      <div id="contactSuccess" style="display:none;background:#f0fdf4;border:1.5px solid #86efac;border-radius:14px;padding:32px 24px;text-align:center;">
+        <div style="font-size:40px;margin-bottom:12px;">✅</div>
+        <h4 style="font-family:var(--fd);font-size:22px;font-weight:600;color:#166534;margin-bottom:8px;">Message Sent!</h4>
+        <p style="font-size:14px;color:#166534;opacity:.75;line-height:1.7;">Thanks — we'll get back to you within 24 hours.</p>
+      </div>
+      <div id="contactError" style="display:none;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:14px 18px;margin-bottom:12px;">
+        <p style="font-size:14px;color:#991b1b;font-weight:500;" id="contactErrorMsg">Something went wrong. Please try again.</p>
+      </div>
+      <form id="contactForm">
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+        <input type="hidden" name="subject" value="New Enquiry — Live Well Care And Support">
+        <input type="hidden" name="from_name" value="Live Well Contact Form">
+        <input type="hidden" name="redirect" value="false">
         <div class="form-row">
           <div class="form-group">
             <label>First Name *</label>
-            <input type="text" name="firstName" required placeholder="Jane">
+            <input type="text" name="First Name" required placeholder="Jane">
           </div>
           <div class="form-group">
             <label>Last Name *</label>
-            <input type="text" name="lastName" required placeholder="Smith">
+            <input type="text" name="Last Name" required placeholder="Smith">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label>Phone Number</label>
-            <input type="tel" name="phone" placeholder="04XX XXX XXX">
+            <input type="tel" name="Phone Number" placeholder="04XX XXX XXX">
           </div>
           <div class="form-group">
             <label>Email Address *</label>
@@ -120,7 +132,7 @@
         </div>
         <div class="form-group">
           <label>I am a...</label>
-          <select name="role">
+          <select name="Role">
             <option value="">Select your role</option>
             <option>NDIS Participant</option>
             <option>Family Member / Carer</option>
@@ -132,7 +144,7 @@
         </div>
         <div class="form-group">
           <label>What can we help you with?</label>
-          <select name="enquiryType">
+          <select name="Enquiry Type">
             <option value="">Select enquiry type</option>
             <option>NDIS Services Enquiry</option>
             <option>Aged Care / Home Care Enquiry</option>
@@ -144,11 +156,10 @@
         </div>
         <div class="form-group">
           <label>Your Message *</label>
-          <textarea name="message" required placeholder="Tell us how we can help you..."></textarea>
+          <textarea name="Message" required placeholder="Tell us how we can help you..."></textarea>
         </div>
-        <button type="submit" class="form-submit">Send Message →</button>
+        <button type="submit" class="form-submit" id="contactSubmitBtn">Send Message →</button>
         <div class="form-note">We respect your privacy. Your information will never be shared.</div>
-        <div class="success-msg" id="successMsg">✅ Thank you! Your message has been received. We'll be in touch within 24 hours.</div>
       </form>
     </div>
   </div>
@@ -183,9 +194,34 @@
 <div id="footer-placeholder"></div>
 <script src="js/nav.js"></script>
 <script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('contactSubmitBtn');
+  const errDiv = document.getElementById('contactError');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  errDiv.style.display = 'none';
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(this)))
+    });
+    const json = await res.json();
+    if (res.ok && json.success) {
+      this.style.display = 'none';
+      document.getElementById('contactSuccess').style.display = 'block';
+    } else { throw new Error(json.message || 'Failed'); }
+  } catch(err) {
+    document.getElementById('contactErrorMsg').textContent = 'Something went wrong. Please call us directly.';
+    errDiv.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Send Message →';
+  }
+});
+// legacy stub kept to avoid any stale references
 function handleSubmit(e) {
   e.preventDefault();
-  document.getElementById('successMsg').style.display = 'block';
   e.target.reset();
   document.getElementById('successMsg').scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
