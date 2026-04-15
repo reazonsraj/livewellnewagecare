@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Team | Live Well Care And Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.team-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:32px;max-width:1100px;margin:0 auto; }
+@media(max-width:900px){ .team-grid{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:600px){ .team-grid{grid-template-columns:1fr;} }
+.team-card { background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 16px rgba(21,32,48,.07);transition:box-shadow .3s,transform .25s; }
+.team-card:hover { box-shadow:0 16px 48px rgba(21,32,48,.13);transform:translateY(-4px); }
+.team-photo { height:280px;overflow:hidden;position:relative; }
+.team-photo img { width:100%;height:100%;object-fit:cover;transition:transform .6s ease; }
+.team-card:hover .team-photo img { transform:scale(1.04); }
+.team-body { padding:24px; }
+.team-name { font-family:var(--fd);font-size:22px;font-weight:600;color:var(--midnight);margin-bottom:4px; }
+.team-role { font-size:12px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--coral);margin-bottom:12px; }
+.team-bio { font-size:14px;line-height:1.72;color:var(--midnight);opacity:.62; }
+.team-tags { display:flex;flex-wrap:wrap;gap:6px;margin-top:14px; }
+.team-tag { font-size:11px;font-weight:600;padding:4px 12px;border-radius:100px;background:var(--fog);color:var(--midnight);opacity:.8; }
+.values-row { display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:900px;margin:0 auto; }
+@media(max-width:700px){ .values-row{grid-template-columns:1fr;} }
+.value-pill { background:#fff;border-radius:16px;padding:28px 24px;text-align:center;box-shadow:0 2px 12px rgba(21,32,48,.06); }
+.value-pill .vp-icon { font-size:32px;margin-bottom:12px; }
+.value-pill .vp-title { font-family:var(--fd);font-size:18px;font-weight:600;color:var(--midnight);margin-bottom:6px; }
+.value-pill .vp-desc { font-size:13px;line-height:1.7;color:var(--midnight);opacity:.6; }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <img class="page-hero-img" src="https://www.livewellsupport.com.au/images/ndis/communitygroup.jpg" alt="Our Team">
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">›</span><span>Our Team</span></div>
+    <div class="eyebrow white">The People Behind the Care</div>
+    <h1>A Team That Truly<br><em>Cares</em></h1>
+    <p>Our dedicated support workers, coordinators, and management team bring experience, compassion, and commitment to every person we support.</p>
+    <div class="page-hero-btns"><a href="contact.html" class="btn-coral">Get in Touch →</a><a href="referral.html" class="btn-ghost-white">Refer a Client</a></div>
+  </div>
+</section>
+
+<section class="section linen reveal">
+  <div style="max-width:700px;margin:0 auto;text-align:center;margin-bottom:64px;">
+    <div class="eyebrow">Our People</div>
+    <h2 class="display">Meet the Team at<br><em>Live Well Support</em></h2>
+    <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:16px;">Every member of our team is carefully selected, fully screened, and trained to deliver high-quality, person-centred support. We are proud to have a diverse team who reflect the community we serve.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-photo"><img src="https://www.livewellsupport.com.au/images/ndis/who.jpg" alt="Team member"></div>
+      <div class="team-body">
+        <div class="team-name">Management Team</div>
+        <div class="team-role">Leadership & Operations</div>
+        <div class="team-bio">Our leadership team brings years of experience in disability services and aged care, ensuring Live Well operates to the highest standards of quality and compliance.</div>
+        <div class="team-tags"><span class="team-tag">NDIS Expertise</span><span class="team-tag">Operations</span></div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="https://www.livewellsupport.com.au/images/ndis/people.jpg" alt="Support Workers"></div>
+      <div class="team-body">
+        <div class="team-name">Support Workers</div>
+        <div class="team-role">Frontline Care Team</div>
+        <div class="team-bio">Our dedicated support workers are the heart of our organisation. Trained, screened, and passionate — they show up every day to make a genuine difference in people's lives.</div>
+        <div class="team-tags"><span class="team-tag">Personal Care</span><span class="team-tag">Community Access</span></div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="https://www.livewellsupport.com.au/images/ndis/puzzle.jpg" alt="Support Coordinators"></div>
+      <div class="team-body">
+        <div class="team-name">Support Coordinators</div>
+        <div class="team-role">Plan & Service Coordination</div>
+        <div class="team-bio">Our coordinators help NDIS participants navigate their plans, connect with the right services, and make the most of their funding to achieve their goals.</div>
+        <div class="team-tags"><span class="team-tag">NDIS Plans</span><span class="team-tag">Case Management</span></div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="https://www.livewellsupport.com.au/images/ndis/empower.jpg" alt="Home Care Team"></div>
+      <div class="team-body">
+        <div class="team-name">Home Care Team</div>
+        <div class="team-role">Aged Care Services</div>
+        <div class="team-bio">Our aged care specialists provide compassionate, professional support to older Australians in their homes — prioritising safety, comfort, and independence.</div>
+        <div class="team-tags"><span class="team-tag">Aged Care</span><span class="team-tag">Home Support</span></div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="https://www.livewellsupport.com.au/images/ndis/community.jpg" alt="Community Team"></div>
+      <div class="team-body">
+        <div class="team-name">Community Engagement</div>
+        <div class="team-role">Outreach & Participation</div>
+        <div class="team-bio">Our community team works to connect participants with local activities, social groups, and events — fostering inclusion and belonging across Darwin.</div>
+        <div class="team-tags"><span class="team-tag">Social Activities</span><span class="team-tag">Outreach</span></div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="https://www.livewellsupport.com.au/images/ndis/qualityofcare.jpg" alt="Admin Team"></div>
+      <div class="team-body">
+        <div class="team-name">Admin & Client Services</div>
+        <div class="team-role">Intake & Client Support</div>
+        <div class="team-bio">Our friendly admin team is your first point of contact — managing referrals, schedules, and queries to make sure everything runs smoothly for every client.</div>
+        <div class="team-tags"><span class="team-tag">Client Services</span><span class="team-tag">Referrals</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section fog reveal">
+  <div style="max-width:700px;margin:0 auto;text-align:center;margin-bottom:56px;">
+    <div class="eyebrow">Our Standards</div>
+    <h2 class="display">Every Team Member<br><em>Meets Our Bar</em></h2>
+  </div>
+  <div class="values-row">
+    <div class="value-pill"><div class="vp-icon">🔍</div><div class="vp-title">Police Checked</div><div class="vp-desc">Every team member undergoes an NDIS Worker Screening Check and National Police Check before starting.</div></div>
+    <div class="value-pill"><div class="vp-icon">📚</div><div class="vp-title">Fully Trained</div><div class="vp-desc">All staff complete mandatory NDIS, manual handling, first aid, and safeguarding training.</div></div>
+    <div class="value-pill"><div class="vp-icon">🌟</div><div class="vp-title">Ongoing Development</div><div class="vp-desc">We invest in regular professional development so our team stays current with best practice in care.</div></div>
+  </div>
+</section>
+
+<section class="section linen reveal">
+  <div class="two-col center">
+    <div>
+      <div class="eyebrow">Join Our Team</div>
+      <h2 class="display">Work Where<br><em>You Matter</em></h2>
+      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:16px;">We are always looking for compassionate, motivated people who want to make a real difference in their community. If you share our values and want to be part of a team that genuinely cares, we'd love to hear from you.</p>
+      <ul class="bullet-list" style="margin-top:20px;">
+        <li>Flexible hours and scheduling to suit your lifestyle</li>
+        <li>Supportive management and regular supervision</li>
+        <li>Ongoing training and career development</li>
+        <li>Competitive rates and entitlements</li>
+        <li>A diverse, inclusive, and welcoming workplace</li>
+      </ul>
+      <a href="contact.html" class="btn-coral" style="margin-top:28px;">Get in Touch About Roles →</a>
+    </div>
+    <div class="img-rounded" style="height:440px;">
+      <img src="https://www.livewellsupport.com.au/images/ndis/strength.jpg" alt="Join our team" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+  </div>
+</section>
+
+<section class="section linen reveal"><div class="cta-band"><div class="cta-left"><h2>Want to Talk to<br>Our Team?</h2><p>We're here to answer your questions and help you find the right support. Reach out — we're friendly and responsive.</p></div><div class="cta-right"><h3>Say Hello</h3><p>Our team responds within 24 hours on business days.</p><a href="contact.html" class="btn-white" style="position:relative;z-index:1;">Contact Us →</a><a href="referral.html" class="btn-ghost-white" style="position:relative;z-index:1;">Submit a Referral</a></div></div></section>
+
+<div id="footer-placeholder"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refer a Client | Live Well Care And Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.referral-layout { display:grid;grid-template-columns:1fr 1.6fr;gap:64px;max-width:1100px;margin:0 auto;align-items:start; }
+@media(max-width:900px){ .referral-layout{grid-template-columns:1fr;} }
+.referral-form-card { background:#fff;border-radius:20px;padding:44px;box-shadow:0 4px 28px rgba(21,32,48,.09); }
+.form-section-title { font-family:var(--fd);font-size:20px;font-weight:600;color:var(--midnight);margin:28px 0 16px;padding-top:20px;border-top:1px solid var(--sand); }
+.form-section-title:first-of-type { margin-top:0;padding-top:0;border-top:none; }
+.form-row { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+@media(max-width:560px){ .form-row{grid-template-columns:1fr;} }
+.form-group { display:flex;flex-direction:column;gap:6px;margin-bottom:16px; }
+.form-group label { font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--midnight);opacity:.6; }
+.form-group input, .form-group select, .form-group textarea {
+  border:1.5px solid var(--sand);border-radius:10px;padding:12px 16px;
+  font-family:var(--fb);font-size:15px;color:var(--midnight);background:var(--linen);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color:var(--coral);box-shadow:0 0 0 3px rgba(217,111,71,.12);
+}
+.form-group textarea { resize:vertical;min-height:100px; }
+.checkbox-group { display:flex;flex-direction:column;gap:10px;margin-top:4px; }
+.checkbox-item { display:flex;align-items:center;gap:10px;cursor:pointer; }
+.checkbox-item input[type=checkbox] { width:18px;height:18px;accent-color:var(--coral);cursor:pointer; }
+.checkbox-item span { font-size:14px;color:var(--midnight);opacity:.8; }
+.form-submit { width:100%;padding:16px;background:var(--coral);color:#fff;border:none;border-radius:10px;font-family:var(--fb);font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .15s;margin-top:8px; }
+.form-submit:hover { background:#c8572e;transform:translateY(-1px); }
+.form-note { font-size:12px;opacity:.5;text-align:center;margin-top:12px; }
+.success-msg { display:none;background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:24px;text-align:center;color:#166534;font-weight:500;font-size:15px;margin-top:16px; }
+.side-info { display:flex;flex-direction:column;gap:24px; }
+.side-card { background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(21,32,48,.06); }
+.side-card h4 { font-family:var(--fd);font-size:18px;font-weight:600;color:var(--midnight);margin-bottom:8px; }
+.side-card p { font-size:14px;line-height:1.72;opacity:.62; }
+.step-list { display:flex;flex-direction:column;gap:14px;margin-top:8px; }
+.step-item { display:flex;align-items:flex-start;gap:14px; }
+.step-num { width:28px;height:28px;min-width:28px;border-radius:50%;background:var(--coral);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center; }
+.step-text { font-size:14px;line-height:1.65;opacity:.72; }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <img class="page-hero-img" src="https://www.livewellsupport.com.au/images/ndis/puzzle.jpg" alt="Refer a Client">
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">›</span><span>Refer a Client</span></div>
+    <div class="eyebrow white">Referrals</div>
+    <h1>Refer Someone to<br><em>Live Well Support</em></h1>
+    <p>Whether you're a support coordinator, GP, family member, or participant self-referring — our referral process is simple, fast, and person-centred.</p>
+  </div>
+</section>
+
+<section class="section linen reveal">
+  <div class="referral-layout">
+    <div class="side-info">
+      <div>
+        <div class="eyebrow">How It Works</div>
+        <h2 class="display" style="margin-bottom:16px;">Simple Steps<br><em>to Get Started</em></h2>
+        <p style="font-size:15px;line-height:1.78;opacity:.62;">Referring someone to Live Well is quick and straightforward. Complete the form and we'll take it from there.</p>
+      </div>
+      <div class="side-card">
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">1</div><div class="step-text"><strong>Submit the referral form</strong> with as much information as you have. You don't need to have everything — we'll follow up to gather any missing details.</div></div>
+          <div class="step-item"><div class="step-num">2</div><div class="step-text"><strong>We review and respond</strong> within 1–2 business days to confirm receipt and discuss the referral with you.</div></div>
+          <div class="step-item"><div class="step-num">3</div><div class="step-text"><strong>We contact the participant</strong> (or their guardian) to arrange an intake conversation and understand their goals and needs.</div></div>
+          <div class="step-item"><div class="step-num">4</div><div class="step-text"><strong>A personalised support plan</strong> is created and support commences — usually within days of completing the intake.</div></div>
+        </div>
+      </div>
+      <div class="side-card">
+        <h4>Who Can Refer?</h4>
+        <p>We welcome referrals from:</p>
+        <ul class="bullet-list" style="margin-top:12px;">
+          <li>NDIS participants (self-referral)</li>
+          <li>Family members and carers</li>
+          <li>Support coordinators and plan managers</li>
+          <li>GPs and allied health professionals</li>
+          <li>Hospitals and discharge teams</li>
+          <li>Other disability or aged care services</li>
+        </ul>
+      </div>
+      <div class="side-card" style="background:var(--coral-lt);border:1px solid rgba(217,111,71,.2);">
+        <h4 style="color:var(--coral);">Questions about a referral?</h4>
+        <p>Call us on <a href="tel:1800000000" style="color:var(--coral);font-weight:600;">1800 XXX XXX</a> or email <a href="mailto:hello@livewellsupport.com.au" style="color:var(--coral);font-weight:600;">hello@livewellsupport.com.au</a> — we're happy to discuss suitability before submitting.</p>
+      </div>
+    </div>
+
+    <div class="referral-form-card">
+      <h3 style="font-family:var(--fd);font-size:28px;font-weight:600;color:var(--midnight);margin-bottom:4px;">Client Referral Form</h3>
+      <p style="font-size:14px;opacity:.5;margin-bottom:8px;">Fields marked * are required</p>
+      <form id="referralForm" onsubmit="handleReferralSubmit(event)">
+
+        <div class="form-section-title">Referrer Details</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your First Name *</label>
+            <input type="text" required placeholder="First name">
+          </div>
+          <div class="form-group">
+            <label>Your Last Name *</label>
+            <input type="text" required placeholder="Last name">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Organisation / Role</label>
+            <input type="text" placeholder="e.g. Support Coordinator, Family">
+          </div>
+          <div class="form-group">
+            <label>Your Phone *</label>
+            <input type="tel" required placeholder="04XX XXX XXX">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Your Email *</label>
+          <input type="email" required placeholder="your@email.com">
+        </div>
+
+        <div class="form-section-title">Participant Details</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Participant First Name *</label>
+            <input type="text" required placeholder="First name">
+          </div>
+          <div class="form-group">
+            <label>Participant Last Name *</label>
+            <input type="text" required placeholder="Last name">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date">
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select>
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Non-binary / Gender diverse</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Participant Phone</label>
+            <input type="tel" placeholder="04XX XXX XXX">
+          </div>
+          <div class="form-group">
+            <label>Participant Email</label>
+            <input type="email" placeholder="participant@email.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Address / Suburb *</label>
+          <input type="text" required placeholder="e.g. Palmerston NT 0830">
+        </div>
+
+        <div class="form-section-title">NDIS / Funding Information</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>NDIS Number</label>
+            <input type="text" placeholder="43XXXXXXXX">
+          </div>
+          <div class="form-group">
+            <label>Plan Type</label>
+            <select>
+              <option value="">Select plan management type</option>
+              <option>NDIA Managed</option>
+              <option>Plan Managed</option>
+              <option>Self Managed</option>
+              <option>Not yet known</option>
+              <option>Aged Care / Non-NDIS</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Plan Dates (if known)</label>
+          <input type="text" placeholder="e.g. 01/07/2025 – 30/06/2026">
+        </div>
+
+        <div class="form-section-title">Services Required</div>
+        <div class="form-group">
+          <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox"><span>Daily Activities & Personal Care</span></label>
+            <label class="checkbox-item"><input type="checkbox"><span>Community Participation</span></label>
+            <label class="checkbox-item"><input type="checkbox"><span>Social Activities</span></label>
+            <label class="checkbox-item"><input type="checkbox"><span>Travel & Transport</span></label>
+            <label class="checkbox-item"><input type="checkbox"><span>Domestic Assistance</span></label>
+            <label class="checkbox-item"><input type="checkbox"><span>Supported Independent Living (SIL)</span></label>
+            <label class="checkbox-item"><input type="checkbox"><span>Support Coordination</span></label>
+            <label class="checkbox-item"><input type="checkbox"><span>Capacity Building</span></label>
+            <label class="checkbox-item"><input type="checkbox"><span>Respite Care</span></label>
+            <label class="checkbox-item"><input type="checkbox"><span>Home Care / Aged Care</span></label>
+          </div>
+        </div>
+
+        <div class="form-section-title">Additional Information</div>
+        <div class="form-group">
+          <label>Goals & Support Needs</label>
+          <textarea placeholder="Describe the participant's goals, current situation, and any specific support needs..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Disability / Diagnosis (if applicable)</label>
+          <input type="text" placeholder="e.g. Autism, Cerebral Palsy, Acquired Brain Injury">
+        </div>
+        <div class="form-group">
+          <label>Support Start Date</label>
+          <select>
+            <option value="">Select timeframe</option>
+            <option>As soon as possible (urgent)</option>
+            <option>Within 2 weeks</option>
+            <option>Within a month</option>
+            <option>1–3 months</option>
+            <option>Flexible / planning ahead</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Any other information</label>
+          <textarea placeholder="Any other details that would help us prepare for this referral..."></textarea>
+        </div>
+
+        <button type="submit" class="form-submit">Submit Referral →</button>
+        <div class="form-note">Your submission is confidential. We respond within 1–2 business days.</div>
+        <div class="success-msg" id="successMsg">✅ Thank you! Your referral has been received. We'll contact you within 1–2 business days to discuss next steps.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="section linen reveal"><div class="cta-band"><div class="cta-left"><h2>Have Questions<br>Before Referring?</h2><p>We're happy to discuss suitability, service availability, or any other questions before you formally refer. Just give us a call or send us a message.</p></div><div class="cta-right"><h3>Talk to Our Team</h3><p>Our coordinators are ready to help you find the right fit.</p><a href="contact.html" class="btn-white" style="position:relative;z-index:1;">Contact Us →</a><a href="tel:1800000000" class="btn-ghost-white" style="position:relative;z-index:1;">📞 Call Now</a></div></div></section>
+
+<div id="footer-placeholder"></div>
+<script src="js/nav.js"></script>
+<script>
+function handleReferralSubmit(e) {
+  e.preventDefault();
+  document.getElementById('successMsg').style.display = 'block';
+  e.target.reset();
+  document.getElementById('successMsg').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | Live Well Care And Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.contact-layout { display:grid;grid-template-columns:1fr 1.3fr;gap:64px;max-width:1100px;margin:0 auto;align-items:start; }
+@media(max-width:860px){ .contact-layout{grid-template-columns:1fr;} }
+.contact-info-block { display:flex;flex-direction:column;gap:28px; }
+.ci-card { background:#fff;border-radius:16px;padding:24px;display:flex;align-items:flex-start;gap:16px;box-shadow:0 2px 12px rgba(21,32,48,.06); }
+.ci-icon { width:48px;height:48px;border-radius:12px;background:var(--coral-lt);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0; }
+.ci-lbl { font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--midnight);opacity:.45;margin-bottom:4px; }
+.ci-val { font-size:15px;font-weight:500;color:var(--midnight);line-height:1.55; }
+.ci-val a { color:var(--coral);text-decoration:none; }
+.ci-val a:hover { text-decoration:underline; }
+.contact-form-card { background:#fff;border-radius:20px;padding:40px;box-shadow:0 4px 24px rgba(21,32,48,.08); }
+.form-row { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+@media(max-width:560px){ .form-row{grid-template-columns:1fr;} }
+.form-group { display:flex;flex-direction:column;gap:6px;margin-bottom:16px; }
+.form-group label { font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--midnight);opacity:.6; }
+.form-group input, .form-group select, .form-group textarea {
+  border:1.5px solid var(--sand);border-radius:10px;padding:12px 16px;
+  font-family:var(--fb);font-size:15px;color:var(--midnight);background:var(--linen);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color:var(--coral);box-shadow:0 0 0 3px rgba(217,111,71,.12);
+}
+.form-group textarea { resize:vertical;min-height:120px; }
+.form-submit { width:100%;padding:15px;background:var(--coral);color:#fff;border:none;border-radius:10px;font-family:var(--fb);font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .15s;margin-top:8px; }
+.form-submit:hover { background:#c8572e;transform:translateY(-1px); }
+.form-note { font-size:12px;opacity:.5;text-align:center;margin-top:12px; }
+.success-msg { display:none;background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:20px;text-align:center;color:#166534;font-weight:500;font-size:15px;margin-top:16px; }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <img class="page-hero-img" src="https://www.livewellsupport.com.au/images/ndis/who.jpg" alt="Contact Us">
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">›</span><span>Contact</span></div>
+    <div class="eyebrow white">We're Here to Help</div>
+    <h1>Get in Touch With<br><em>Live Well Support</em></h1>
+    <p>Whether you're a participant, family member, support coordinator, or GP — we're here to help you navigate your options and get the right support.</p>
+  </div>
+</section>
+
+<section class="section linen reveal">
+  <div class="contact-layout">
+    <div class="contact-info-block">
+      <div>
+        <div class="eyebrow">Contact Details</div>
+        <h2 class="display" style="margin-bottom:8px;">Let's Start a<br><em>Conversation</em></h2>
+        <p style="font-size:15px;line-height:1.78;opacity:.62;margin-top:12px;">Our friendly team is available Monday to Friday. We typically respond within 24 hours — and often much sooner.</p>
+      </div>
+      <div class="ci-card">
+        <div class="ci-icon">📍</div>
+        <div>
+          <div class="ci-lbl">Our Office</div>
+          <div class="ci-val">36 Deane Crescent<br>Rosebery NT 0832</div>
+        </div>
+      </div>
+      <div class="ci-card">
+        <div class="ci-icon">📞</div>
+        <div>
+          <div class="ci-lbl">Call Us</div>
+          <div class="ci-val"><a href="tel:1800000000">1800 XXX XXX</a></div>
+        </div>
+      </div>
+      <div class="ci-card">
+        <div class="ci-icon">✉️</div>
+        <div>
+          <div class="ci-lbl">Email</div>
+          <div class="ci-val"><a href="mailto:hello@livewellsupport.com.au">hello@livewellsupport.com.au</a></div>
+        </div>
+      </div>
+      <div class="ci-card">
+        <div class="ci-icon">🕐</div>
+        <div>
+          <div class="ci-lbl">Office Hours</div>
+          <div class="ci-val">Monday – Friday<br>8:00 AM – 4:00 PM</div>
+        </div>
+      </div>
+      <div style="background:var(--coral-lt);border:1px solid rgba(217,111,71,.2);border-radius:16px;padding:20px;">
+        <div style="font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--coral);margin-bottom:8px;">Need Urgent Support?</div>
+        <p style="font-size:14px;line-height:1.7;color:var(--midnight);opacity:.75;">For urgent out-of-hours matters, please call us directly. Our on-call team is available for existing participants in need of urgent assistance.</p>
+      </div>
+    </div>
+
+    <div class="contact-form-card">
+      <h3 style="font-family:var(--fd);font-size:26px;font-weight:600;color:var(--midnight);margin-bottom:6px;">Send Us a Message</h3>
+      <p style="font-size:14px;opacity:.55;margin-bottom:28px;">Fill in the form and we'll get back to you within 24 hours.</p>
+      <form id="contactForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" name="firstName" required placeholder="Jane">
+          </div>
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" name="lastName" required placeholder="Smith">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" name="phone" placeholder="04XX XXX XXX">
+          </div>
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" name="email" required placeholder="jane@example.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>I am a...</label>
+          <select name="role">
+            <option value="">Select your role</option>
+            <option>NDIS Participant</option>
+            <option>Family Member / Carer</option>
+            <option>Support Coordinator</option>
+            <option>Plan Manager</option>
+            <option>GP / Allied Health Professional</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>What can we help you with?</label>
+          <select name="enquiryType">
+            <option value="">Select enquiry type</option>
+            <option>NDIS Services Enquiry</option>
+            <option>Aged Care / Home Care Enquiry</option>
+            <option>Support Coordination</option>
+            <option>General Information</option>
+            <option>Employment / Joining the Team</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Your Message *</label>
+          <textarea name="message" required placeholder="Tell us how we can help you..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message →</button>
+        <div class="form-note">We respect your privacy. Your information will never be shared.</div>
+        <div class="success-msg" id="successMsg">✅ Thank you! Your message has been received. We'll be in touch within 24 hours.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="section fog reveal">
+  <div class="sh center"><div class="eyebrow">Frequently Asked</div><h2 class="display">Common <em>Questions</em></h2></div>
+  <div style="max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px;">
+    <details style="background:#fff;border-radius:14px;padding:20px 24px;box-shadow:0 2px 8px rgba(21,32,48,.06);cursor:pointer;">
+      <summary style="font-weight:600;font-size:16px;color:var(--midnight);list-style:none;display:flex;justify-content:space-between;align-items:center;">How do I start with Live Well Support? <span style="color:var(--coral);font-size:20px;">+</span></summary>
+      <p style="margin-top:12px;font-size:14px;line-height:1.78;opacity:.65;">Simply contact us by phone, email, or via the form on this page. We'll arrange an initial conversation to understand your needs and how we can help. If you have an NDIS plan, have it handy when you call — but it's not required for your first contact.</p>
+    </details>
+    <details style="background:#fff;border-radius:14px;padding:20px 24px;box-shadow:0 2px 8px rgba(21,32,48,.06);cursor:pointer;">
+      <summary style="font-weight:600;font-size:16px;color:var(--midnight);list-style:none;display:flex;justify-content:space-between;align-items:center;">Do I need an NDIS plan to access services? <span style="color:var(--coral);font-size:20px;">+</span></summary>
+      <p style="margin-top:12px;font-size:14px;line-height:1.78;opacity:.65;">For NDIS services, yes — you need an approved NDIS plan. For aged care home care services, different funding pathways apply. Contact us and we'll help you understand your options and eligibility.</p>
+    </details>
+    <details style="background:#fff;border-radius:14px;padding:20px 24px;box-shadow:0 2px 8px rgba(21,32,48,.06);cursor:pointer;">
+      <summary style="font-weight:600;font-size:16px;color:var(--midnight);list-style:none;display:flex;justify-content:space-between;align-items:center;">What areas do you service? <span style="color:var(--coral);font-size:20px;">+</span></summary>
+      <p style="margin-top:12px;font-size:14px;line-height:1.78;opacity:.65;">We provide services across the greater Darwin region, including Darwin CBD, Palmerston, Tiwi, Casuarina, Rosebery, and surrounding suburbs. Contact us if you're unsure whether we cover your area.</p>
+    </details>
+    <details style="background:#fff;border-radius:14px;padding:20px 24px;box-shadow:0 2px 8px rgba(21,32,48,.06);cursor:pointer;">
+      <summary style="font-weight:600;font-size:16px;color:var(--midnight);list-style:none;display:flex;justify-content:space-between;align-items:center;">Can I choose my support worker? <span style="color:var(--coral);font-size:20px;">+</span></summary>
+      <p style="margin-top:12px;font-size:14px;line-height:1.78;opacity:.65;">Yes. We do our best to match you with a support worker who suits your personality, needs, and preferences. We also aim to provide consistent support workers so you build a genuine relationship over time.</p>
+    </details>
+    <details style="background:#fff;border-radius:14px;padding:20px 24px;box-shadow:0 2px 8px rgba(21,32,48,.06);cursor:pointer;">
+      <summary style="font-weight:600;font-size:16px;color:var(--midnight);list-style:none;display:flex;justify-content:space-between;align-items:center;">How quickly can support be arranged? <span style="color:var(--coral);font-size:20px;">+</span></summary>
+      <p style="margin-top:12px;font-size:14px;line-height:1.78;opacity:.65;">We work as quickly as possible to get support in place. For urgent situations, we do our best to fast-track arrangements. In most cases, support can begin within a few days of completing the intake process.</p>
+    </details>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="js/nav.js"></script>
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('successMsg').style.display = 'block';
+  e.target.reset();
+  document.getElementById('successMsg').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+</script>
+</body>
+</html>

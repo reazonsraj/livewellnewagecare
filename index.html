@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Well Care And Support — NDIS & Aged Care Services Darwin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+/* ── HERO ──────────────────────────────────── */
+.hero { min-height:100vh;padding-top:72px;display:grid;grid-template-columns:52% 48%;overflow:hidden; }
+.hero-left { display:flex;flex-direction:column;justify-content:center;padding:80px 56px 80px 80px;background:var(--linen);position:relative; }
+.hero-left::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 80% 50%,rgba(217,111,71,.06) 0%,transparent 70%);pointer-events:none; }
+.hero-tag { display:inline-flex;align-items:center;gap:8px;background:var(--coral-lt);border:1px solid rgba(217,111,71,.2);border-radius:100px;padding:7px 16px;margin-bottom:28px;width:fit-content; }
+.hero-tag .dot { width:7px;height:7px;border-radius:50%;background:var(--coral); }
+.hero-tag span { font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral); }
+.hero-h1 { font-family:var(--fd);font-size:clamp(52px,5.5vw,78px);font-weight:600;line-height:1.05;letter-spacing:-2px;color:var(--midnight);margin-bottom:24px;position:relative;z-index:1; }
+.hero-h1 em { font-style:italic;color:var(--coral); }
+.hero-sub { font-size:17px;font-weight:300;line-height:1.78;color:var(--midnight);opacity:.62;max-width:430px;margin-bottom:40px;position:relative;z-index:1; }
+.hero-btns { display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px;position:relative;z-index:1; }
+.hero-trust { display:flex;align-items:stretch;gap:0;padding-top:36px;border-top:1px solid var(--sand);position:relative;z-index:1; }
+.trust-stat { padding:0 32px 0 0;margin-right:32px;border-right:1px solid var(--sand); }
+.trust-stat:last-child { border-right:none;margin-right:0;padding-right:0; }
+.trust-num { font-family:var(--fd);font-size:36px;font-weight:700;line-height:1;color:var(--midnight); }
+.trust-lbl { font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--midnight);opacity:.4;margin-top:4px; }
+.hero-right { position:relative;overflow:hidden;background:var(--midnight); }
+.hero-mosaic { display:grid;grid-template-columns:1fr 1fr;grid-template-rows:55% 45%;height:100%;gap:3px; }
+.mosaic-cell { overflow:hidden;position:relative; }
+.mosaic-cell.tall { grid-row:span 2; }
+.mosaic-img { width:100%;height:100%;object-fit:cover;transition:transform .6s ease; }
+.hero-right:hover .mosaic-img { transform:scale(1.03); }
+.mosaic-overlay { position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(21,32,48,.7) 100%);pointer-events:none; }
+.mosaic-caption { position:absolute;bottom:16px;left:16px;z-index:5;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.75); }
+.hero-badge { position:absolute;top:24px;right:24px;z-index:10;background:rgba(253,250,245,.96);backdrop-filter:blur(12px);border-radius:14px;padding:14px 18px;box-shadow:0 8px 32px rgba(0,0,0,.25); }
+.hero-badge-tag { font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral); }
+.hero-badge-name { font-size:13px;font-weight:700;color:var(--midnight);margin-top:3px;line-height:1.2; }
+.hero-badge-status { display:flex;align-items:center;gap:5px;margin-top:4px;font-size:10px;color:#666; }
+.dot-g { width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 2px rgba(74,222,128,.2); }
+.hero-location { position:absolute;bottom:24px;left:24px;z-index:10;background:rgba(21,32,48,.75);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:10px 18px;display:flex;align-items:center;gap:8px; }
+.hero-location span { font-size:12px;font-weight:500;color:#fff; }
+
+/* ── SERVICES ──────────────────────────────── */
+.services { padding:120px 80px;background:var(--linen); }
+.sh2col { display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end;margin-bottom:72px; }
+.sdesc { font-size:16px;font-weight:300;line-height:1.78;color:var(--midnight);opacity:.6;max-width:400px; }
+.svc-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:24px; }
+.svc-card { background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 12px rgba(21,32,48,.06);transition:box-shadow .3s,transform .25s;display:flex;flex-direction:column; }
+.svc-card:hover { box-shadow:0 16px 48px rgba(21,32,48,.13);transform:translateY(-4px); }
+.svc-img-wrap { height:220px;overflow:hidden;position:relative; }
+.svc-img { width:100%;height:100%;object-fit:cover;transition:transform .5s ease; }
+.svc-card:hover .svc-img { transform:scale(1.07); }
+.svc-img-overlay { position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(21,32,48,.65) 100%); }
+.svc-img-tag { position:absolute;bottom:16px;left:16px;background:rgba(217,111,71,.9);backdrop-filter:blur(8px);border-radius:100px;padding:5px 14px;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#fff; }
+.svc-body { padding:28px 28px 32px;flex:1;display:flex;flex-direction:column;gap:12px; }
+.svc-title { font-family:var(--fd);font-size:22px;font-weight:600;color:var(--midnight);line-height:1.2; }
+.svc-desc-text { font-size:14px;line-height:1.72;color:var(--midnight);opacity:.58; }
+.svc-bullets { list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:4px;flex:1; }
+.svc-bullets li { display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.5;color:var(--midnight);opacity:.65; }
+.svc-bullets li::before { content:'→';color:var(--coral);font-weight:700;flex-shrink:0; }
+.svc-link { display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:13px;font-weight:700;color:var(--coral);transition:gap .2s; }
+.svc-card:hover .svc-link { gap:10px; }
+.svc-card.dark-card { background:var(--midnight); }
+.svc-card.dark-card .svc-title { color:#fff; }
+.svc-card.dark-card .svc-desc-text,.svc-card.dark-card .svc-bullets li { color:#fff;opacity:.45; }
+.svc-card.dark-card .svc-bullets li::before { color:var(--sage); }
+.svc-card.dark-card .svc-link { color:var(--sage); }
+.svc-card.wide { grid-column:span 2; }
+.svc-card.wide .svc-img-wrap { height:280px; }
+.svc-card.wide .svc-body { flex-direction:row;gap:32px;align-items:flex-start; }
+.svc-card.wide .svc-body-left,.svc-card.wide .svc-body-right { flex:1; }
+
+/* ── ABOUT ─────────────────────────────────── */
+.about { padding:120px 80px;background:var(--fog);display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center; }
+.about-photos { position:relative;height:580px; }
+.ap-main { position:absolute;top:0;left:0;width:74%;height:78%;border-radius:22px;overflow:hidden;box-shadow:0 24px 64px rgba(21,32,48,.18); }
+.ap-main img,.ap-accent img { width:100%;height:100%;object-fit:cover; }
+.ap-accent { position:absolute;bottom:0;right:0;width:52%;height:46%;border-radius:18px;overflow:hidden;box-shadow:0 16px 48px rgba(21,32,48,.16); }
+.ap-card { position:absolute;bottom:18%;left:56%;z-index:3;background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 16px 48px rgba(21,32,48,.15); }
+.ap-card-num { font-family:var(--fd);font-size:30px;font-weight:700;color:var(--midnight);line-height:1; }
+.ap-card-lbl { font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--midnight);opacity:.4;margin-top:4px; }
+.about-text { display:flex;flex-direction:column;gap:22px; }
+.about-p { font-size:16px;font-weight:300;line-height:1.82;color:var(--midnight);opacity:.65; }
+.val-list { display:flex;flex-direction:column;gap:10px;margin-top:6px; }
+.val-row { display:flex;align-items:flex-start;gap:14px;padding:15px 18px;background:#fff;border-radius:10px;border-left:3px solid var(--sage); }
+.val-icon { font-size:18px;flex-shrink:0;margin-top:2px; }
+.val-text h4 { font-size:14px;font-weight:600;color:var(--midnight);margin-bottom:2px; }
+.val-text p { font-size:12px;color:var(--midnight);opacity:.5;line-height:1.5; }
+.about-btns { display:flex;gap:12px;margin-top:6px; }
+
+/* ── IMPACT ────────────────────────────────── */
+.impact { background:var(--coral);padding:64px 80px; }
+.impact-inner { display:flex;align-items:center;justify-content:space-between; }
+.impact-stat { text-align:center;flex:1;padding:0 20px;border-right:1px solid rgba(255,255,255,.18); }
+.impact-stat:last-child { border-right:none; }
+.impact-num { font-family:var(--fd);font-size:52px;font-weight:700;line-height:1;color:#fff; }
+.impact-lbl { font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:6px; }
+
+/* ── NDIS EXPLAINER ────────────────────────── */
+.ndis { padding:120px 80px;background:var(--midnight); }
+.ndis .sdesc { color:rgba(255,255,255,.45); }
+.supports { display:grid;grid-template-columns:repeat(3,1fr);gap:3px;background:rgba(255,255,255,.05);border-radius:20px;overflow:hidden;margin-top:64px; }
+.sup-card { padding:48px 40px;background:rgba(255,255,255,.03);transition:background .25s; }
+.sup-card:hover { background:rgba(255,255,255,.07); }
+.sup-num { font-family:var(--fd);font-size:60px;font-weight:700;color:rgba(255,255,255,.06);line-height:1;margin-bottom:18px; }
+.sup-tag { display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:14px; }
+.t1{background:rgba(217,111,71,.15);color:var(--coral)}.t2{background:rgba(122,175,143,.13);color:var(--sage)}.t3{background:rgba(232,217,192,.1);color:var(--dust)}
+.sup-title { font-family:var(--fd);font-size:28px;font-weight:600;color:#fff;margin-bottom:14px; }
+.sup-desc { font-size:14px;line-height:1.75;color:rgba(255,255,255,.42); }
+.elig { margin-top:72px;padding:56px 64px;background:rgba(255,255,255,.04);border-radius:20px;border:1px solid rgba(255,255,255,.07); }
+.elig h3 { font-family:var(--fd);font-size:34px;font-weight:600;color:#fff;margin-bottom:32px; }
+.elig-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:24px; }
+.elig-item .ei { font-size:24px;margin-bottom:8px; }
+.elig-item h5 { font-size:12px;font-weight:700;color:#fff;margin-bottom:4px; }
+.elig-item p { font-size:11px;color:rgba(255,255,255,.35);line-height:1.55; }
+
+/* ── GALLERY ───────────────────────────────── */
+.gallery-strip { overflow:hidden;display:flex;gap:3px;height:300px; }
+.gallery-strip img { flex:1;object-fit:cover;min-width:0;transition:flex .4s ease; }
+.gallery-strip img:hover { flex:2.5; }
+
+/* ── REFERRAL ──────────────────────────────── */
+.referral { padding:120px 80px;background:var(--linen); }
+.ref-band { background:var(--midnight);border-radius:28px;overflow:hidden;display:grid;grid-template-columns:1fr 420px; }
+.ref-left { padding:72px 72px;position:relative; }
+.ref-left::before { content:'';position:absolute;bottom:-60px;left:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(217,111,71,.15) 0%,transparent 65%); }
+.ref-left h2 { font-family:var(--fd);font-size:clamp(34px,3vw,50px);font-weight:600;line-height:1.1;color:#fff; }
+.ref-left p { font-size:16px;font-weight:300;line-height:1.7;color:rgba(255,255,255,.55);margin-top:14px;max-width:460px; }
+.ref-steps { display:flex;gap:16px;margin-top:32px;flex-wrap:wrap; }
+.ref-step { display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border-radius:100px;padding:8px 16px; }
+.ref-step-n { width:20px;height:20px;border-radius:50%;background:var(--coral);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.ref-step span { font-size:12px;font-weight:500;color:rgba(255,255,255,.75); }
+.ref-right { background:var(--coral);padding:72px 48px;display:flex;flex-direction:column;gap:14px;justify-content:center;position:relative;overflow:hidden; }
+.ref-right::before { content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.08); }
+.ref-right::after { content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05); }
+.ref-right h3 { font-family:var(--fd);font-size:28px;font-weight:600;color:#fff;position:relative;z-index:1; }
+.ref-right p { font-size:13px;color:rgba(255,255,255,.65);position:relative;z-index:1; }
+</style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag a1"><span class="dot"></span><span>Nationally Registered NDIS Provider</span></div>
+    <h1 class="hero-h1 a2">Supporting You<br>to <em>Live Well,</em><br>Every Day</h1>
+    <p class="hero-sub a3">Empowering people of all abilities through flexible, individualised support — promoting independence, self-confidence, and active participation across Darwin, Palmerston, Tiwi &amp; Casuarina.</p>
+    <div class="hero-btns a4">
+      <a href="referral.html" class="btn-coral">Get Started Today →</a>
+      <a href="services/index.html" class="btn-outline">Explore Services</a>
+    </div>
+    <div class="hero-trust a5">
+      <div class="trust-stat"><div class="trust-num">9+</div><div class="trust-lbl">Support Services</div></div>
+      <div class="trust-stat"><div class="trust-num">4</div><div class="trust-lbl">Service Regions</div></div>
+      <div class="trust-stat"><div class="trust-num">24h</div><div class="trust-lbl">Response Time</div></div>
+      <div class="trust-stat"><div class="trust-num">NDIS</div><div class="trust-lbl">Registered &amp; Approved</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-mosaic">
+      <div class="mosaic-cell tall">
+        <img class="mosaic-img" src="https://www.livewellsupport.com.au/images/ndis/people.jpg" alt="Support workers with client">
+        <div class="mosaic-overlay"></div>
+        <div class="mosaic-caption">Person-centred care</div>
+      </div>
+      <div class="mosaic-cell"><img class="mosaic-img" src="https://www.livewellsupport.com.au/images/ndis/community.jpg" alt="Community"><div class="mosaic-overlay"></div></div>
+      <div class="mosaic-cell"><img class="mosaic-img" src="https://www.livewellsupport.com.au/images/ndis/qualityofcare.jpg" alt="Quality care"><div class="mosaic-overlay"></div></div>
+    </div>
+    <div class="hero-badge">
+      <div class="hero-badge-tag">Registered Provider</div>
+      <div class="hero-badge-name">NDIS Approved<br>Australia-wide</div>
+      <div class="hero-badge-status"><span class="dot-g"></span><span>Currently accepting referrals</span></div>
+    </div>
+    <div class="hero-location"><span class="dot-g"></span><span>Darwin · Palmerston · Tiwi · Casuarina</span></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar"><div class="marquee-track">
+  <span class="mitem"><span class="d"></span>Daily Activities &amp; Personal Care</span>
+  <span class="mitem"><span class="d"></span>Community Participation</span>
+  <span class="mitem"><span class="d"></span>Supported Independent Living</span>
+  <span class="mitem"><span class="d"></span>Support Coordination</span>
+  <span class="mitem"><span class="d"></span>Travel &amp; Transport</span>
+  <span class="mitem"><span class="d"></span>Domestic Assistance</span>
+  <span class="mitem"><span class="d"></span>Capacity Building</span>
+  <span class="mitem"><span class="d"></span>Respite Care</span>
+  <span class="mitem"><span class="d"></span>Home Care · Aged Care</span>
+  <span class="mitem"><span class="d"></span>Social Activities</span>
+  <span class="mitem"><span class="d"></span>Daily Activities &amp; Personal Care</span>
+  <span class="mitem"><span class="d"></span>Community Participation</span>
+  <span class="mitem"><span class="d"></span>Supported Independent Living</span>
+  <span class="mitem"><span class="d"></span>Support Coordination</span>
+  <span class="mitem"><span class="d"></span>Travel &amp; Transport</span>
+  <span class="mitem"><span class="d"></span>Domestic Assistance</span>
+  <span class="mitem"><span class="d"></span>Capacity Building</span>
+  <span class="mitem"><span class="d"></span>Respite Care</span>
+  <span class="mitem"><span class="d"></span>Home Care · Aged Care</span>
+  <span class="mitem"><span class="d"></span>Social Activities</span>
+</div></div>
+
+<!-- SERVICES -->
+<section class="services reveal">
+  <div class="sh2col">
+    <div><div class="eyebrow">What We Offer</div><h2 class="display">Support Services<br>Built Around <em>You</em></h2></div>
+    <p class="sdesc">From daily personal care to supported independent living — person-centred, NDIS-funded, and tailored to your unique goals. Click any service to learn more.</p>
+  </div>
+  <div class="svc-grid">
+    <a href="services/daily-activities.html" class="svc-card wide">
+      <div class="svc-img-wrap"><img class="svc-img" src="https://www.livewellsupport.com.au/images/ndis/qualityofcare.jpg" alt="Daily Activities"><div class="svc-img-overlay"></div><div class="svc-img-tag">Core Support</div></div>
+      <div class="svc-body">
+        <div class="svc-body-left"><div class="svc-title">Daily Activities &amp; Personal Care</div><p class="svc-desc-text">Hands-on support with everyday activities — promoting independence while respecting your privacy, dignity, and choices.</p><span class="svc-link">Learn more →</span></div>
+        <div class="svc-body-right"><ul class="svc-bullets"><li>Personal hygiene &amp; grooming</li><li>Medication management</li><li>Meal preparation &amp; nutrition</li><li>Morning &amp; evening routines</li><li>Mobility assistance</li><li>Life skills development</li></ul></div>
+      </div>
+    </a>
+    <a href="services/community-participation.html" class="svc-card">
+      <div class="svc-img-wrap"><img class="svc-img" src="https://www.livewellsupport.com.au/images/ndis/community.jpg" alt="Community"><div class="svc-img-overlay"></div><div class="svc-img-tag">Community</div></div>
+      <div class="svc-body"><div class="svc-title">Community Participation</div><p class="svc-desc-text">Stay connected, engaged, and active in your community through social, recreational, and community activities.</p><ul class="svc-bullets"><li>Social events &amp; group outings</li><li>Volunteer work &amp; activities</li><li>Fitness &amp; sports programs</li><li>Cultural events &amp; outings</li></ul><span class="svc-link">Learn more →</span></div>
+    </a>
+    <a href="services/social-activities.html" class="svc-card">
+      <div class="svc-img-wrap"><img class="svc-img" src="https://www.livewellsupport.com.au/images/ndis/socialeng.jpg" alt="Social"><div class="svc-img-overlay"></div><div class="svc-img-tag">Social</div></div>
+      <div class="svc-body"><div class="svc-title">Social Activities</div><p class="svc-desc-text">Connect and thrive through inclusive social programs — groups, clubs, creative workshops, and more.</p><ul class="svc-bullets"><li>Social clubs &amp; interest groups</li><li>Music, dance &amp; creative arts</li><li>Café meetups &amp; book clubs</li><li>Outdoor social activities</li></ul><span class="svc-link">Learn more →</span></div>
+    </a>
+    <a href="services/travel-transport.html" class="svc-card">
+      <div class="svc-img-wrap"><img class="svc-img" src="https://www.livewellsupport.com.au/images/ndis/travel.jpg" alt="Transport"><div class="svc-img-overlay"></div><div class="svc-img-tag">Transport</div></div>
+      <div class="svc-body"><div class="svc-title">Travel &amp; Transport</div><p class="svc-desc-text">Safe, reliable transport to appointments, activities, and community events across Darwin and surrounds.</p><ul class="svc-bullets"><li>Medical appointments</li><li>Shopping &amp; errands</li><li>Therapy sessions</li><li>Scheduled regular transport</li></ul><span class="svc-link">Learn more →</span></div>
+    </a>
+    <a href="services/domestic-assistance.html" class="svc-card">
+      <div class="svc-img-wrap"><img class="svc-img" src="https://www.livewellsupport.com.au/images/ndis/choose1.jpg" alt="Domestic"><div class="svc-img-overlay"></div><div class="svc-img-tag">Home Support</div></div>
+      <div class="svc-body"><div class="svc-title">Domestic Assistance</div><p class="svc-desc-text">Keeping your home clean, comfortable, and safe so you can focus on living your best life.</p><ul class="svc-bullets"><li>House cleaning &amp; vacuuming</li><li>Laundry &amp; ironing</li><li>Meal prep &amp; grocery shopping</li><li>Garden &amp; home maintenance</li></ul><span class="svc-link">Learn more →</span></div>
+    </a>
+    <a href="services/supported-independent-living.html" class="svc-card wide">
+      <div class="svc-img-wrap"><img class="svc-img" src="https://www.livewellsupport.com.au/images/ndis/house1.jpg" alt="SIL"><div class="svc-img-overlay"></div><div class="svc-img-tag">SIL · Housing</div></div>
+      <div class="svc-body">
+        <div class="svc-body-left"><div class="svc-title">Supported Independent Living &amp; Housing</div><p class="svc-desc-text">Everyone deserves a safe, stable home. We help NDIS participants find, secure, and thrive in appropriate accommodation.</p><span class="svc-link">Learn more →</span></div>
+        <div class="svc-body-right"><ul class="svc-bullets"><li>24/7 SIL support</li><li>Housing referrals &amp; placements</li><li>Public housing applications</li><li>Emergency housing assistance</li><li>Rental &amp; financial aid connections</li><li>Housing advocacy</li></ul></div>
+      </div>
+    </a>
+    <a href="services/support-coordination.html" class="svc-card">
+      <div class="svc-img-wrap"><img class="svc-img" src="https://www.livewellsupport.com.au/images/ndis/puzzle.jpg" alt="Support Coordination"><div class="svc-img-overlay"></div><div class="svc-img-tag">Plan Management</div></div>
+      <div class="svc-body"><div class="svc-title">Support Coordination</div><p class="svc-desc-text">Expert navigators helping you maximise your NDIS plan — managing your funding and protecting your journey.</p><ul class="svc-bullets"><li>Plan implementation</li><li>Provider connections</li><li>Budget monitoring</li><li>Crisis support &amp; advocacy</li></ul><span class="svc-link">Learn more →</span></div>
+    </a>
+    <a href="services/capacity-building.html" class="svc-card">
+      <div class="svc-img-wrap"><img class="svc-img" src="https://www.livewellsupport.com.au/images/ndis/capacitysupport.jpg" alt="Capacity"><div class="svc-img-overlay"></div><div class="svc-img-tag">Capacity Building</div></div>
+      <div class="svc-body"><div class="svc-title">Capacity Building</div><p class="svc-desc-text">Develop skills, confidence, and independence — empowering you to live a more self-directed life.</p><ul class="svc-bullets"><li>Life skills training</li><li>Employment support</li><li>Communication development</li><li>Financial management</li></ul><span class="svc-link">Learn more →</span></div>
+    </a>
+    <a href="services/respite-care.html" class="svc-card">
+      <div class="svc-img-wrap"><img class="svc-img" src="https://www.livewellsupport.com.au/images/ndis/sunflower.jpg" alt="Respite"><div class="svc-img-overlay"></div><div class="svc-img-tag">Respite</div></div>
+      <div class="svc-body"><div class="svc-title">Respite Care</div><p class="svc-desc-text">Reliable temporary care giving caregivers a well-deserved break while ensuring the highest standard of support.</p><ul class="svc-bullets"><li>In-home respite</li><li>Residential short stays</li><li>Day programs</li><li>Emergency respite options</li></ul><span class="svc-link">Learn more →</span></div>
+    </a>
+    <a href="aged-care.html" class="svc-card dark-card">
+      <div class="svc-img-wrap"><img class="svc-img" src="https://www.livewellsupport.com.au/images/ndis/who.jpg" alt="Aged Care"><div class="svc-img-overlay"></div><div class="svc-img-tag" style="background:rgba(122,175,143,.9);">Aged Care</div></div>
+      <div class="svc-body"><div class="svc-title">Home Care — Aged Care</div><p class="svc-desc-text">Personalised in-home aged care — helping older Australians remain independent and comfortable at home.</p><ul class="svc-bullets"><li>Personal care &amp; daily living</li><li>Domestic support</li><li>Social support &amp; companionship</li><li>Transport &amp; medication support</li></ul><span class="svc-link">Explore aged care →</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about reveal">
+  <div class="about-photos">
+    <div class="ap-main"><img src="https://www.livewellsupport.com.au/images/ndis/empower.jpg" alt="Live Well team"></div>
+    <div class="ap-accent"><img src="https://www.livewellsupport.com.au/images/ndis/strength.jpg" alt="Support worker"></div>
+    <div class="ap-card"><div class="ap-card-num">Darwin</div><div class="ap-card-lbl">Rosebery NT · HQ</div></div>
+  </div>
+  <div class="about-text">
+    <div><div class="eyebrow">Who We Are</div><h2 class="display">Care You Can <em>Trust,</em><br>From People Who Care</h2></div>
+    <p class="about-p">Live Well Care And Support is a nationally registered NDIS provider dedicated to delivering exceptional, person-centred care. We believe everyone deserves the opportunity to live each day to its fullest.</p>
+    <p class="about-p">Our mission is to empower people of all abilities through flexible, individualised services that promote independence, self-confidence, and active community participation.</p>
+    <div class="val-list">
+      <div class="val-row"><div class="val-icon">💛</div><div class="val-text"><h4>Compassion</h4><p>We practise kindness, respect, and empathy in everything we do.</p></div></div>
+      <div class="val-row"><div class="val-icon">🌟</div><div class="val-text"><h4>Empowerment</h4><p>We help people discover their abilities, not focus on limitations.</p></div></div>
+      <div class="val-row"><div class="val-icon">🛡️</div><div class="val-text"><h4>Integrity</h4><p>Transparent, ethical, and accountable to our clients and community.</p></div></div>
+      <div class="val-row"><div class="val-icon">🤲</div><div class="val-text"><h4>Inclusion</h4><p>We celebrate diversity and ensure all voices are heard and valued.</p></div></div>
+    </div>
+    <div class="about-btns"><a href="team.html" class="btn-dark">Meet Our Team →</a><a href="about.html" class="btn-outline">Our Story</a></div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<div class="impact reveal">
+  <div class="impact-inner">
+    <div class="impact-stat"><div class="impact-num">9+</div><div class="impact-lbl">Support Services</div></div>
+    <div class="impact-stat"><div class="impact-num">4</div><div class="impact-lbl">Service Regions</div></div>
+    <div class="impact-stat"><div class="impact-num">24–48h</div><div class="impact-lbl">Referral Response</div></div>
+    <div class="impact-stat"><div class="impact-num">100%</div><div class="impact-lbl">NDIS Registered</div></div>
+    <div class="impact-stat"><div class="impact-num">5★</div><div class="impact-lbl">Person-Centred Care</div></div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery-strip reveal">
+  <img src="https://www.livewellsupport.com.au/images/ndis/communitygroup.jpg" alt="Community">
+  <img src="https://www.livewellsupport.com.au/images/ndis/social.jpg" alt="Social">
+  <img src="https://www.livewellsupport.com.au/images/ndis/recovery.jpg" alt="Recovery">
+  <img src="https://www.livewellsupport.com.au/images/ndis/group.jpg" alt="Group">
+  <img src="https://www.livewellsupport.com.au/images/ndis/art.jpg" alt="Art">
+  <img src="https://www.livewellsupport.com.au/images/ndis/dark.jpg" alt="Support">
+</div>
+
+<!-- NDIS EXPLAINER -->
+<section class="ndis reveal">
+  <div class="sh2col"><div><div class="eyebrow white">Understanding NDIS</div><h2 class="display white">How NDIS<br><em>Works For You</em></h2></div><p class="sdesc">The NDIS provides funding to help you live your best life. Started in 2013, it ensures everyone with a disability gets the support they need.</p></div>
+  <div class="supports">
+    <div class="sup-card"><div class="sup-num">01</div><span class="sup-tag t1">Core Supports</span><div class="sup-title">Everyday Support</div><p class="sup-desc">The basic supports for daily activities — personal care, household tasks, and community access. Core supports are flexible, used where you need them most.</p></div>
+    <div class="sup-card"><div class="sup-num">02</div><span class="sup-tag t2">Capital Supports</span><div class="sup-title">Equipment &amp; Modifications</div><p class="sup-desc">One-off purchases that help achieve your goals — mobility aids, home modifications, and assistive technology to build independence.</p></div>
+    <div class="sup-card"><div class="sup-num">03</div><span class="sup-tag t3">Capacity Building</span><div class="sup-title">Skills &amp; Independence</div><p class="sup-desc">Training, therapy, and coordination to build your skills — empowering you to participate more fully in your community and employment.</p></div>
+  </div>
+  <div class="elig"><h3>Who Qualifies for the NDIS?</h3><div class="elig-grid">
+    <div class="elig-item"><div class="ei">🇦🇺</div><h5>Residency</h5><p>Australian citizen, permanent resident, or Protected Special Category Visa holder</p></div>
+    <div class="elig-item"><div class="ei">🎂</div><h5>Age</h5><p>Under 65 years old at the time of applying for the NDIS</p></div>
+    <div class="elig-item"><div class="ei">♿</div><h5>Disability</h5><p>Permanent disability that significantly impacts everyday activities</p></div>
+    <div class="elig-item"><div class="ei">👶</div><h5>Early Intervention</h5><p>Under 9 with developmental delay or condition likely to cause disability</p></div>
+    <div class="elig-item"><div class="ei">📍</div><h5>Location</h5><p>Must live in an area where NDIS is available — we serve Darwin &amp; surrounds</p></div>
+  </div></div>
+</section>
+
+<!-- REFERRAL CTA -->
+<section class="referral reveal">
+  <div class="ref-band">
+    <div class="ref-left">
+      <h2>Ready to Refer a Client<br>or Get Started?</h2>
+      <p>Whether you're a support coordinator, GP, social worker, family member, or exploring services for yourself — our referral process is simple, secure, and fast.</p>
+      <div class="ref-steps">
+        <div class="ref-step"><div class="ref-step-n">1</div><span>Complete our simple referral form</span></div>
+        <div class="ref-step"><div class="ref-step-n">2</div><span>We respond within 24–48 hours</span></div>
+        <div class="ref-step"><div class="ref-step-n">3</div><span>Personalised care plan created</span></div>
+      </div>
+    </div>
+    <div class="ref-right">
+      <h3>Make a Referral</h3>
+      <p>Simple, secure, and protected with industry-standard security.</p>
+      <a href="referral.html" class="btn-white" style="position:relative;z-index:1;">Submit Referral Form →</a>
+      <a href="contact.html" class="btn-ghost-white" style="position:relative;z-index:1;">📞 Call Us Today</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery | Live Well Care And Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.gallery-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  max-width:1100px;
+  margin:0 auto;
+}
+@media(max-width:900px){ .gallery-grid{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:550px){ .gallery-grid{grid-template-columns:1fr;} }
+.gallery-item {
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  aspect-ratio:4/3;
+  cursor:pointer;
+  box-shadow:0 2px 12px rgba(21,32,48,.08);
+  transition:box-shadow .3s,transform .3s;
+}
+.gallery-item:hover { box-shadow:0 16px 48px rgba(21,32,48,.16);transform:scale(1.02); }
+.gallery-item.tall { aspect-ratio:3/4; }
+.gallery-item img { width:100%;height:100%;object-fit:cover;transition:transform .6s ease; }
+.gallery-item:hover img { transform:scale(1.06); }
+.gallery-overlay {
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(21,32,48,.75) 100%);
+  opacity:0;transition:opacity .3s;
+  display:flex;align-items:flex-end;padding:20px;
+}
+.gallery-item:hover .gallery-overlay { opacity:1; }
+.gallery-caption { color:#fff;font-size:13px;font-weight:500; }
+
+/* Lightbox */
+.lightbox { display:none;position:fixed;inset:0;z-index:9999;background:rgba(21,32,48,.96);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:40px; }
+.lightbox.active { display:flex; }
+.lightbox-img { max-width:90vw;max-height:85vh;border-radius:16px;object-fit:contain;box-shadow:0 32px 80px rgba(0,0,0,.5); }
+.lightbox-close { position:absolute;top:24px;right:28px;color:#fff;font-size:32px;cursor:pointer;line-height:1;background:none;border:none;font-family:var(--fb);opacity:.7;transition:opacity .2s; }
+.lightbox-close:hover { opacity:1; }
+.lightbox-nav { position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:40px;cursor:pointer;background:none;border:none;font-family:var(--fb);opacity:.6;transition:opacity .2s;user-select:none;padding:16px; }
+.lightbox-nav:hover { opacity:1; }
+.lightbox-prev { left:16px; }
+.lightbox-next { right:16px; }
+.lightbox-caption { position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:13px;font-weight:500;white-space:nowrap; }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <img class="page-hero-img" src="https://www.livewellsupport.com.au/images/ndis/socialeng.jpg" alt="Gallery">
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">›</span><span>Gallery</span></div>
+    <div class="eyebrow white">Our Community</div>
+    <h1>A Glimpse Into<br><em>Life With Live Well</em></h1>
+    <p>Photos from our activities, community events, participant moments, and the team that makes it all possible across Darwin and the NT.</p>
+  </div>
+</section>
+
+<section class="section linen reveal">
+  <div class="sh center" style="margin-bottom:48px;"><div class="eyebrow">Photo Gallery</div><h2 class="display">Stories Behind<br><em>Every Image</em></h2></div>
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-item" data-index="0" onclick="openLightbox(0)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/people.jpg" alt="Our participants">
+      <div class="gallery-overlay"><span class="gallery-caption">Our Participants & Community</span></div>
+    </div>
+    <div class="gallery-item" data-index="1" onclick="openLightbox(1)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/community.jpg" alt="Community participation">
+      <div class="gallery-overlay"><span class="gallery-caption">Community Participation</span></div>
+    </div>
+    <div class="gallery-item" data-index="2" onclick="openLightbox(2)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/qualityofcare.jpg" alt="Quality of care">
+      <div class="gallery-overlay"><span class="gallery-caption">Quality of Care</span></div>
+    </div>
+    <div class="gallery-item" data-index="3" onclick="openLightbox(3)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/communitygroup.jpg" alt="Community groups">
+      <div class="gallery-overlay"><span class="gallery-caption">Community Groups & Activities</span></div>
+    </div>
+    <div class="gallery-item" data-index="4" onclick="openLightbox(4)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/socialeng.jpg" alt="Social engagement">
+      <div class="gallery-overlay"><span class="gallery-caption">Social Engagement</span></div>
+    </div>
+    <div class="gallery-item" data-index="5" onclick="openLightbox(5)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/social.jpg" alt="Social activities">
+      <div class="gallery-overlay"><span class="gallery-caption">Social Activities</span></div>
+    </div>
+    <div class="gallery-item" data-index="6" onclick="openLightbox(6)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/empower.jpg" alt="Empowering lives">
+      <div class="gallery-overlay"><span class="gallery-caption">Empowering Lives</span></div>
+    </div>
+    <div class="gallery-item" data-index="7" onclick="openLightbox(7)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/strength.jpg" alt="Building strength">
+      <div class="gallery-overlay"><span class="gallery-caption">Building Strength & Independence</span></div>
+    </div>
+    <div class="gallery-item" data-index="8" onclick="openLightbox(8)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/group.jpg" alt="Group activities">
+      <div class="gallery-overlay"><span class="gallery-caption">Group Activities</span></div>
+    </div>
+    <div class="gallery-item" data-index="9" onclick="openLightbox(9)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/travel.jpg" alt="Transport support">
+      <div class="gallery-overlay"><span class="gallery-caption">Travel & Transport Support</span></div>
+    </div>
+    <div class="gallery-item" data-index="10" onclick="openLightbox(10)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/capacitysupport.jpg" alt="Capacity building">
+      <div class="gallery-overlay"><span class="gallery-caption">Capacity Building Support</span></div>
+    </div>
+    <div class="gallery-item" data-index="11" onclick="openLightbox(11)">
+      <img src="https://www.livewellsupport.com.au/images/ndis/sunflower.jpg" alt="A positive place">
+      <div class="gallery-overlay"><span class="gallery-caption">A Positive Place to Be</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <button class="lightbox-nav lightbox-prev" onclick="changeLightbox(-1,event)">&#8249;</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav lightbox-next" onclick="changeLightbox(1,event)">&#8250;</button>
+  <span class="lightbox-caption" id="lightboxCaption"></span>
+</div>
+
+<section class="section linen reveal"><div class="cta-band"><div class="cta-left"><h2>Want to Be Part of<br>Our Community?</h2><p>If you'd like to learn more about our services or refer a participant, we'd love to hear from you.</p></div><div class="cta-right"><h3>Get Involved</h3><p>Your journey starts with a simple conversation.</p><a href="contact.html" class="btn-white" style="position:relative;z-index:1;">Contact Us →</a><a href="referral.html" class="btn-ghost-white" style="position:relative;z-index:1;">Refer a Client</a></div></div></section>
+
+<div id="footer-placeholder"></div>
+<script src="js/nav.js"></script>
+<script>
+const images = [
+  { src:'https://www.livewellsupport.com.au/images/ndis/people.jpg', caption:'Our Participants & Community' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/community.jpg', caption:'Community Participation' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/qualityofcare.jpg', caption:'Quality of Care' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/communitygroup.jpg', caption:'Community Groups & Activities' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/socialeng.jpg', caption:'Social Engagement' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/social.jpg', caption:'Social Activities' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/empower.jpg', caption:'Empowering Lives' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/strength.jpg', caption:'Building Strength & Independence' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/group.jpg', caption:'Group Activities' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/travel.jpg', caption:'Travel & Transport Support' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/capacitysupport.jpg', caption:'Capacity Building Support' },
+  { src:'https://www.livewellsupport.com.au/images/ndis/sunflower.jpg', caption:'A Positive Place to Be' },
+];
+let current = 0;
+function openLightbox(i) {
+  current = i;
+  document.getElementById('lightboxImg').src = images[i].src;
+  document.getElementById('lightboxCaption').textContent = images[i].caption;
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (!e || e.target === document.getElementById('lightbox') || e.currentTarget.classList.contains('lightbox-close')) {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+function changeLightbox(dir, e) {
+  if (e) e.stopPropagation();
+  current = (current + dir + images.length) % images.length;
+  document.getElementById('lightboxImg').src = images[current].src;
+  document.getElementById('lightboxCaption').textContent = images[current].caption;
+}
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('active')) return;
+  if (e.key === 'ArrowRight') changeLightbox(1);
+  if (e.key === 'ArrowLeft') changeLightbox(-1);
+  if (e.key === 'Escape') closeLightbox({ target: document.getElementById('lightbox') });
+});
+</script>
+</body>
+</html>

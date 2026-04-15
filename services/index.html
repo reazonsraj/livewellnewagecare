@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All NDIS Services | Live Well Care And Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+.services-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1100px;margin:0 auto; }
+@media(max-width:900px){ .services-grid{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:580px){ .services-grid{grid-template-columns:1fr;} }
+.svc-big-card { background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 14px rgba(21,32,48,.07);transition:box-shadow .3s,transform .25s;display:flex;flex-direction:column;text-decoration:none; }
+.svc-big-card:hover { box-shadow:0 16px 48px rgba(21,32,48,.14);transform:translateY(-5px); }
+.svc-big-img { height:200px;overflow:hidden;position:relative; }
+.svc-big-img img { width:100%;height:100%;object-fit:cover;transition:transform .6s; }
+.svc-big-card:hover .svc-big-img img { transform:scale(1.05); }
+.svc-big-body { padding:24px;flex:1;display:flex;flex-direction:column; }
+.svc-big-cat { font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral);margin-bottom:8px; }
+.svc-big-name { font-family:var(--fd);font-size:22px;font-weight:600;color:var(--midnight);margin-bottom:8px;line-height:1.25; }
+.svc-big-desc { font-size:14px;line-height:1.72;color:var(--midnight);opacity:.62;flex:1; }
+.svc-big-link { display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:13px;font-weight:600;color:var(--coral);text-decoration:none; }
+.svc-big-link:hover { gap:10px; }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <img class="page-hero-img" src="https://www.livewellsupport.com.au/images/ndis/qualityofcare.jpg" alt="NDIS Services">
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="../index.html">Home</a><span class="sep">›</span><span>Services</span></div>
+    <div class="eyebrow white">NDIS Services</div>
+    <h1>Comprehensive NDIS<br><em>Support Services</em></h1>
+    <p>From personal care to community participation and supported independent living — we deliver high-quality, person-centred support across Darwin and the NT.</p>
+    <div class="page-hero-btns"><a href="../referral.html" class="btn-coral">Get Started →</a><a href="../contact.html" class="btn-ghost-white">Talk to Us</a></div>
+  </div>
+</section>
+
+<section class="section linen reveal">
+  <div class="sh center" style="margin-bottom:64px;">
+    <div class="eyebrow">Our NDIS Services</div>
+    <h2 class="display">Everything You Need<br><em>to Live Well</em></h2>
+    <p style="font-size:16px;line-height:1.8;opacity:.62;max-width:580px;margin:16px auto 0;">We provide a comprehensive range of NDIS-funded supports tailored to your individual plan, goals, and lifestyle.</p>
+  </div>
+  <div class="services-grid">
+    <a href="daily-activities.html" class="svc-big-card">
+      <div class="svc-big-img"><img src="https://www.livewellsupport.com.au/images/ndis/qualityofcare.jpg" alt="Daily Activities"></div>
+      <div class="svc-big-body">
+        <div class="svc-big-cat">Core Support</div>
+        <div class="svc-big-name">Daily Activities & Personal Care</div>
+        <div class="svc-big-desc">Compassionate hands-on support for personal hygiene, morning and evening routines, meals, and independent living skills.</div>
+        <span class="svc-big-link">Learn more →</span>
+      </div>
+    </a>
+    <a href="community-participation.html" class="svc-big-card">
+      <div class="svc-big-img"><img src="https://www.livewellsupport.com.au/images/ndis/community.jpg" alt="Community Participation"></div>
+      <div class="svc-big-body">
+        <div class="svc-big-cat">Core Support</div>
+        <div class="svc-big-name">Community Participation</div>
+        <div class="svc-big-desc">Support to engage with your local community — accessing facilities, attending events, and building social connections.</div>
+        <span class="svc-big-link">Learn more →</span>
+      </div>
+    </a>
+    <a href="social-activities.html" class="svc-big-card">
+      <div class="svc-big-img"><img src="https://www.livewellsupport.com.au/images/ndis/socialeng.jpg" alt="Social Activities"></div>
+      <div class="svc-big-body">
+        <div class="svc-big-cat">Core Support</div>
+        <div class="svc-big-name">Social Activities</div>
+        <div class="svc-big-desc">Group programs, hobby clubs, and structured activities designed to foster friendships and a sense of belonging.</div>
+        <span class="svc-big-link">Learn more →</span>
+      </div>
+    </a>
+    <a href="travel-transport.html" class="svc-big-card">
+      <div class="svc-big-img"><img src="https://www.livewellsupport.com.au/images/ndis/travel.jpg" alt="Travel Transport"></div>
+      <div class="svc-big-body">
+        <div class="svc-big-cat">Core Support</div>
+        <div class="svc-big-name">Travel & Transport</div>
+        <div class="svc-big-desc">Safe, reliable transport to appointments, activities, shopping, and social outings across the Darwin region.</div>
+        <span class="svc-big-link">Learn more →</span>
+      </div>
+    </a>
+    <a href="domestic-assistance.html" class="svc-big-card">
+      <div class="svc-big-img"><img src="https://www.livewellsupport.com.au/images/ndis/choose1.jpg" alt="Domestic Assistance"></div>
+      <div class="svc-big-body">
+        <div class="svc-big-cat">Core Support</div>
+        <div class="svc-big-name">Domestic Assistance</div>
+        <div class="svc-big-desc">Help with cleaning, laundry, meal preparation, grocery shopping, and keeping your home safe and comfortable.</div>
+        <span class="svc-big-link">Learn more →</span>
+      </div>
+    </a>
+    <a href="supported-independent-living.html" class="svc-big-card">
+      <div class="svc-big-img"><img src="https://www.livewellsupport.com.au/images/ndis/house1.jpg" alt="SIL"></div>
+      <div class="svc-big-body">
+        <div class="svc-big-cat">Capital Support</div>
+        <div class="svc-big-name">Supported Independent Living</div>
+        <div class="svc-big-desc">Shared or individual accommodation with 24/7 support — giving you independence within a supported environment.</div>
+        <span class="svc-big-link">Learn more →</span>
+      </div>
+    </a>
+    <a href="support-coordination.html" class="svc-big-card">
+      <div class="svc-big-img"><img src="https://www.livewellsupport.com.au/images/ndis/puzzle.jpg" alt="Support Coordination"></div>
+      <div class="svc-big-body">
+        <div class="svc-big-cat">Capacity Building</div>
+        <div class="svc-big-name">Support Coordination</div>
+        <div class="svc-big-desc">Expert help to understand your NDIS plan, connect with the right providers, and make the most of your funding.</div>
+        <span class="svc-big-link">Learn more →</span>
+      </div>
+    </a>
+    <a href="capacity-building.html" class="svc-big-card">
+      <div class="svc-big-img"><img src="https://www.livewellsupport.com.au/images/ndis/capacitysupport.jpg" alt="Capacity Building"></div>
+      <div class="svc-big-body">
+        <div class="svc-big-cat">Capacity Building</div>
+        <div class="svc-big-name">Capacity Building</div>
+        <div class="svc-big-desc">Developing your skills, confidence, and independence — covering employment, communication, financial management and more.</div>
+        <span class="svc-big-link">Learn more →</span>
+      </div>
+    </a>
+    <a href="respite-care.html" class="svc-big-card">
+      <div class="svc-big-img"><img src="https://www.livewellsupport.com.au/images/ndis/sunflower.jpg" alt="Respite Care"></div>
+      <div class="svc-big-body">
+        <div class="svc-big-cat">Core Support</div>
+        <div class="svc-big-name">Respite Care</div>
+        <div class="svc-big-desc">Planned and emergency respite for participants and their carers — giving everyone the rest they deserve.</div>
+        <span class="svc-big-link">Learn more →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="section fog reveal">
+  <div class="two-col center">
+    <div>
+      <div class="eyebrow">Not Sure Where to Start?</div>
+      <h2 class="display">We'll Help You<br><em>Find the Right Fit</em></h2>
+      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:16px;">Navigating the NDIS can feel overwhelming. Our team will take the time to understand your situation, your goals, and your plan — and match you with exactly the right services and support workers.</p>
+      <p style="font-size:16px;line-height:1.8;opacity:.65;margin-top:12px;">All it takes is a conversation. We're here Monday to Friday and respond to all enquiries within 24 hours.</p>
+      <div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;">
+        <a href="../referral.html" class="btn-coral">Submit a Referral →</a>
+        <a href="../contact.html" class="btn-outline">Contact Us</a>
+      </div>
+    </div>
+    <div class="img-rounded" style="height:440px;">
+      <img src="https://www.livewellsupport.com.au/images/ndis/people.jpg" alt="Support team" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+  </div>
+</section>
+
+<section class="section linen reveal"><div class="cta-band"><div class="cta-left"><h2>Ready to Get<br>NDIS Support?</h2><p>Our team is ready to help you access the right supports and make the most of your NDIS plan. Get in touch today.</p></div><div class="cta-right"><h3>Start Today</h3><p>Fast, person-centred onboarding with no pressure.</p><a href="../referral.html" class="btn-white" style="position:relative;z-index:1;">Submit a Referral →</a><a href="../contact.html" class="btn-ghost-white" style="position:relative;z-index:1;">Ask Us Anything</a></div></div></section>
+
+<div id="footer-placeholder"></div>
+<script src="../js/nav.js"></script>
+</body>
+</html>
