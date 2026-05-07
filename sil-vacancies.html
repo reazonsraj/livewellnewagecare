@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIL Vacancies | Live Well Care And Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=2026b">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+/* ── SIL VACANCIES PAGE ────────────────────── */
+.sil-filter-bar {
+  background:#fff;border-bottom:1px solid var(--sand);
+  padding:18px 0;position:sticky;top:72px;z-index:50;
+}
+.sil-filter-inner {
+  max-width:1160px;margin:0 auto;padding:0 72px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.filter-label {
+  font-size:11px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;opacity:.4;margin-right:4px;
+}
+.filter-select {
+  padding:8px 14px;border:1.5px solid var(--sand);border-radius:8px;
+  font-family:var(--fb);font-size:13px;color:var(--midnight);
+  background:var(--linen);cursor:pointer;outline:none;
+  transition:border-color .2s;
+}
+.filter-select:focus{border-color:var(--coral)}
+.filter-count {
+  margin-left:auto;font-size:13px;opacity:.4;font-weight:500;
+}
+
+/* ── LISTINGS GRID ──────────────────────────── */
+.sil-section { background:var(--warm);padding:72px 0 100px; }
+.sil-grid {
+  max-width:1160px;margin:0 auto;padding:0 72px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+@media(max-width:960px){ .sil-grid{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:600px){ .sil-grid{grid-template-columns:1fr;padding:0 20px} }
+@media(max-width:900px){ .sil-filter-inner{padding:0 36px} }
+@media(max-width:560px){ .sil-filter-inner{padding:0 20px} }
+
+/* Card */
+.sil-card {
+  background:#fff;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(21,32,48,.07);
+  box-shadow:0 2px 16px rgba(21,32,48,.06);
+  transition:box-shadow .3s,transform .25s;cursor:pointer;
+  display:flex;flex-direction:column;
+}
+.sil-card:hover { box-shadow:0 20px 56px rgba(21,32,48,.13);transform:translateY(-5px); }
+.sil-card-img {
+  height:210px;overflow:hidden;position:relative;flex-shrink:0;
+}
+.sil-card-img img { width:100%;height:100%;object-fit:cover;transition:transform .6s ease; }
+.sil-card:hover .sil-card-img img { transform:scale(1.06); }
+.sil-card-img .no-photo {
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#e8d9c0 0%,#f4efe8 50%,#e0d0b8 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;
+}
+.sil-card-img .no-photo .np-icon { font-size:52px;opacity:.35; }
+.sil-card-img .no-photo .np-txt {
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--midnight);opacity:.25;
+}
+.sil-support-badge {
+  position:absolute;top:14px;right:14px;
+  padding:5px 12px;border-radius:100px;
+  font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  backdrop-filter:blur(8px);
+}
+.badge-low    { background:rgba(122,175,143,.9);color:#fff; }
+.badge-medium { background:rgba(217,111,71,.9);color:#fff; }
+.badge-high   { background:rgba(21,32,48,.85);color:#fff; }
+.badge-247    { background:rgba(109,40,217,.85);color:#fff; }
+
+.sil-card-body { padding:22px 22px 24px;flex:1;display:flex;flex-direction:column; }
+.sil-card-title {
+  font-family:var(--fd);font-size:22px;font-weight:600;
+  color:var(--midnight);line-height:1.15;margin-bottom:6px;
+}
+.sil-card-loc {
+  font-size:13px;color:var(--midnight);opacity:.45;
+  display:flex;align-items:center;gap:5px;margin-bottom:14px;
+}
+.sil-card-stats {
+  display:flex;gap:16px;margin-bottom:14px;
+}
+.sil-stat {
+  display:flex;align-items:center;gap:5px;
+  font-size:13px;color:var(--midnight);opacity:.6;font-weight:500;
+}
+.sil-stat-icon { font-size:14px; }
+.sil-card-desc {
+  font-size:13px;line-height:1.68;color:var(--midnight);
+  opacity:.48;flex:1;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.sil-card-foot {
+  display:flex;gap:10px;margin-top:18px;padding-top:18px;border-top:1px solid var(--fog);
+}
+.btn-details {
+  flex:1;padding:10px;background:var(--coral);color:#fff;
+  border:none;border-radius:8px;font-size:13px;font-weight:600;
+  cursor:pointer;font-family:var(--fb);transition:background .2s;
+}
+.btn-details:hover { background:var(--coral-dk); }
+.btn-interest {
+  flex:1;padding:10px;background:none;color:var(--midnight);
+  border:1.5px solid var(--sand);border-radius:8px;font-size:13px;font-weight:500;
+  cursor:pointer;font-family:var(--fb);transition:border-color .18s;
+}
+.btn-interest:hover { border-color:var(--midnight); }
+
+/* Skeleton */
+.sil-skeleton {
+  background:#fff;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(21,32,48,.06);
+}
+.skeleton-img { height:210px;background:linear-gradient(90deg,var(--fog) 25%,var(--warm) 50%,var(--fog) 75%);
+  background-size:200% 100%;animation:shimmer 1.5s infinite; }
+.skeleton-body { padding:22px; }
+.skeleton-line { height:14px;border-radius:4px;background:var(--fog);margin-bottom:12px;
+  animation:shimmer 1.5s infinite; }
+.skeleton-line.w60 { width:60%; }
+.skeleton-line.w40 { width:40%; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* Empty / error */
+.sil-empty {
+  text-align:center;padding:80px 20px;
+  grid-column:1/-1;
+}
+.sil-empty .ei { font-size:52px;margin-bottom:16px; }
+.sil-empty p { font-size:16px;opacity:.4; }
+
+/* ── DETAIL MODAL ───────────────────────────── */
+#sil-modal {
+  display:none;position:fixed;inset:0;
+  background:rgba(21,32,48,.6);z-index:300;
+  overflow-y:auto;padding:32px 16px;backdrop-filter:blur(6px);
+}
+.modal-card {
+  background:#fff;border-radius:20px;max-width:900px;
+  margin:0 auto;box-shadow:0 32px 80px rgba(21,32,48,.22);
+  overflow:hidden;
+}
+.modal-gallery { position:relative;height:420px;background:var(--midnight); }
+.modal-gallery img {
+  width:100%;height:100%;object-fit:cover;
+  display:none;transition:opacity .3s;
+}
+.modal-gallery img.active { display:block; }
+.modal-gallery .no-photo-lg {
+  width:100%;height:100%;display:flex;align-items:center;
+  justify-content:center;font-size:72px;opacity:.2;
+}
+.gallery-btn {
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.18);backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,.3);color:#fff;
+  cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;
+  transition:background .18s;
+}
+.gallery-btn:hover { background:rgba(255,255,255,.35); }
+.gallery-btn.prev { left:16px; }
+.gallery-btn.next { right:16px; }
+.gallery-dots {
+  position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  display:flex;gap:6px;
+}
+.gallery-dot {
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(255,255,255,.4);transition:background .2s;cursor:pointer;
+}
+.gallery-dot.active { background:#fff; }
+.gallery-close {
+  position:absolute;top:14px;right:14px;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(21,32,48,.55);backdrop-filter:blur(8px);
+  color:#fff;border:none;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;transition:background .15s;
+}
+.gallery-close:hover { background:rgba(21,32,48,.8); }
+
+.modal-body { padding:36px 40px 40px; }
+.modal-top { display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px; }
+.modal-title { font-family:var(--fd);font-size:34px;font-weight:600;line-height:1.1;color:var(--midnight); }
+.modal-loc { display:flex;align-items:center;gap:6px;font-size:14px;opacity:.45;margin-top:6px; }
+.modal-badges { display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0; }
+.modal-support {
+  padding:6px 14px;border-radius:100px;font-size:11px;font-weight:700;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+
+.modal-stats {
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--sand);border-radius:12px;overflow:hidden;margin-bottom:28px;
+}
+.modal-stat {
+  background:#fff;padding:18px;text-align:center;
+}
+.modal-stat-val { font-family:var(--fd);font-size:26px;font-weight:700;color:var(--midnight);line-height:1; }
+.modal-stat-lbl { font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.35;margin-top:5px; }
+
+.modal-section-title {
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--coral);margin-bottom:12px;margin-top:24px;
+}
+.modal-desc { font-size:15px;line-height:1.78;opacity:.6; }
+.modal-features {
+  display:flex;flex-wrap:wrap;gap:8px;
+}
+.modal-feature {
+  padding:6px 14px;background:var(--warm);border-radius:100px;
+  font-size:12px;font-weight:500;color:var(--midnight);opacity:.7;
+}
+.modal-ctas { display:flex;gap:12px;margin-top:28px;padding-top:24px;border-top:1px solid var(--fog); }
+.modal-ctas .btn-coral {
+  flex:1;padding:14px;background:var(--coral);color:#fff;border:none;
+  border-radius:9px;font-size:15px;font-weight:600;cursor:pointer;
+  font-family:var(--fb);transition:background .2s;text-align:center;
+  display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
+}
+.modal-ctas .btn-coral:hover { background:var(--coral-dk); }
+.modal-ctas .btn-outline-dark {
+  flex:1;padding:14px;border:1.5px solid var(--sand);border-radius:9px;
+  font-size:15px;font-weight:500;cursor:pointer;font-family:var(--fb);
+  transition:border-color .18s;background:none;text-align:center;text-decoration:none;
+  display:flex;align-items:center;justify-content:center;gap:8px;color:var(--midnight);
+}
+.modal-ctas .btn-outline-dark:hover { border-color:var(--midnight); }
+
+@media(max-width:640px){
+  .modal-stats{grid-template-columns:repeat(2,1fr)}
+  .modal-body{padding:24px}
+  .modal-gallery{height:260px}
+  .modal-top{flex-direction:column}
+  .modal-badges{flex-direction:row;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- HERO -->
+<section class="page-hero">
+  <img class="page-hero-img" src="https://www.livewellsupport.com.au/images/ndis/house1.jpg" alt="SIL Vacancies">
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span class="sep">›</span>
+      <a href="services/supported-independent-living.html">Supported Independent Living</a><span class="sep">›</span>
+      <span>Vacancies</span>
+    </div>
+    <div class="eyebrow white">SIL Vacancies</div>
+    <h1>Available <em>Homes</em></h1>
+    <p>Browse our current Supported Independent Living vacancies across Darwin, Palmerston, Tiwi, and Casuarina. Each property is supported by our experienced team, 24/7.</p>
+    <div class="page-hero-btns">
+      <a href="referral.html" class="btn-coral">Register Interest →</a>
+      <a href="contact.html" class="btn-ghost-white">Ask a Question</a>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="sil-filter-bar">
+  <div class="sil-filter-inner">
+    <span class="filter-label">Filter by</span>
+    <select class="filter-select" id="filter-support" onchange="applyFilters()">
+      <option value="">All Support Levels</option>
+      <option>Low Intensity</option>
+      <option>Medium Intensity</option>
+      <option>High Intensity</option>
+      <option>24/7 Support</option>
+    </select>
+    <select class="filter-select" id="filter-bed" onchange="applyFilters()">
+      <option value="">Any Bedrooms</option>
+      <option value="1">1 Bedroom</option>
+      <option value="2">2 Bedrooms</option>
+      <option value="3">3 Bedrooms</option>
+      <option value="4">4+ Bedrooms</option>
+    </select>
+    <select class="filter-select" id="filter-gender" onchange="applyFilters()">
+      <option value="">Any Gender</option>
+      <option>Males Only</option>
+      <option>Females Only</option>
+    </select>
+    <span class="filter-count" id="filter-count"></span>
+  </div>
+</div>
+
+<!-- LISTINGS -->
+<section class="sil-section">
+  <div class="sil-grid" id="sil-grid">
+    <!-- Skeletons while loading -->
+    <div class="sil-skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
+    <div class="sil-skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
+    <div class="sil-skeleton"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
+  </div>
+</section>
+
+<!-- DETAIL MODAL -->
+<div id="sil-modal" onclick="modalBackdrop(event)">
+  <div class="modal-card" id="modal-card">
+    <div class="modal-gallery" id="modal-gallery">
+      <button class="gallery-close" onclick="closeModal()">✕</button>
+      <button class="gallery-btn prev" id="btn-prev" onclick="changePhoto(-1)">‹</button>
+      <button class="gallery-btn next" id="btn-next" onclick="changePhoto(1)">›</button>
+      <div class="gallery-dots" id="gallery-dots"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-top">
+        <div>
+          <div class="modal-title" id="m-title"></div>
+          <div class="modal-loc"><span>📍</span><span id="m-loc"></span></div>
+        </div>
+        <div class="modal-badges">
+          <span class="modal-support" id="m-support"></span>
+          <span id="m-gender" style="font-size:12px;opacity:.45;font-weight:500"></span>
+        </div>
+      </div>
+      <div class="modal-stats">
+        <div class="modal-stat"><div class="modal-stat-val" id="m-bed"></div><div class="modal-stat-lbl">Bedrooms</div></div>
+        <div class="modal-stat"><div class="modal-stat-val" id="m-bath"></div><div class="modal-stat-lbl">Bathrooms</div></div>
+        <div class="modal-stat"><div class="modal-stat-val" id="m-avail"></div><div class="modal-stat-lbl">Available</div></div>
+        <div class="modal-stat"><div class="modal-stat-val" id="m-support-short"></div><div class="modal-stat-lbl">Support</div></div>
+      </div>
+      <div id="m-desc-wrap" style="display:none">
+        <div class="modal-section-title">About This Home</div>
+        <div class="modal-desc" id="m-desc"></div>
+      </div>
+      <div id="m-feat-wrap" style="display:none">
+        <div class="modal-section-title">Features & Amenities</div>
+        <div class="modal-features" id="m-features"></div>
+      </div>
+      <div class="modal-ctas">
+        <a href="#" id="m-refer-btn" class="btn-coral">Register Interest →</a>
+        <a href="contact.html" class="btn-outline-dark">📞 Ask a Question</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="section linen reveal" style="padding-top:60px;">
+  <div class="cta-band">
+    <div class="cta-left">
+      <h2>Don't See the<br>Right Fit?</h2>
+      <p>New vacancies come up regularly. Register your interest and we'll contact you as soon as a suitable home becomes available.</p>
+    </div>
+    <div class="cta-right">
+      <h3>Join the Waitlist</h3>
+      <p>Tell us your requirements and we'll match you.</p>
+      <a href="referral.html" class="btn-white" style="position:relative;z-index:1;">Submit a Referral →</a>
+      <a href="contact.html" class="btn-ghost-white" style="position:relative;z-index:1;">📞 Call Us</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="js/nav.js?v=2026b"></script>
+<script>
+const SB_URL = 'https://qliweczadyilywpftsbw.supabase.co';
+const SB_KEY = 'sb_publishable_TSBi90tG13rbTrsAk6tJQw_hlWUaFkB';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+let allListings = [];
+let modalPhotos = [];
+let modalPhotoIndex = 0;
+
+function photoUrl(path) { return `${SB_URL}/storage/v1/object/public/sil-photos/${path}`; }
+
+function supportBadgeClass(level) {
+  if (!level) return '';
+  const l = level.toLowerCase();
+  if (l.includes('low'))  return 'badge-low';
+  if (l.includes('medium')) return 'badge-medium';
+  if (l.includes('high') || l.includes('24')) return 'badge-high';
+  if (l.includes('24')) return 'badge-247';
+  return 'badge-low';
+}
+
+function supportModalClass(level) {
+  const c = supportBadgeClass(level);
+  const map = {
+    'badge-low':'background:#dcfce7;color:#15803d',
+    'badge-medium':'background:var(--coral-lt);color:var(--coral)',
+    'badge-high':'background:var(--midnight);color:#fff',
+    'badge-247':'background:#ede9fe;color:#7c3aed',
+  };
+  return map[c] || '';
+}
+
+function formatDate(d) {
+  if (!d) return 'Now';
+  const dt = new Date(d + 'T00:00:00');
+  return dt.toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' });
+}
+
+// ── LOAD ─────────────────────────────────────
+async function loadListings() {
+  const { data, error } = await sb
+    .from('sil_listings')
+    .select('*, sil_photos(id, storage_path, display_order)')
+    .eq('status','active')
+    .order('created_at', { ascending: false });
+
+  const grid = document.getElementById('sil-grid');
+  if (error || !data) {
+    grid.innerHTML = `<div class="sil-empty"><div class="ei">⚠️</div><p>Could not load listings. Please try again.</p></div>`;
+    return;
+  }
+
+  allListings = data.map(l => ({
+    ...l,
+    sil_photos: (l.sil_photos || []).sort((a,b) => a.display_order - b.display_order)
+  }));
+
+  renderCards(allListings);
+}
+
+function renderCards(listings) {
+  const grid = document.getElementById('sil-grid');
+  document.getElementById('filter-count').textContent = `${listings.length} listing${listings.length !== 1 ? 's' : ''}`;
+
+  if (!listings.length) {
+    grid.innerHTML = `<div class="sil-empty"><div class="ei">🏠</div><p>No vacancies matching your filters right now.<br>Check back soon or register your interest below.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = listings.map(l => {
+    const firstPhoto = l.sil_photos?.[0];
+    const imgHtml = firstPhoto
+      ? `<img src="${photoUrl(firstPhoto.storage_path)}" alt="${l.title}" loading="lazy">`
+      : `<div class="no-photo"><div class="np-icon">🏠</div><div class="np-txt">Photos Coming Soon</div></div>`;
+    const desc = l.description ? l.description.slice(0,120) + (l.description.length > 120 ? '…' : '') : '';
+    return `
+    <div class="sil-card" onclick="openModal(${l.id ? `'${l.id}'` : `null`})">
+      <div class="sil-card-img">
+        ${imgHtml}
+        <span class="sil-support-badge ${supportBadgeClass(l.support_level)}">${l.support_level}</span>
+      </div>
+      <div class="sil-card-body">
+        <div class="sil-card-title">${l.title}</div>
+        <div class="sil-card-loc">📍 ${l.suburb}${l.address ? ' · ' + l.address : ''}</div>
+        <div class="sil-card-stats">
+          <span class="sil-stat"><span class="sil-stat-icon">🛏</span>${l.bedrooms} Bed</span>
+          <span class="sil-stat"><span class="sil-stat-icon">🚿</span>${l.bathrooms} Bath</span>
+          <span class="sil-stat"><span class="sil-stat-icon">👥</span>${l.gender_preference}</span>
+        </div>
+        ${desc ? `<div class="sil-card-desc">${desc}</div>` : ''}
+        <div class="sil-card-foot">
+          <button class="btn-details">View Details →</button>
+          <button class="btn-interest" onclick="event.stopPropagation();window.location='referral.html?sil=${encodeURIComponent(l.title + ' in ' + l.suburb)}'">Register Interest</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── FILTERS ──────────────────────────────────
+function applyFilters() {
+  const support = document.getElementById('filter-support').value;
+  const bed     = document.getElementById('filter-bed').value;
+  const gender  = document.getElementById('filter-gender').value;
+
+  let filtered = allListings;
+  if (support) filtered = filtered.filter(l => l.support_level === support);
+  if (bed) {
+    const n = parseInt(bed);
+    filtered = bed === '4'
+      ? filtered.filter(l => l.bedrooms >= 4)
+      : filtered.filter(l => l.bedrooms === n);
+  }
+  if (gender) filtered = filtered.filter(l => l.gender_preference === gender || l.gender_preference === 'Any Gender');
+
+  renderCards(filtered);
+}
+
+// ── MODAL ─────────────────────────────────────
+function openModal(id) {
+  const listing = allListings.find(l => l.id === id);
+  if (!listing) return;
+
+  // Photos
+  modalPhotos = (listing.sil_photos || []).map(p => photoUrl(p.storage_path));
+  modalPhotoIndex = 0;
+  buildGallery(listing.title);
+
+  // Title & location
+  document.getElementById('m-title').textContent = listing.title;
+  document.getElementById('m-loc').textContent = listing.suburb + (listing.address ? ' · ' + listing.address : '');
+
+  // Support badge
+  const sb_el = document.getElementById('m-support');
+  sb_el.textContent = listing.support_level;
+  sb_el.setAttribute('style', supportModalClass(listing.support_level) + ';padding:6px 14px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;');
+
+  document.getElementById('m-gender').textContent = listing.gender_preference !== 'Any Gender' ? listing.gender_preference : '';
+
+  // Stats
+  document.getElementById('m-bed').textContent   = listing.bedrooms;
+  document.getElementById('m-bath').textContent  = listing.bathrooms;
+  document.getElementById('m-avail').textContent = formatDate(listing.available_from);
+  const supportShort = listing.support_level.replace(' Intensity','').replace(' Support','');
+  document.getElementById('m-support-short').textContent = supportShort;
+
+  // Description
+  const descWrap = document.getElementById('m-desc-wrap');
+  if (listing.description) {
+    document.getElementById('m-desc').textContent = listing.description;
+    descWrap.style.display = 'block';
+  } else { descWrap.style.display = 'none'; }
+
+  // Features
+  const featWrap = document.getElementById('m-feat-wrap');
+  const features = listing.features || [];
+  if (features.length) {
+    document.getElementById('m-features').innerHTML = features.map(f => `<span class="modal-feature">${f}</span>`).join('');
+    featWrap.style.display = 'block';
+  } else { featWrap.style.display = 'none'; }
+
+  // Register interest link
+  const ref = `referral.html?sil=${encodeURIComponent(listing.title + ' in ' + listing.suburb)}`;
+  document.getElementById('m-refer-btn').href = ref;
+
+  document.getElementById('sil-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('sil-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function modalBackdrop(e) { if (e.target === document.getElementById('sil-modal')) closeModal(); }
+
+// Photo gallery
+function buildGallery(title) {
+  const gallery = document.getElementById('modal-gallery');
+
+  // Remove old images
+  gallery.querySelectorAll('img,.no-photo-lg').forEach(el => el.remove());
+
+  const prev = document.getElementById('btn-prev');
+  const next = document.getElementById('btn-next');
+
+  if (!modalPhotos.length) {
+    const ph = document.createElement('div');
+    ph.className = 'no-photo-lg'; ph.textContent = '🏠';
+    gallery.insertBefore(ph, prev);
+    prev.style.display = 'none'; next.style.display = 'none';
+    document.getElementById('gallery-dots').innerHTML = '';
+    return;
+  }
+
+  prev.style.display = modalPhotos.length > 1 ? 'flex' : 'none';
+  next.style.display = modalPhotos.length > 1 ? 'flex' : 'none';
+
+  modalPhotos.forEach((url, i) => {
+    const img = document.createElement('img');
+    img.src = url; img.alt = title;
+    if (i === 0) img.classList.add('active');
+    gallery.insertBefore(img, prev);
+  });
+
+  // Dots
+  const dots = document.getElementById('gallery-dots');
+  dots.innerHTML = modalPhotos.map((_, i) =>
+    `<div class="gallery-dot ${i===0?'active':''}" onclick="goPhoto(${i})"></div>`
+  ).join('');
+}
+
+function changePhoto(dir) {
+  modalPhotoIndex = (modalPhotoIndex + dir + modalPhotos.length) % modalPhotos.length;
+  updateGalleryUI();
+}
+function goPhoto(i) { modalPhotoIndex = i; updateGalleryUI(); }
+
+function updateGalleryUI() {
+  const gallery = document.getElementById('modal-gallery');
+  gallery.querySelectorAll('img').forEach((img, i) => img.classList.toggle('active', i === modalPhotoIndex));
+  document.querySelectorAll('.gallery-dot').forEach((d, i) => d.classList.toggle('active', i === modalPhotoIndex));
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (document.getElementById('sil-modal').style.display !== 'block') return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowLeft')  changePhoto(-1);
+  if (e.key === 'ArrowRight') changePhoto(1);
+});
+
+async function init() {
+  await loadListings();
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  if (id) openModal(id);
+}
+
+init();
+</script>
+</body>
+</html>

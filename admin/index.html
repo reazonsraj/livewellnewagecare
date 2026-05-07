@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · SIL Listings · Live Well</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --coral:#D96F47;--coral-dk:#b85a35;--coral-lt:#f5e6de;
+  --midnight:#152030;--linen:#FDFAF5;--warm:#F4EFE8;
+  --sand:#E8D9C0;--fog:#F0EBE2;--sage:#7AAF8F;
+  --fd:'Cormorant Garamond',Georgia,serif;--fb:'DM Sans',sans-serif;
+  --r:12px;--shadow:0 2px 16px rgba(21,32,48,.08);--shadow-lg:0 24px 64px rgba(21,32,48,.18);
+}
+body{font-family:var(--fb);background:var(--linen);color:var(--midnight);min-height:100vh}
+input,select,textarea,button{font-family:var(--fb)}
+
+/* ── LOGIN ─────────────────────────────────── */
+#view-login{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--midnight);padding:20px;
+}
+.login-card{
+  background:#fff;border-radius:20px;padding:52px 48px;
+  width:100%;max-width:420px;box-shadow:var(--shadow-lg);
+}
+.login-logo{font-family:var(--fd);font-size:26px;font-weight:600;margin-bottom:6px}
+.login-logo em{color:var(--coral);font-style:normal}
+.login-tag{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--midnight);opacity:.35;margin-bottom:36px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--midnight);opacity:.45;margin-bottom:8px}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:13px 15px;border:1.5px solid var(--sand);border-radius:9px;
+  font-size:14px;color:var(--midnight);background:var(--linen);
+  transition:border-color .2s;outline:none;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--coral)}
+.form-group textarea{resize:vertical;min-height:110px;line-height:1.6}
+.btn-coral{
+  width:100%;padding:14px;background:var(--coral);color:#fff;
+  border:none;border-radius:9px;font-size:14px;font-weight:600;
+  cursor:pointer;transition:background .2s,transform .15s;
+}
+.btn-coral:hover{background:var(--coral-dk);transform:translateY(-1px)}
+.btn-coral:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.error-msg{color:#e53e3e;font-size:13px;margin-top:12px;display:none;padding:10px 14px;
+  background:#fff5f5;border-radius:7px;border:1px solid #fed7d7}
+
+/* ── DASHBOARD ─────────────────────────────── */
+#view-dashboard{display:none;min-height:100vh}
+.admin-nav{
+  background:var(--midnight);padding:0 40px;height:66px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+.admin-logo{font-family:var(--fd);font-size:22px;font-weight:600;color:#fff}
+.admin-logo em{color:var(--coral);font-style:normal}
+.admin-logo small{font-family:var(--fb);font-size:11px;font-weight:400;
+  opacity:.35;margin-left:6px;letter-spacing:.5px}
+.nav-right{display:flex;align-items:center;gap:14px}
+.admin-email-badge{
+  font-size:12px;color:rgba(255,255,255,.4);
+  background:rgba(255,255,255,.06);padding:6px 12px;border-radius:6px;
+}
+.btn-signout{
+  padding:7px 16px;border:1.5px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.55);background:none;border-radius:7px;
+  font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;
+}
+.btn-signout:hover{border-color:rgba(255,255,255,.5);color:#fff}
+
+.dash-body{padding:40px;max-width:1200px;margin:0 auto}
+.dash-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+.dash-heading{font-family:var(--fd);font-size:36px;font-weight:600}
+.dash-heading small{font-size:14px;font-family:var(--fb);font-weight:400;
+  opacity:.35;margin-left:8px}
+.btn-new{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 22px;background:var(--coral);color:#fff;
+  border:none;border-radius:9px;font-size:14px;font-weight:600;
+  cursor:pointer;transition:background .2s;
+}
+.btn-new:hover{background:var(--coral-dk)}
+
+/* Stats bar */
+.stats-bar{display:flex;gap:16px;margin-bottom:32px}
+.stat-card{
+  background:#fff;border-radius:12px;padding:20px 24px;flex:1;
+  border:1px solid rgba(21,32,48,.06);box-shadow:var(--shadow);
+}
+.stat-num{font-family:var(--fd);font-size:32px;font-weight:700;color:var(--midnight)}
+.stat-lbl{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  opacity:.35;margin-top:4px}
+
+/* Table */
+.table-wrap{background:#fff;border-radius:14px;overflow:hidden;
+  border:1px solid rgba(21,32,48,.06);box-shadow:var(--shadow)}
+.listings-table{width:100%;border-collapse:collapse}
+.listings-table th{
+  padding:14px 18px;text-align:left;font-size:10px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;opacity:.3;
+  border-bottom:1px solid var(--sand);background:var(--linen);
+}
+.listings-table td{padding:16px 18px;border-bottom:1px solid var(--fog);vertical-align:middle}
+.listing-row:last-child td{border-bottom:none}
+.listing-row:hover td{background:#fffbf8}
+.thumb{width:60px;height:44px;border-radius:7px;object-fit:cover;display:block}
+.thumb-empty{
+  width:60px;height:44px;border-radius:7px;background:var(--warm);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.l-title{font-weight:600;font-size:14px;line-height:1.3}
+.l-sub{font-size:12px;opacity:.4;margin-top:2px}
+
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;
+  border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.3px}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.badge-active{background:#dcfce7;color:#15803d}.badge-active::before{background:#22c55e}
+.badge-draft{background:var(--fog);color:var(--midnight);opacity:.65}.badge-draft::before{background:#94a3b8}
+.badge-filled{background:var(--coral-lt);color:var(--coral)}.badge-filled::before{background:var(--coral)}
+
+.row-actions{display:flex;gap:8px}
+.btn-tbl{
+  padding:6px 14px;border-radius:7px;font-size:12px;font-weight:500;
+  cursor:pointer;border:1.5px solid var(--sand);background:#fff;
+  transition:all .15s;white-space:nowrap;
+}
+.btn-tbl:hover{border-color:var(--coral);color:var(--coral)}
+.btn-tbl.del:hover{border-color:#ef4444;color:#ef4444}
+
+.empty-state{text-align:center;padding:72px 20px;opacity:.35}
+.empty-state .ei{font-size:52px;margin-bottom:16px}
+.empty-state p{font-size:15px}
+
+/* ── FORM MODAL ────────────────────────────── */
+#view-form{
+  display:none;position:fixed;inset:0;
+  background:rgba(21,32,48,.55);z-index:200;
+  overflow-y:auto;padding:32px 16px;backdrop-filter:blur(4px);
+}
+.form-card{
+  background:#fff;border-radius:20px;max-width:780px;
+  margin:0 auto;box-shadow:var(--shadow-lg);overflow:hidden;
+}
+.form-head{
+  background:var(--midnight);padding:26px 38px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.form-head h2{font-family:var(--fd);font-size:26px;color:#fff;font-weight:600}
+.btn-x{
+  width:36px;height:36px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);
+  background:none;cursor:pointer;font-size:17px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.btn-x:hover{border-color:#fff;color:#fff}
+
+.form-body{padding:36px}
+.fsec{
+  font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--coral);margin:28px 0 18px;padding-top:28px;border-top:1px solid var(--fog);
+}
+.fsec:first-child{margin-top:0;padding-top:0;border-top:none}
+
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.frow.f3{grid-template-columns:1fr 1fr 1fr}
+
+/* Status buttons */
+.status-btns{display:flex;gap:10px}
+.status-btn{
+  padding:9px 20px;border-radius:8px;border:2px solid var(--sand);
+  background:none;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;
+}
+.status-btn.sel{border-color:var(--coral);background:var(--coral-lt);color:var(--coral)}
+
+/* Features */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.feat-item{display:flex;align-items:center;gap:8px}
+.feat-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--coral);cursor:pointer;flex-shrink:0}
+.feat-item label{font-size:13px;cursor:pointer;line-height:1.3}
+
+/* Photo upload */
+.drop-zone{
+  border:2px dashed var(--sand);border-radius:12px;padding:32px;
+  text-align:center;cursor:pointer;transition:border-color .2s,background .2s;
+}
+.drop-zone:hover,.drop-zone.drag{border-color:var(--coral);background:#fff8f5}
+.drop-zone input{display:none}
+.drop-icon{font-size:34px;margin-bottom:10px}
+.drop-txt{font-size:14px;opacity:.5}
+.drop-sub{font-size:12px;opacity:.3;margin-top:4px}
+
+.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.photo-thumb{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:4/3}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.photo-thumb .rm{
+  position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;
+  background:rgba(21,32,48,.75);color:#fff;border:none;cursor:pointer;
+  font-size:11px;display:flex;align-items:center;justify-content:center;transition:background .15s;
+}
+.photo-thumb .rm:hover{background:#ef4444}
+
+.form-foot{
+  padding:22px 36px;border-top:1px solid var(--fog);
+  display:flex;gap:12px;justify-content:flex-end;align-items:center;
+}
+.save-msg{font-size:13px;opacity:.45;margin-right:auto}
+.btn-cancel{
+  padding:11px 22px;border:1.5px solid var(--sand);border-radius:8px;
+  background:none;font-size:14px;cursor:pointer;transition:border-color .18s;
+}
+.btn-cancel:hover{border-color:var(--midnight)}
+.btn-save{
+  padding:11px 26px;background:var(--coral);color:#fff;
+  border:none;border-radius:8px;font-size:14px;font-weight:600;
+  cursor:pointer;transition:background .2s;
+}
+.btn-save:hover{background:var(--coral-dk)}
+.btn-save:disabled{opacity:.5;cursor:not-allowed}
+
+@media(max-width:640px){
+  .dash-body{padding:20px}
+  .stats-bar{flex-direction:column}
+  .frow,.frow.f3{grid-template-columns:1fr}
+  .feat-grid{grid-template-columns:1fr 1fr}
+  .photo-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ─────────────────────────────── -->
+<div id="view-login">
+  <div class="login-card">
+    <div class="login-logo">Live<em>Well</em> Support</div>
+    <div class="login-tag">SIL Listings Admin</div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="li-email" placeholder="admin@livewellsupport.com.au" autocomplete="username">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="li-pass" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn-coral" id="btn-login" onclick="login()">Sign In →</button>
+    <div class="error-msg" id="login-err"></div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ──────────────────────────── -->
+<div id="view-dashboard">
+  <nav class="admin-nav">
+    <div class="admin-logo">Live<em>Well</em><small>Admin</small></div>
+    <div class="nav-right">
+      <span class="admin-email-badge" id="admin-email"></span>
+      <button class="btn-signout" onclick="signOut()">Sign Out</button>
+    </div>
+  </nav>
+  <div class="dash-body">
+    <div class="dash-top">
+      <div class="dash-heading">SIL Vacancies <small id="listing-count"></small></div>
+      <button class="btn-new" onclick="openForm()">+ New Listing</button>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-card"><div class="stat-num" id="stat-active">—</div><div class="stat-lbl">Active Listings</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-draft">—</div><div class="stat-lbl">Drafts</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-filled">—</div><div class="stat-lbl">Filled</div></div>
+    </div>
+    <div class="table-wrap">
+      <table class="listings-table">
+        <thead><tr>
+          <th style="width:76px"></th>
+          <th>Property</th>
+          <th>Suburb</th>
+          <th>Bedrooms</th>
+          <th>Support Level</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr></thead>
+        <tbody id="listings-body">
+          <tr><td colspan="7"><div class="empty-state"><div class="ei">⏳</div><p>Loading...</p></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── FORM MODAL ─────────────────────────── -->
+<div id="view-form" onclick="backdropClick(event)">
+  <div class="form-card">
+    <div class="form-head">
+      <h2 id="form-heading">New Listing</h2>
+      <button class="btn-x" onclick="closeForm()">✕</button>
+    </div>
+    <div class="form-body">
+      <input type="hidden" id="f-id">
+
+      <div class="fsec">Basic Information</div>
+      <div class="form-group">
+        <label>Property Name / Title *</label>
+        <input type="text" id="f-title" placeholder="e.g. Cozy 3-Bedroom Home in Palmerston">
+      </div>
+      <div class="frow">
+        <div class="form-group">
+          <label>Suburb *</label>
+          <input type="text" id="f-suburb" placeholder="e.g. Casuarina">
+        </div>
+        <div class="form-group">
+          <label>Full Address (optional)</label>
+          <input type="text" id="f-address" placeholder="e.g. 14 Example Street">
+        </div>
+      </div>
+
+      <div class="fsec">Property Details</div>
+      <div class="frow f3">
+        <div class="form-group">
+          <label>Bedrooms</label>
+          <select id="f-bed">
+            <option value="1">1 Bedroom</option>
+            <option value="2" selected>2 Bedrooms</option>
+            <option value="3">3 Bedrooms</option>
+            <option value="4">4 Bedrooms</option>
+            <option value="5">5 Bedrooms</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Bathrooms</label>
+          <select id="f-bath">
+            <option value="1" selected>1 Bathroom</option>
+            <option value="2">2 Bathrooms</option>
+            <option value="3">3 Bathrooms</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Available From</label>
+          <input type="date" id="f-avail">
+        </div>
+      </div>
+      <div class="frow">
+        <div class="form-group">
+          <label>Support Level</label>
+          <select id="f-support">
+            <option>Low Intensity</option>
+            <option>Medium Intensity</option>
+            <option>High Intensity</option>
+            <option>24/7 Support</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Gender Preference</label>
+          <select id="f-gender">
+            <option>Any Gender</option>
+            <option>Males Only</option>
+            <option>Females Only</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="fsec">Description</div>
+      <div class="form-group">
+        <textarea id="f-desc" placeholder="Describe the property, its location, the neighbourhood, and what makes it a great home for a participant..."></textarea>
+      </div>
+
+      <div class="fsec">Features & Amenities</div>
+      <div class="feat-grid" id="feat-grid"></div>
+
+      <div class="fsec">Listing Status</div>
+      <div class="status-btns" id="status-btns"></div>
+
+      <div class="fsec">Photos</div>
+      <div class="drop-zone" id="drop-zone" onclick="document.getElementById('photo-input').click()">
+        <input type="file" id="photo-input" multiple accept="image/*" onchange="handleFiles(this.files)">
+        <div class="drop-icon">📷</div>
+        <div class="drop-txt">Click to upload photos</div>
+        <div class="drop-sub">JPG, PNG, WEBP — select multiple at once</div>
+      </div>
+      <div class="photo-grid" id="photo-grid"></div>
+    </div>
+    <div class="form-foot">
+      <span class="save-msg" id="save-msg"></span>
+      <button class="btn-cancel" onclick="closeForm()">Cancel</button>
+      <button class="btn-save" id="btn-save" onclick="saveListing()">Save Listing</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SB_URL = 'https://qliweczadyilywpftsbw.supabase.co';
+const SB_KEY = 'sb_publishable_TSBi90tG13rbTrsAk6tJQw_hlWUaFkB';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+const FEATURES = [
+  'Air Conditioning','Garden / Outdoor Area','Wheelchair Accessible',
+  'Close to Public Transport','Private Bathroom','Shared Bathroom',
+  'En-suite','Parking Available','Close to Shops',
+  'CCTV / Security','Internet / NBN','Dedicated Support Space'
+];
+const STATUSES = [{val:'active',lbl:'Active'},{val:'draft',lbl:'Draft'},{val:'filled',lbl:'Filled'}];
+
+let pendingPhotos = [];  // { file, url }
+let existingPhotos = []; // { id, storage_path, url }
+let currentStatus = 'active';
+
+// ── INIT ─────────────────────────────────────
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  session ? showDash(session.user.email) : showLogin();
+}
+
+function showLogin() {
+  document.getElementById('view-login').style.display = 'flex';
+  document.getElementById('view-dashboard').style.display = 'none';
+}
+function showDash(email) {
+  document.getElementById('view-login').style.display = 'none';
+  document.getElementById('view-dashboard').style.display = 'block';
+  document.getElementById('admin-email').textContent = email;
+  loadListings();
+}
+
+// ── AUTH ──────────────────────────────────────
+async function login() {
+  const email = document.getElementById('li-email').value.trim();
+  const pass  = document.getElementById('li-pass').value;
+  const errEl = document.getElementById('login-err');
+  const btn   = document.getElementById('btn-login');
+  errEl.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'Signing in...';
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  btn.disabled = false; btn.textContent = 'Sign In →';
+  if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+  showDash(data.user.email);
+}
+async function signOut() { await sb.auth.signOut(); showLogin(); }
+document.getElementById('li-pass').addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+
+// ── LOAD LISTINGS ─────────────────────────────
+async function loadListings() {
+  const tbody = document.getElementById('listings-body');
+  const { data, error } = await sb.from('sil_listings')
+    .select('*, sil_photos(storage_path)')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="ei">❌</div><p>${error.message}</p></div></td></tr>`;
+    return;
+  }
+
+  // Stats
+  document.getElementById('stat-active').textContent = data.filter(l=>l.status==='active').length;
+  document.getElementById('stat-draft').textContent  = data.filter(l=>l.status==='draft').length;
+  document.getElementById('stat-filled').textContent = data.filter(l=>l.status==='filled').length;
+  document.getElementById('listing-count').textContent = `(${data.length})`;
+
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="ei">🏠</div><p>No listings yet. Click "New Listing" to add your first vacancy.</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(l => {
+    const firstPhoto = l.sil_photos?.[0];
+    const thumb = firstPhoto
+      ? `<img class="thumb" src="${photoUrl(firstPhoto.storage_path)}" alt="">`
+      : `<div class="thumb-empty">🏠</div>`;
+    return `<tr class="listing-row">
+      <td>${thumb}</td>
+      <td><div class="l-title">${esc(l.title)}</div><div class="l-sub">${l.address ? esc(l.address) : '—'}</div></td>
+      <td>${esc(l.suburb)}</td>
+      <td>${l.bedrooms} bed · ${l.bathrooms} bath</td>
+      <td>${esc(l.support_level)}</td>
+      <td><span class="badge badge-${l.status}">${l.status.charAt(0).toUpperCase()+l.status.slice(1)}</span></td>
+      <td><div class="row-actions">
+        <a class="btn-tbl" href="../sil-vacancies.html?id=${l.id}" target="_blank">👁 View</a>
+        <button class="btn-tbl" onclick="openForm('${l.id}')">✏️ Edit</button>
+        <button class="btn-tbl del" onclick="deleteListing('${l.id}','${esc(l.title).replace(/'/g,"\\'")}')">🗑 Delete</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function photoUrl(path) { return `${SB_URL}/storage/v1/object/public/sil-photos/${path}`; }
+function esc(s) { return s ? s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
+
+// ── DELETE ────────────────────────────────────
+async function deleteListing(id, title) {
+  if (!confirm(`Delete "${title}"?\n\nThis will permanently remove the listing and all photos.`)) return;
+  const { data: photos } = await sb.from('sil_photos').select('storage_path').eq('listing_id', id);
+  if (photos?.length) await sb.storage.from('sil-photos').remove(photos.map(p => p.storage_path));
+  await sb.from('sil_listings').delete().eq('id', id);
+  loadListings();
+}
+
+// ── FORM OPEN ─────────────────────────────────
+async function openForm(id = null) {
+  pendingPhotos = []; existingPhotos = [];
+  resetForm();
+  buildFeatures([]); buildStatus('active');
+  document.getElementById('form-heading').textContent = id ? 'Edit Listing' : 'New Listing';
+  document.getElementById('f-id').value = id || '';
+  document.getElementById('save-msg').textContent = '';
+  document.getElementById('btn-save').disabled = false;
+  document.getElementById('photo-input').value = '';
+  renderPhotoGrid();
+
+  if (id) await loadForm(id);
+
+  document.getElementById('view-form').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeForm() {
+  document.getElementById('view-form').style.display = 'none';
+  document.body.style.overflow = '';
+  pendingPhotos = []; existingPhotos = [];
+}
+function backdropClick(e) { if (e.target === document.getElementById('view-form')) closeForm(); }
+
+function resetForm() {
+  ['f-title','f-suburb','f-address','f-desc'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('f-bed').value = '2';
+  document.getElementById('f-bath').value = '1';
+  document.getElementById('f-support').value = 'Low Intensity';
+  document.getElementById('f-gender').value = 'Any Gender';
+  document.getElementById('f-avail').value = '';
+}
+
+async function loadForm(id) {
+  const { data: l } = await sb.from('sil_listings').select('*').eq('id', id).single();
+  if (!l) return;
+  document.getElementById('f-title').value   = l.title || '';
+  document.getElementById('f-suburb').value  = l.suburb || '';
+  document.getElementById('f-address').value = l.address || '';
+  document.getElementById('f-desc').value    = l.description || '';
+  document.getElementById('f-bed').value     = l.bedrooms || 2;
+  document.getElementById('f-bath').value    = l.bathrooms || 1;
+  document.getElementById('f-support').value = l.support_level || 'Low Intensity';
+  document.getElementById('f-gender').value  = l.gender_preference || 'Any Gender';
+  document.getElementById('f-avail').value   = l.available_from || '';
+  buildFeatures(l.features || []);
+  buildStatus(l.status || 'active');
+
+  const { data: photos } = await sb.from('sil_photos').select('*').eq('listing_id', id).order('display_order');
+  existingPhotos = (photos || []).map(p => ({ id: p.id, storage_path: p.storage_path, url: photoUrl(p.storage_path) }));
+  renderPhotoGrid();
+}
+
+// ── FEATURES ──────────────────────────────────
+function buildFeatures(selected) {
+  document.getElementById('feat-grid').innerHTML = FEATURES.map(f =>
+    `<label class="feat-item">
+      <input type="checkbox" value="${f}" ${selected.includes(f)?'checked':''}>
+      <span>${f}</span>
+    </label>`
+  ).join('');
+}
+function getFeatures() {
+  return [...document.querySelectorAll('#feat-grid input:checked')].map(i => i.value);
+}
+
+// ── STATUS ────────────────────────────────────
+function buildStatus(sel) {
+  currentStatus = sel;
+  document.getElementById('status-btns').innerHTML = STATUSES.map(s =>
+    `<button class="status-btn ${s.val===sel?'sel':''}" onclick="setStatus('${s.val}')">${s.lbl}</button>`
+  ).join('');
+}
+function setStatus(s) { buildStatus(s); }
+
+// ── PHOTOS ────────────────────────────────────
+function handleFiles(files) {
+  [...files].forEach(f => pendingPhotos.push({ file: f, url: URL.createObjectURL(f) }));
+  renderPhotoGrid();
+  document.getElementById('photo-input').value = '';
+}
+
+function renderPhotoGrid() {
+  const g = document.getElementById('photo-grid');
+  const ex = existingPhotos.map((p,i) =>
+    `<div class="photo-thumb"><img src="${p.url}" alt=""><button class="rm" onclick="removeExisting(${i})">✕</button></div>`
+  ).join('');
+  const pe = pendingPhotos.map((p,i) =>
+    `<div class="photo-thumb"><img src="${p.url}" alt=""><button class="rm" onclick="removePending(${i})">✕</button></div>`
+  ).join('');
+  g.innerHTML = ex + pe;
+}
+
+async function removeExisting(i) {
+  const p = existingPhotos[i];
+  await sb.storage.from('sil-photos').remove([p.storage_path]);
+  await sb.from('sil_photos').delete().eq('id', p.id);
+  existingPhotos.splice(i, 1);
+  renderPhotoGrid();
+}
+function removePending(i) { pendingPhotos.splice(i, 1); renderPhotoGrid(); }
+
+// Drag & drop
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
+
+// ── SAVE ──────────────────────────────────────
+async function saveListing() {
+  const title  = document.getElementById('f-title').value.trim();
+  const suburb = document.getElementById('f-suburb').value.trim();
+  if (!title)  { alert('Property name is required.'); document.getElementById('f-title').focus(); return; }
+  if (!suburb) { alert('Suburb is required.'); document.getElementById('f-suburb').focus(); return; }
+
+  const btn = document.getElementById('btn-save');
+  const msg = document.getElementById('save-msg');
+  btn.disabled = true; msg.textContent = 'Saving...';
+
+  const payload = {
+    title, suburb,
+    address:          document.getElementById('f-address').value.trim() || null,
+    bedrooms:         parseInt(document.getElementById('f-bed').value),
+    bathrooms:        parseInt(document.getElementById('f-bath').value),
+    support_level:    document.getElementById('f-support').value,
+    gender_preference:document.getElementById('f-gender').value,
+    available_from:   document.getElementById('f-avail').value || null,
+    description:      document.getElementById('f-desc').value.trim() || null,
+    features:         getFeatures(),
+    status:           currentStatus,
+    updated_at:       new Date().toISOString(),
+  };
+
+  const editId = document.getElementById('f-id').value;
+  let listingId = editId;
+
+  if (editId) {
+    const { error } = await sb.from('sil_listings').update(payload).eq('id', editId);
+    if (error) { msg.textContent = '❌ ' + error.message; btn.disabled = false; return; }
+  } else {
+    const { data, error } = await sb.from('sil_listings').insert(payload).select().single();
+    if (error) { msg.textContent = '❌ ' + error.message; btn.disabled = false; return; }
+    listingId = data.id;
+  }
+
+  if (pendingPhotos.length) {
+    msg.textContent = `Uploading ${pendingPhotos.length} photo(s)...`;
+    const nextOrder = existingPhotos.length;
+    let uploadErrors = [];
+    for (let i = 0; i < pendingPhotos.length; i++) {
+      const { file } = pendingPhotos[i];
+      const ext  = file.name.split('.').pop().toLowerCase().replace(/[^a-z]/g,'') || 'jpg';
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const path = `listings/${listingId}/${Date.now()}_${i}_${safeName}`;
+      msg.textContent = `Uploading photo ${i+1} of ${pendingPhotos.length}...`;
+      const { data: upData, error: upErr } = await sb.storage.from('sil-photos').upload(path, file, { contentType: file.type, upsert: false });
+      if (upErr) {
+        uploadErrors.push(`Photo ${i+1}: ${upErr.message}`);
+        console.error('Upload error:', upErr);
+      } else {
+        const { error: dbErr } = await sb.from('sil_photos').insert({ listing_id: listingId, storage_path: path, display_order: nextOrder + i });
+        if (dbErr) { uploadErrors.push(`DB save ${i+1}: ${dbErr.message}`); console.error('DB error:', dbErr); }
+      }
+    }
+    if (uploadErrors.length) {
+      msg.textContent = `⚠️ ${uploadErrors[0]} — run the storage SQL policies in Supabase.`;
+      btn.disabled = false;
+      return;
+    }
+  }
+
+  msg.textContent = '✓ Saved!';
+  setTimeout(() => { closeForm(); loadListings(); }, 700);
+}
+
+init();
+</script>
+</body>
+</html>

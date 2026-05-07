@@ -53,6 +53,10 @@ document.getElementById('nav-placeholder').innerHTML = `
             <div class="dd-ico">😌</div>
             <div><span class="dd-name">Respite Care</span><span class="dd-sub">Relief for caregivers</span></div>
           </a>
+          <a href="${BASE}sil-vacancies.html" class="dd-item" style="background:rgba(217,111,71,.04);border-radius:10px;">
+            <div class="dd-ico" style="background:#fff5f0;">🏠</div>
+            <div><span class="dd-name" style="color:var(--coral);">SIL Vacancies</span><span class="dd-sub">Browse available homes now</span></div>
+          </a>
         </div>
         <div class="dd-foot">
           <p>Not sure which service you need?</p>
@@ -106,8 +110,8 @@ document.getElementById('nav-placeholder').innerHTML = `
 document.getElementById('footer-placeholder').innerHTML = `
 <div class="contact-bar">
   <div class="ct"><div class="ct-ico">📍</div><div><div class="ct-lbl">Our Office</div><div class="ct-val">36 Deane Crescent<br>Rosebery NT 0832</div></div></div>
-  <div class="ct"><div class="ct-ico">📞</div><div><div class="ct-lbl">Call Us</div><div class="ct-val"><a href="tel:1800000000">1800 XXX XXX</a></div></div></div>
-  <div class="ct"><div class="ct-ico">✉️</div><div><div class="ct-lbl">Email</div><div class="ct-val"><a href="mailto:hello@livewellsupport.com.au">hello@livewellsupport.com.au</a></div></div></div>
+  <div class="ct"><div class="ct-ico">📞</div><div><div class="ct-lbl">Call Us</div><div class="ct-val"><a href="tel:1300934541">1300 934 541</a></div></div></div>
+  <div class="ct"><div class="ct-ico">✉️</div><div><div class="ct-lbl">Email</div><div class="ct-val"><a href="mailto:admin@livewellsupport.com.au">admin@livewellsupport.com.au</a></div></div></div>
   <div class="ct"><div class="ct-ico">🕐</div><div><div class="ct-lbl">Office Hours</div><div class="ct-val">Mon–Fri: 8:00 AM – 4:00 PM<br><span style="font-size:12px;opacity:.45">We respond within 24h</span></div></div></div>
 </div>
 <footer>
@@ -117,8 +121,8 @@ document.getElementById('footer-placeholder').innerHTML = `
       <p class="fb-tag">A nationally registered NDIS provider delivering person-centred care across Darwin, Palmerston, Tiwi, and Casuarina.</p>
       <div class="fb-contacts">
         <a href="#">📍 36 Deane Crescent, Rosebery NT 0832</a>
-        <a href="#">📞 1800 XXX XXX</a>
-        <a href="#">✉️ hello@livewellsupport.com.au</a>
+        <a href="#">📞 1300 934 541</a>
+        <a href="#">✉️ admin@livewellsupport.com.au</a>
         <a href="#">🕐 Mon–Fri: 8:00 AM – 4:00 PM</a>
       </div>
     </div>
