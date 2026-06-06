@@ -52,6 +52,17 @@ input,select,textarea,button{font-family:var(--fb)}
 .btn-coral:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .error-msg{color:#e53e3e;font-size:13px;margin-top:12px;display:none;padding:10px 14px;
   background:#fff5f5;border-radius:7px;border:1px solid #fed7d7}
+.success-msg{color:#15803d;font-size:13px;margin-top:12px;display:none;padding:10px 14px;
+  background:#f0fdf4;border-radius:7px;border:1px solid #bbf7d0;line-height:1.5}
+#view-reset,#view-newpass{
+  min-height:100vh;display:none;align-items:center;justify-content:center;
+  background:var(--midnight);padding:20px;
+}
+.auth-intro{font-size:13.5px;line-height:1.6;color:var(--midnight);opacity:.55;margin-bottom:24px}
+.forgot-wrap{text-align:center;margin-top:16px}
+.auth-link{font-size:13px;font-weight:600;color:var(--coral);cursor:pointer;background:none;border:none}
+.auth-link:hover{text-decoration:underline}
+.auth-foot{margin-top:22px;text-align:center}
 
 /* ── DASHBOARD ─────────────────────────────── */
 #view-dashboard{display:none;min-height:100vh}
@@ -251,6 +262,44 @@ input,select,textarea,button{font-family:var(--fb)}
     </div>
     <button class="btn-coral" id="btn-login" onclick="login()">Sign In →</button>
     <div class="error-msg" id="login-err"></div>
+    <div class="forgot-wrap"><button type="button" class="auth-link" onclick="showReset()">Forgot password?</button></div>
+  </div>
+</div>
+
+<!-- ── RESET REQUEST ──────────────────────── -->
+<div id="view-reset">
+  <div class="login-card">
+    <div class="login-logo">Live<em>Well</em> Support</div>
+    <div class="login-tag">Reset Password</div>
+    <p class="auth-intro">Enter your account email and we'll send you a link to reset your password.</p>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="rs-email" placeholder="admin@livewellsupport.com.au" autocomplete="username">
+    </div>
+    <button class="btn-coral" id="btn-reset" onclick="sendReset()">Send Reset Link →</button>
+    <div class="error-msg" id="reset-err"></div>
+    <div class="success-msg" id="reset-ok"></div>
+    <div class="auth-foot"><button type="button" class="auth-link" onclick="showLogin()">← Back to sign in</button></div>
+  </div>
+</div>
+
+<!-- ── SET NEW PASSWORD (after email link) ─── -->
+<div id="view-newpass">
+  <div class="login-card">
+    <div class="login-logo">Live<em>Well</em> Support</div>
+    <div class="login-tag">Set New Password</div>
+    <p class="auth-intro">Choose a new password for your admin account.</p>
+    <div class="form-group">
+      <label>New Password</label>
+      <input type="password" id="np-pass" placeholder="At least 8 characters" autocomplete="new-password">
+    </div>
+    <div class="form-group">
+      <label>Confirm New Password</label>
+      <input type="password" id="np-pass2" placeholder="Re-enter password" autocomplete="new-password">
+    </div>
+    <button class="btn-coral" id="btn-newpass" onclick="updatePassword()">Update Password →</button>
+    <div class="error-msg" id="newpass-err"></div>
+    <div class="success-msg" id="newpass-ok"></div>
   </div>
 </div>
 
@@ -409,20 +458,89 @@ let existingPhotos = []; // { id, storage_path, url }
 let currentStatus = 'active';
 
 // ── INIT ─────────────────────────────────────
+let recoveryMode = false;
+
+// When the user opens the reset link from their email, Supabase emits this event.
+sb.auth.onAuthStateChange((event) => {
+  if (event === 'PASSWORD_RECOVERY') { recoveryMode = true; showNewPass(); }
+});
+
 async function init() {
+  // Arriving from a password-reset email link
+  if (window.location.hash.includes('type=recovery')) { recoveryMode = true; showNewPass(); return; }
   const { data: { session } } = await sb.auth.getSession();
+  if (recoveryMode) return;
   session ? showDash(session.user.email) : showLogin();
 }
 
+function hideAuthViews() {
+  ['view-login','view-reset','view-newpass'].forEach(id => { document.getElementById(id).style.display = 'none'; });
+}
 function showLogin() {
+  hideAuthViews();
   document.getElementById('view-login').style.display = 'flex';
   document.getElementById('view-dashboard').style.display = 'none';
 }
+function showReset() {
+  hideAuthViews();
+  document.getElementById('reset-err').style.display = 'none';
+  document.getElementById('reset-ok').style.display = 'none';
+  document.getElementById('view-dashboard').style.display = 'none';
+  document.getElementById('view-reset').style.display = 'flex';
+  document.getElementById('rs-email').value = document.getElementById('li-email').value.trim();
+}
+function showNewPass() {
+  hideAuthViews();
+  document.getElementById('newpass-err').style.display = 'none';
+  document.getElementById('newpass-ok').style.display = 'none';
+  document.getElementById('view-dashboard').style.display = 'none';
+  document.getElementById('view-newpass').style.display = 'flex';
+}
 function showDash(email) {
-  document.getElementById('view-login').style.display = 'none';
+  hideAuthViews();
   document.getElementById('view-dashboard').style.display = 'block';
   document.getElementById('admin-email').textContent = email;
   loadListings();
+}
+
+// ── PASSWORD RESET ────────────────────────────
+async function sendReset() {
+  const email = document.getElementById('rs-email').value.trim();
+  const errEl = document.getElementById('reset-err');
+  const okEl  = document.getElementById('reset-ok');
+  const btn   = document.getElementById('btn-reset');
+  errEl.style.display = 'none'; okEl.style.display = 'none';
+  if (!email) { errEl.textContent = 'Please enter your email address.'; errEl.style.display = 'block'; return; }
+  btn.disabled = true; btn.textContent = 'Sending...';
+  const redirectTo = window.location.origin + window.location.pathname;
+  const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo });
+  btn.disabled = false; btn.textContent = 'Send Reset Link →';
+  if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+  okEl.textContent = 'If an account exists for that email, a reset link is on its way. Check your inbox (and spam folder).';
+  okEl.style.display = 'block';
+}
+
+async function updatePassword() {
+  const p1 = document.getElementById('np-pass').value;
+  const p2 = document.getElementById('np-pass2').value;
+  const errEl = document.getElementById('newpass-err');
+  const okEl  = document.getElementById('newpass-ok');
+  const btn   = document.getElementById('btn-newpass');
+  errEl.style.display = 'none'; okEl.style.display = 'none';
+  if (p1.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; errEl.style.display = 'block'; return; }
+  if (p1 !== p2)     { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; return; }
+  btn.disabled = true; btn.textContent = 'Updating...';
+  const { error } = await sb.auth.updateUser({ password: p1 });
+  btn.disabled = false; btn.textContent = 'Update Password →';
+  if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+  okEl.textContent = '✓ Password updated. Signing you in...';
+  okEl.style.display = 'block';
+  recoveryMode = false;
+  history.replaceState(null, '', window.location.pathname);
+  setTimeout(async () => {
+    const { data: { session } } = await sb.auth.getSession();
+    session ? showDash(session.user.email) : showLogin();
+  }, 900);
 }
 
 // ── AUTH ──────────────────────────────────────
@@ -440,6 +558,8 @@ async function login() {
 }
 async function signOut() { await sb.auth.signOut(); showLogin(); }
 document.getElementById('li-pass').addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+document.getElementById('rs-email').addEventListener('keydown', e => { if(e.key==='Enter') sendReset(); });
+document.getElementById('np-pass2').addEventListener('keydown', e => { if(e.key==='Enter') updatePassword(); });
 
 // ── LOAD LISTINGS ─────────────────────────────
 async function loadListings() {
