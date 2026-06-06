@@ -466,8 +466,21 @@ sb.auth.onAuthStateChange((event) => {
 });
 
 async function init() {
-  // Arriving from a password-reset email link
-  if (window.location.hash.includes('type=recovery')) { recoveryMode = true; showNewPass(); return; }
+  const hp = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+  // Expired / invalid reset link → show the reset screen with a helpful message
+  if (hp.get('error')) {
+    history.replaceState(null, '', window.location.pathname);
+    showReset();
+    const desc = hp.get('error_description')
+      ? decodeURIComponent(hp.get('error_description').replace(/\+/g, ' '))
+      : 'That reset link is invalid or has expired.';
+    const errEl = document.getElementById('reset-err');
+    errEl.textContent = desc + ' Please request a new link below.';
+    errEl.style.display = 'block';
+    return;
+  }
+  // Arriving from a valid password-reset email link
+  if (hp.get('type') === 'recovery') { recoveryMode = true; showNewPass(); return; }
   const { data: { session } } = await sb.auth.getSession();
   if (recoveryMode) return;
   session ? showDash(session.user.email) : showLogin();
