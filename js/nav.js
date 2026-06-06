@@ -100,7 +100,6 @@ document.getElementById('nav-placeholder').innerHTML = `
       </div>
     </li>
     <li><a href="${BASE}about.html">About Us</a></li>
-    <li><a href="${BASE}team.html">Our Team</a></li>
     <li><a href="${BASE}gallery.html">Gallery</a></li>
     <li><a href="${BASE}contact.html">Contact</a></li>
     <li><a href="${BASE}referral.html" class="nav-cta">Refer a Client</a></li>
@@ -147,7 +146,6 @@ document.getElementById('footer-placeholder').innerHTML = `
     </ul></div>
     <div class="fc"><h4>Company</h4><ul>
       <li><a href="${BASE}about.html">About Us</a></li>
-      <li><a href="${BASE}team.html">Our Team</a></li>
       <li><a href="${BASE}gallery.html">Gallery</a></li>
       <li><a href="${BASE}referral.html">Refer a Client</a></li>
       <li><a href="${BASE}contact.html">Contact Us</a></li>
