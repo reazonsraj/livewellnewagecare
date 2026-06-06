@@ -104,6 +104,7 @@ document.getElementById('nav-placeholder').innerHTML = `
     <li><a href="${BASE}contact.html">Contact</a></li>
     <li><a href="${BASE}referral.html" class="nav-cta">Refer a Client</a></li>
   </ul>
+  <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>`;
 
 document.getElementById('footer-placeholder').innerHTML = `
@@ -157,22 +158,50 @@ document.getElementById('footer-placeholder').innerHTML = `
     <span class="fb2-copy">© 2025 Live Well Care And Support Pty Ltd. All rights reserved.</span>
     <div class="fb2-badges">
       <span class="fbadge g">NDIS Registered</span>
-      <span class="fbadge">Aged Care Provider</span>
+      <span class="fbadge">Support at Home</span>
       <span class="fbadge">NDIS Practice Standards</span>
     </div>
   </div>
 </footer>`;
 
-// Dropdown hover with delay — applies to all .has-dd items (Services + Aged Care)
+// ── Mobile menu toggle (hamburger) ──
+const navEl = document.querySelector('nav');
+const navToggle = document.querySelector('.nav-toggle');
+const isMobile = () => window.innerWidth <= 980;
+
+navToggle.addEventListener('click', () => {
+  const open = navEl.classList.toggle('nav-open');
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+// Dropdowns: hover-with-delay on desktop, tap-to-expand accordion on mobile
 document.querySelectorAll('.has-dd').forEach(li => {
   const dd = li.querySelector('.dropdown');
+  const link = li.querySelector(':scope > a');
   let timer;
-  function open()  { clearTimeout(timer); dd.classList.add('open'); li.classList.add('dd-open'); }
-  function close() { timer = setTimeout(() => { dd.classList.remove('open'); li.classList.remove('dd-open'); }, 400); }
+  function open()  { if(isMobile())return; clearTimeout(timer); dd.classList.add('open'); li.classList.add('dd-open'); }
+  function close() { if(isMobile())return; timer = setTimeout(() => { dd.classList.remove('open'); li.classList.remove('dd-open'); }, 400); }
   li.addEventListener('mouseenter', open);
   li.addEventListener('mouseleave', close);
-  dd.addEventListener('mouseenter', () => clearTimeout(timer));
+  dd.addEventListener('mouseenter', () => { if(!isMobile()) clearTimeout(timer); });
   dd.addEventListener('mouseleave', close);
+  // On mobile, tapping the parent expands the submenu instead of navigating
+  link.addEventListener('click', e => {
+    if (!isMobile()) return;
+    e.preventDefault();
+    const isOpen = dd.classList.toggle('open');
+    li.classList.toggle('dd-open', isOpen);
+  });
+});
+
+// Close the mobile menu after tapping a normal (non-dropdown-parent) link
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    if (isMobile() && !a.parentElement.classList.contains('has-dd')) {
+      navEl.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
 });
 
 // Scroll reveal
