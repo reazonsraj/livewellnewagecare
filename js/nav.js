@@ -150,8 +150,6 @@ document.getElementById('footer-placeholder').innerHTML = `
       <li><a href="${BASE}gallery.html">Gallery</a></li>
       <li><a href="${BASE}referral.html">Refer a Client</a></li>
       <li><a href="${BASE}contact.html">Contact Us</a></li>
-      <li><a href="${BASE}privacy.html">Privacy Policy</a></li>
-      <li><a href="${BASE}complaints.html">Complaints Policy</a></li>
     </ul></div>
   </div>
   <div class="fb2">
