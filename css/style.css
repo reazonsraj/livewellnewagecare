@@ -55,7 +55,9 @@ nav {
   background:rgba(253,250,245,.94);backdrop-filter:blur(16px);
   border-bottom:1px solid rgba(196,168,130,.15);
 }
-.logo { display:flex;flex-direction:column;font-family:var(--fd);font-size:22px;font-weight:600;color:var(--midnight);letter-spacing:-.3px;line-height:1.1; }
+.logo { display:flex;align-items:center;line-height:0; }
+.logo-img { height:58px;width:auto;display:block;transition:transform .25s ease; }
+.logo:hover .logo-img { transform:scale(1.03); }
 .logo em { font-style:normal;color:var(--coral); }
 .logo small { font-family:var(--fb);font-size:9px;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;color:var(--midnight);opacity:.35;margin-top:1px; }
 

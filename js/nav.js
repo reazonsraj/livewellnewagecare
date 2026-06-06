@@ -7,7 +7,7 @@ const BASE = (()=>{
 
 document.getElementById('nav-placeholder').innerHTML = `
 <nav>
-  <a href="${BASE}index.html" class="logo">Live<em>Well</em> Support<small>Care And Support</small></a>
+  <a href="${BASE}index.html" class="logo" aria-label="Live Well Care And Support — Home"><img src="${BASE}images/logo.png" alt="Live Well Care And Support" class="logo-img"></a>
   <ul class="nav-links">
     <li class="has-dd">
       <a href="${BASE}services/index.html">Services</a>
