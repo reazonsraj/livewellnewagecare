@@ -76,9 +76,14 @@
 .hero{min-height:100vh;padding-top:72px;display:grid;grid-template-columns:52% 48%;overflow:hidden}
 .hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 56px 80px 80px;background:var(--linen);position:relative}
 .hero-left::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 80% 50%,rgba(217,111,71,.06) 0%,transparent 70%);pointer-events:none}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
 .hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--coral-lt);border:1px solid rgba(217,111,71,.2);border-radius:100px;padding:7px 16px;margin-bottom:28px;width:fit-content}
+.hero-tags .hero-tag{margin-bottom:0}
 .hero-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--coral)}
 .hero-tag span{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral)}
+.hero-tag.sage{background:var(--sage-lt);border-color:rgba(122,175,143,.32)}
+.hero-tag.sage .dot{background:var(--sage)}
+.hero-tag.sage span{color:#4d7a60}
 .hero-h1{font-family:var(--fd);font-size:clamp(52px,5.5vw,78px);font-weight:600;line-height:1.05;letter-spacing:-2px;color:var(--midnight);margin-bottom:24px;position:relative;z-index:1}
 .hero-h1 em{font-style:italic;color:var(--coral)}
 .hero-sub{font-size:17px;font-weight:300;line-height:1.78;color:var(--midnight);opacity:.62;max-width:430px;margin-bottom:40px;position:relative;z-index:1}
@@ -1065,9 +1070,12 @@
 ════════════════════════════════════════════════ -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-tag a1"><span class="dot"></span><span>Nationally Registered NDIS Provider</span></div>
+    <div class="hero-tags a1">
+      <div class="hero-tag"><span class="dot"></span><span>Registered NDIS Provider</span></div>
+      <div class="hero-tag sage"><span class="dot"></span><span>Support at Home · Aged Care</span></div>
+    </div>
     <h1 class="hero-h1 a2">Supporting You<br>to <em>Live Well,</em><br>Every Day</h1>
-    <p class="hero-sub a3">Empowering people of all abilities through flexible, individualised support — promoting independence, self-confidence, and active participation across Darwin, Palmerston, Tiwi &amp; Casuarina.</p>
+    <p class="hero-sub a3">Empowering people of all abilities through flexible, individualised NDIS support — plus in-home aged care for older Australians through the Government's <strong style="font-weight:600;opacity:.85">Support at Home</strong> program. Promoting independence and active participation across Darwin, Palmerston, Tiwi &amp; Casuarina.</p>
     <div class="hero-btns a4">
       <a href="referral.html" class="btn-coral">Get Started Today →</a>
       <a href="services/index.html" class="btn-outline">Explore Services</a>
