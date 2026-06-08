@@ -1,16 +1,24 @@
--- ════════════════════════════════════════════════════════════════
--- Aged Care Pricing — Supabase setup
+-- ================================================================
+-- Aged Care Pricing - Supabase setup
 -- Run this ONCE in the Supabase SQL Editor:
 --   https://supabase.com/dashboard/project/qliweczadyilywpftsbw/sql/new
 -- Paste everything below, then click "Run".
--- ════════════════════════════════════════════════════════════════
+-- ================================================================
 
 -- 1. Table
-create table if not exists public.aged_care_pricing (
+-- Drop any earlier/partial version first so we always get the correct schema.
+-- (Safe during setup - there is no real pricing data yet.)
+drop table if exists public.aged_care_pricing cascade;
+
+create table public.aged_care_pricing (
   id            uuid primary key default gen_random_uuid(),
-  service       text not null,                 -- e.g. "Personal Care"
-  category      text,                          -- optional grouping, e.g. "Daily Living"
-  rate          numeric(10,2),                 -- e.g. 72.00
+  service              text not null,          -- e.g. "Personal Care"
+  category             text,                   -- optional grouping, e.g. "Daily Living"
+  rate                 numeric(10,2),          -- legacy single rate (mirrors weekday)
+  rate_weekday         numeric(10,2),          -- e.g. 72.00  (required in admin)
+  rate_saturday        numeric(10,2),          -- optional; blank shows "-" on site
+  rate_sunday          numeric(10,2),          -- optional
+  rate_public_holiday  numeric(10,2),          -- optional
   unit          text not null default 'per hour',
   notes         text,                          -- optional short description
   display_order int  not null default 0,       -- controls order on the page
@@ -50,7 +58,7 @@ create policy "auth delete pricing"
   on public.aged_care_pricing for delete
   to authenticated using (true);
 
--- 3. (Optional) Example starter rows — EDIT the rates, then uncomment to insert.
+-- 3. (Optional) Example starter rows - EDIT the rates, then uncomment to insert.
 --    Delete this block if you'd rather add everything via the admin page.
 -- insert into public.aged_care_pricing (service, category, rate, unit, notes, display_order) values
 --   ('Personal Care',        'Daily Living', 72.00, 'per hour', 'Bathing, grooming, dressing, and morning/evening routines.', 1),

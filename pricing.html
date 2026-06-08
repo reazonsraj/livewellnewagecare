@@ -14,14 +14,18 @@
 .price-group:last-of-type { margin-bottom:0; }
 .price-group-title { font-family:var(--fd);font-size:24px;font-weight:600;color:var(--midnight);
   margin-bottom:8px;padding-bottom:14px;border-bottom:2px solid var(--coral); }
-.price-row { display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
-  padding:20px 4px;border-bottom:1px solid var(--fog); }
+.price-row { padding:24px 4px;border-bottom:1px solid var(--fog); }
 .price-row:last-child { border-bottom:none; }
-.price-name { font-size:16px;font-weight:600;color:var(--midnight);line-height:1.35; }
-.price-notes { font-size:13.5px;line-height:1.6;color:var(--midnight);opacity:.5;margin-top:4px;max-width:520px; }
-.price-amt { text-align:right;flex-shrink:0;white-space:nowrap; }
-.price-rate { font-family:var(--fd);font-size:26px;font-weight:700;color:var(--coral);line-height:1; }
-.price-unit { font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;opacity:.4;margin-top:5px; }
+.price-name { font-size:17px;font-weight:600;color:var(--midnight);line-height:1.35; }
+.price-notes { font-size:13.5px;line-height:1.6;color:var(--midnight);opacity:.5;margin-top:4px;max-width:620px; }
+.price-strip { display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:16px;
+  background:var(--fog);border:1px solid var(--fog);border-radius:12px;overflow:hidden; }
+.price-cell { background:#fff;padding:14px 8px;text-align:center; }
+.pc-label { font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;opacity:.4;margin-bottom:6px; }
+.pc-amt { font-family:var(--fd);font-size:23px;font-weight:700;color:var(--coral);line-height:1; }
+.pc-amt.blank { color:var(--midnight);opacity:.28; }
+.pc-unit { font-size:10px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;opacity:.4;margin-top:5px; }
+@media(max-width:560px){ .price-strip { grid-template-columns:repeat(2,1fr); } }
 .price-state { text-align:center;padding:48px 20px;opacity:.5;font-size:15px; }
 .price-note { font-size:13px;line-height:1.7;color:var(--midnight);opacity:.5;margin-top:36px;
   padding-top:22px;border-top:1px solid var(--sand); }
@@ -123,18 +127,28 @@ async function loadPricing(){
   wrap.innerHTML = groups.map(cat => `
     <div class="price-group">
       <div class="price-group-title">${esc(cat)}</div>
-      ${map[cat].map(r => `
+      ${map[cat].map(r => {
+        const unit = esc(r.unit || 'per hour');
+        const cell = (label, val) => {
+          const has = val!==null && val!==undefined && val!=='' && !isNaN(Number(val));
+          return `<div class="price-cell">
+            <div class="pc-label">${label}</div>
+            <div class="pc-amt${has?'':' blank'}">${has?money(val):'—'}</div>
+            <div class="pc-unit">${has?unit:'&nbsp;'}</div>
+          </div>`;
+        };
+        return `
         <div class="price-row">
-          <div>
-            <div class="price-name">${esc(r.service)}</div>
-            ${r.notes ? `<div class="price-notes">${esc(r.notes)}</div>` : ''}
+          <div class="price-name">${esc(r.service)}</div>
+          ${r.notes ? `<div class="price-notes">${esc(r.notes)}</div>` : ''}
+          <div class="price-strip">
+            ${cell('Weekday', r.rate_weekday ?? r.rate)}
+            ${cell('Saturday', r.rate_saturday)}
+            ${cell('Sunday', r.rate_sunday)}
+            ${cell('Public Hol', r.rate_public_holiday)}
           </div>
-          <div class="price-amt">
-            <div class="price-rate">${money(r.rate)}</div>
-            <div class="price-unit">${esc(r.unit || 'per hour')}</div>
-          </div>
-        </div>
-      `).join('')}
+        </div>`;
+      }).join('')}
     </div>
   `).join('');
 

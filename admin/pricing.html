@@ -55,6 +55,9 @@ input,select,textarea,button{font-family:var(--fb)}
 .p-notes{font-size:12px;opacity:.45;margin-top:2px;max-width:380px}
 .p-rate{font-family:var(--fd);font-size:20px;font-weight:700;color:var(--coral)}
 .p-unit{font-size:12px;opacity:.4}
+.p-rates{display:flex;flex-wrap:wrap;gap:5px 14px}
+.p-rates span{white-space:nowrap;font-size:14px;font-weight:600;color:var(--coral)}
+.p-rates b{font-weight:700;opacity:.35;margin-right:4px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--midnight)}
 .badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:700}
 .badge::before{content:'';width:6px;height:6px;border-radius:50%}
 .badge-on{background:#dcfce7;color:#15803d}.badge-on::before{background:#22c55e}
@@ -165,13 +168,27 @@ input,select,textarea,button{font-family:var(--fb)}
       </div>
       <div class="frow">
         <div class="form-group">
-          <label>Rate (AUD) *</label>
-          <input type="number" id="f-rate" placeholder="72.00" step="0.01" min="0">
+          <label>Weekday Rate (AUD) *</label>
+          <input type="number" id="f-rate-weekday" placeholder="72.00" step="0.01" min="0">
         </div>
         <div class="form-group">
-          <label>Unit</label>
-          <input type="text" id="f-unit" value="per hour" placeholder="per hour">
+          <label>Saturday Rate (AUD)</label>
+          <input type="number" id="f-rate-saturday" placeholder="101.00" step="0.01" min="0">
         </div>
+      </div>
+      <div class="frow">
+        <div class="form-group">
+          <label>Sunday Rate (AUD)</label>
+          <input type="number" id="f-rate-sunday" placeholder="130.00" step="0.01" min="0">
+        </div>
+        <div class="form-group">
+          <label>Public Holiday Rate (AUD)</label>
+          <input type="number" id="f-rate-ph" placeholder="158.00" step="0.01" min="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Unit</label>
+        <input type="text" id="f-unit" value="per hour" placeholder="per hour">
       </div>
       <div class="form-group">
         <label>Notes (optional)</label>
@@ -196,7 +213,7 @@ const SB_KEY = 'sb_publishable_TSBi90tG13rbTrsAk6tJQw_hlWUaFkB';
 const sb = supabase.createClient(SB_URL, SB_KEY);
 
 function esc(s){ return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
-function money(n){ const v=Number(n); return isNaN(v)?'—':'$'+v.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function money(n){ if(n===null||n===undefined||n==='') return '—'; const v=Number(n); return isNaN(v)?'—':'$'+v.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 
 // ── Auth guard ──
 async function init(){
@@ -231,7 +248,12 @@ async function loadRows(){
       <td>${r.display_order}</td>
       <td><div class="p-service">${esc(r.service)}</div>${r.notes?`<div class="p-notes">${esc(r.notes)}</div>`:''}</td>
       <td class="hide-sm">${esc(r.category)||'—'}</td>
-      <td><span class="p-rate">${money(r.rate)}</span> <span class="p-unit">${esc(r.unit||'per hour')}</span></td>
+      <td><div class="p-rates">
+        <span><b>Wk</b>${money(r.rate_weekday ?? r.rate)}</span>
+        <span><b>Sat</b>${money(r.rate_saturday)}</span>
+        <span><b>Sun</b>${money(r.rate_sunday)}</span>
+        <span><b>PH</b>${money(r.rate_public_holiday)}</span>
+      </div></td>
       <td><span class="badge ${r.active?'badge-on':'badge-off'}">${r.active?'Active':'Hidden'}</span></td>
       <td><div class="row-actions">
         <button class="btn-tbl" onclick='openModal(${JSON.stringify(r.id)})'>✏️ Edit</button>
@@ -257,10 +279,14 @@ async function openModal(id=null){
   document.body.style.overflow='hidden';
 }
 function setF(r){
+  const rv = v => (v===null||v===undefined||v==='') ? '' : v;
   document.getElementById('f-service').value  = r.service||'';
   document.getElementById('f-category').value = r.category||'';
   document.getElementById('f-order').value    = r.display_order ?? 0;
-  document.getElementById('f-rate').value     = (r.rate ?? '')===null?'':(r.rate??'');
+  document.getElementById('f-rate-weekday').value  = rv(r.rate_weekday ?? r.rate);
+  document.getElementById('f-rate-saturday').value = rv(r.rate_saturday);
+  document.getElementById('f-rate-sunday').value   = rv(r.rate_sunday);
+  document.getElementById('f-rate-ph').value       = rv(r.rate_public_holiday);
   document.getElementById('f-unit').value     = r.unit||'per hour';
   document.getElementById('f-notes').value    = r.notes||'';
   document.getElementById('f-active').checked = r.active!==false;
@@ -270,20 +296,29 @@ function backdrop(e){ if(e.target===document.getElementById('modal')) closeModal
 
 async function savePrice(){
   const service = document.getElementById('f-service').value.trim();
-  const rateRaw = document.getElementById('f-rate').value;
+  const num = id => { const v = document.getElementById(id).value.trim(); return v===''? null : Number(v); };
+  const wk = num('f-rate-weekday');
   if (!service){ alert('Service name is required.'); return; }
-  if (rateRaw==='' || isNaN(Number(rateRaw))){ alert('Please enter a valid rate.'); return; }
+  if (wk===null || isNaN(wk)){ alert('Please enter a valid weekday rate.'); return; }
+  const sat = num('f-rate-saturday'), sun = num('f-rate-sunday'), ph = num('f-rate-ph');
+  for (const [v,label] of [[sat,'Saturday'],[sun,'Sunday'],[ph,'Public Holiday']]){
+    if (v!==null && isNaN(v)){ alert('Please enter a valid '+label+' rate, or leave it blank.'); return; }
+  }
   const btn=document.getElementById('btn-save'), msg=document.getElementById('save-msg');
   btn.disabled=true; msg.textContent='Saving…';
   const payload = {
     service,
-    category:      document.getElementById('f-category').value.trim() || null,
-    display_order: parseInt(document.getElementById('f-order').value)||0,
-    rate:          Number(rateRaw),
-    unit:          document.getElementById('f-unit').value.trim() || 'per hour',
-    notes:         document.getElementById('f-notes').value.trim() || null,
-    active:        document.getElementById('f-active').checked,
-    updated_at:    new Date().toISOString(),
+    category:            document.getElementById('f-category').value.trim() || null,
+    display_order:       parseInt(document.getElementById('f-order').value)||0,
+    rate_weekday:        wk,
+    rate_saturday:       sat,
+    rate_sunday:         sun,
+    rate_public_holiday: ph,
+    rate:                wk,
+    unit:                document.getElementById('f-unit').value.trim() || 'per hour',
+    notes:               document.getElementById('f-notes').value.trim() || null,
+    active:              document.getElementById('f-active').checked,
+    updated_at:          new Date().toISOString(),
   };
   const id = document.getElementById('f-id').value;
   let error;
