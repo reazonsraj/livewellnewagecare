@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aged Care Fees &amp; Pricing | Live Well Care And Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=2026d">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+.price-group { margin-bottom:40px; }
+.price-group:last-of-type { margin-bottom:0; }
+.price-group-title { font-family:var(--fd);font-size:24px;font-weight:600;color:var(--midnight);
+  margin-bottom:8px;padding-bottom:14px;border-bottom:2px solid var(--coral); }
+.price-row { display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
+  padding:20px 4px;border-bottom:1px solid var(--fog); }
+.price-row:last-child { border-bottom:none; }
+.price-name { font-size:16px;font-weight:600;color:var(--midnight);line-height:1.35; }
+.price-notes { font-size:13.5px;line-height:1.6;color:var(--midnight);opacity:.5;margin-top:4px;max-width:520px; }
+.price-amt { text-align:right;flex-shrink:0;white-space:nowrap; }
+.price-rate { font-family:var(--fd);font-size:26px;font-weight:700;color:var(--coral);line-height:1; }
+.price-unit { font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;opacity:.4;margin-top:5px; }
+.price-state { text-align:center;padding:48px 20px;opacity:.5;font-size:15px; }
+.price-note { font-size:13px;line-height:1.7;color:var(--midnight);opacity:.5;margin-top:36px;
+  padding-top:22px;border-top:1px solid var(--sand); }
+.price-updated { font-size:12px;color:var(--midnight);opacity:.4;margin-top:8px; }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- HERO -->
+<section class="page-hero">
+  <img class="page-hero-img" src="images/ndis/sunflower.jpg" alt="Aged Care Pricing">
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">›</span><a href="aged-care.html">Aged Care</a><span class="sep">›</span><span>Pricing</span></div>
+    <div class="eyebrow white">Fees &amp; Pricing</div>
+    <h1>Clear, Honest<br><em>Aged Care Pricing</em></h1>
+    <p>Transparent hourly rates for our Support at Home services — so you can plan with confidence. Final fees are always confirmed with you after assessment.</p>
+    <div class="page-hero-btns"><a href="referral.html" class="btn-coral">Enquire Now →</a><a href="contact.html" class="btn-ghost-white">Ask About Fees</a></div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="sec-intro reveal" style="padding-bottom:40px;">
+  <div class="container">
+    <div style="text-align:center;max-width:720px;margin:0 auto;">
+      <div class="section-label" style="justify-content:center;">Support at Home</div>
+      <h2 class="section-title">Our Service<br><em>Rates</em></h2>
+      <p class="section-desc wide" style="margin:16px auto 0;">The indicative hourly rates below apply to our aged care services delivered under the Australian Government's Support at Home program. Your final fees depend on your assessment, care plan, and any government contribution you're eligible for.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING TABLE -->
+<section class="section" style="background:#fff;padding-top:0;">
+  <div class="container" style="max-width:880px;">
+    <div id="pricing-wrap">
+      <div class="price-state">Loading current rates…</div>
+    </div>
+    <p class="price-note" id="price-note" style="display:none;">
+      Prices shown are indicative and inclusive of GST where applicable. They are a guide only and do not constitute a quote or an offer of services. Your actual fees will be confirmed in writing in your care plan following an assessment of your needs. Rates are subject to change; please contact us to confirm current pricing.
+    </p>
+    <p class="price-updated" id="price-updated"></p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section linen reveal" style="padding-top:60px;">
+  <div class="cta-band">
+    <div class="cta-left">
+      <h2>Questions About<br>Fees or Funding?</h2>
+      <p>We're happy to walk you through pricing, Support at Home funding, and what you may be eligible for. We respond within 24 hours.</p>
+    </div>
+    <div class="cta-right">
+      <h3>Talk to Us</h3>
+      <p>No obligation — just a friendly chat about your options.</p>
+      <a href="contact.html" class="btn-white" style="position:relative;z-index:1;">Contact Us →</a>
+      <a href="aged-care.html" class="btn-ghost-white" style="position:relative;z-index:1;">Aged Care Services</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="js/nav.js?v=2026d"></script>
+<script>
+const SB_URL = 'https://qliweczadyilywpftsbw.supabase.co';
+const SB_KEY = 'sb_publishable_TSBi90tG13rbTrsAk6tJQw_hlWUaFkB';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+function esc(s){ return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
+function money(n){ const v = Number(n); return isNaN(v) ? '' : '$' + v.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+async function loadPricing(){
+  const wrap = document.getElementById('pricing-wrap');
+  const { data, error } = await sb.from('aged_care_pricing')
+    .select('*')
+    .eq('active', true)
+    .order('display_order', { ascending: true });
+
+  if (error){
+    wrap.innerHTML = `<div class="price-state">We couldn't load pricing right now. Please <a href="contact.html" style="color:var(--coral);font-weight:600;">contact us</a> for current rates.</div>`;
+    console.error(error);
+    return;
+  }
+  if (!data || !data.length){
+    wrap.innerHTML = `<div class="price-state">Pricing is being updated. Please <a href="contact.html" style="color:var(--coral);font-weight:600;">contact us</a> for our current rates.</div>`;
+    return;
+  }
+
+  // Group by category (preserve display order)
+  const groups = [];
+  const map = {};
+  data.forEach(r => {
+    const cat = (r.category && r.category.trim()) || 'Services';
+    if (!map[cat]) { map[cat] = []; groups.push(cat); }
+    map[cat].push(r);
+  });
+
+  wrap.innerHTML = groups.map(cat => `
+    <div class="price-group">
+      <div class="price-group-title">${esc(cat)}</div>
+      ${map[cat].map(r => `
+        <div class="price-row">
+          <div>
+            <div class="price-name">${esc(r.service)}</div>
+            ${r.notes ? `<div class="price-notes">${esc(r.notes)}</div>` : ''}
+          </div>
+          <div class="price-amt">
+            <div class="price-rate">${money(r.rate)}</div>
+            <div class="price-unit">${esc(r.unit || 'per hour')}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+
+  document.getElementById('price-note').style.display = 'block';
+
+  // Show last-updated from the most recent row
+  const latest = data.map(r => r.updated_at).filter(Boolean).sort().pop();
+  if (latest){
+    const d = new Date(latest);
+    document.getElementById('price-updated').textContent =
+      'Prices last updated ' + d.toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'}) + '.';
+  }
+}
+loadPricing();
+</script>
+</body>
+</html>

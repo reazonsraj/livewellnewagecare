@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Aged Care Pricing · Live Well</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --coral:#D96F47;--coral-dk:#b85a35;--coral-lt:#f5e6de;
+  --midnight:#152030;--linen:#FDFAF5;--warm:#F4EFE8;
+  --sand:#E8D9C0;--fog:#F0EBE2;--sage:#7AAF8F;
+  --fd:'Cormorant Garamond',Georgia,serif;--fb:'DM Sans',sans-serif;
+  --r:12px;--shadow:0 2px 16px rgba(21,32,48,.08);--shadow-lg:0 24px 64px rgba(21,32,48,.18);
+}
+body{font-family:var(--fb);background:var(--linen);color:var(--midnight);min-height:100vh}
+input,select,textarea,button{font-family:var(--fb)}
+
+#gate{min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--midnight);opacity:.5;font-size:15px}
+
+.admin-nav{
+  background:var(--midnight);padding:0 40px;height:66px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+.admin-logo{font-family:var(--fd);font-size:22px;font-weight:600;color:#fff}
+.admin-logo em{color:var(--coral);font-style:normal}
+.admin-logo small{font-family:var(--fb);font-size:11px;font-weight:400;opacity:.35;margin-left:6px;letter-spacing:.5px}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-link{padding:7px 16px;border:1.5px solid rgba(255,255,255,.18);color:rgba(255,255,255,.65);
+  background:none;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;text-decoration:none}
+.nav-link:hover{border-color:rgba(255,255,255,.5);color:#fff}
+
+.dash-body{padding:40px;max-width:1100px;margin:0 auto}
+.dash-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.dash-heading{font-family:var(--fd);font-size:36px;font-weight:600}
+.dash-heading small{font-size:14px;font-family:var(--fb);font-weight:400;opacity:.35;margin-left:8px}
+.btn-new{display:flex;align-items:center;gap:8px;padding:12px 22px;background:var(--coral);color:#fff;
+  border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+.btn-new:hover{background:var(--coral-dk)}
+.hint{font-size:13px;line-height:1.6;opacity:.5;margin-bottom:24px;max-width:640px}
+
+.table-wrap{background:#fff;border-radius:14px;overflow:hidden;border:1px solid rgba(21,32,48,.06);box-shadow:var(--shadow)}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{padding:14px 18px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;opacity:.3;border-bottom:1px solid var(--sand);background:var(--linen)}
+.tbl td{padding:15px 18px;border-bottom:1px solid var(--fog);vertical-align:middle;font-size:14px}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#fffbf8}
+.p-service{font-weight:600}
+.p-notes{font-size:12px;opacity:.45;margin-top:2px;max-width:380px}
+.p-rate{font-family:var(--fd);font-size:20px;font-weight:700;color:var(--coral)}
+.p-unit{font-size:12px;opacity:.4}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:700}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%}
+.badge-on{background:#dcfce7;color:#15803d}.badge-on::before{background:#22c55e}
+.badge-off{background:var(--fog);color:var(--midnight);opacity:.6}.badge-off::before{background:#94a3b8}
+.row-actions{display:flex;gap:8px}
+.btn-tbl{padding:6px 14px;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;
+  border:1.5px solid var(--sand);background:#fff;transition:all .15s;white-space:nowrap}
+.btn-tbl:hover{border-color:var(--coral);color:var(--coral)}
+.btn-tbl.del:hover{border-color:#ef4444;color:#ef4444}
+.empty-state{text-align:center;padding:64px 20px;opacity:.35}
+.empty-state .ei{font-size:48px;margin-bottom:14px}
+
+/* Modal */
+#modal{display:none;position:fixed;inset:0;background:rgba(21,32,48,.55);z-index:200;
+  overflow-y:auto;padding:32px 16px;backdrop-filter:blur(4px)}
+.modal-card{background:#fff;border-radius:18px;max-width:560px;margin:0 auto;box-shadow:var(--shadow-lg);overflow:hidden}
+.modal-head{background:var(--midnight);padding:24px 32px;display:flex;align-items:center;justify-content:space-between}
+.modal-head h2{font-family:var(--fd);font-size:24px;color:#fff;font-weight:600}
+.btn-x{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);
+  background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.btn-x:hover{border-color:#fff;color:#fff}
+.modal-body{padding:30px 32px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.45;margin-bottom:8px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 14px;border:1.5px solid var(--sand);
+  border-radius:9px;font-size:14px;color:var(--midnight);background:var(--linen);transition:border-color .2s;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--coral)}
+.form-group textarea{resize:vertical;min-height:70px;line-height:1.6}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.check-row{display:flex;align-items:center;gap:9px;margin-top:4px}
+.check-row input{width:17px;height:17px;accent-color:var(--coral);cursor:pointer}
+.check-row label{font-size:14px;cursor:pointer}
+.modal-foot{padding:20px 32px;border-top:1px solid var(--fog);display:flex;gap:12px;justify-content:flex-end;align-items:center}
+.save-msg{font-size:13px;opacity:.5;margin-right:auto}
+.btn-cancel{padding:11px 22px;border:1.5px solid var(--sand);border-radius:8px;background:none;font-size:14px;cursor:pointer;transition:border-color .18s}
+.btn-cancel:hover{border-color:var(--midnight)}
+.btn-save{padding:11px 26px;background:var(--coral);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+.btn-save:hover{background:var(--coral-dk)}
+.btn-save:disabled{opacity:.5;cursor:not-allowed}
+
+@media(max-width:640px){
+  .dash-body{padding:20px}
+  .admin-nav{padding:0 20px}
+  .frow{grid-template-columns:1fr}
+  .tbl .hide-sm{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="gate">Checking access…</div>
+
+<div id="app" style="display:none">
+  <nav class="admin-nav">
+    <div class="admin-logo">Live<em>Well</em><small>Pricing</small></div>
+    <div class="nav-right">
+      <a class="nav-link" href="index.html">← SIL Listings</a>
+      <button class="nav-link" onclick="signOut()">Sign Out</button>
+    </div>
+  </nav>
+  <div class="dash-body">
+    <div class="dash-top">
+      <div class="dash-heading">Aged Care Pricing <small id="count"></small></div>
+      <button class="btn-new" onclick="openModal()">+ Add Price</button>
+    </div>
+    <p class="hint">These rates appear on the public <strong>Pricing</strong> page. Set a row to <em>Inactive</em> to hide it without deleting. The <em>Order</em> number controls top-to-bottom position; rows are grouped by <em>Category</em>.</p>
+    <div class="table-wrap">
+      <table class="tbl">
+        <thead><tr>
+          <th style="width:60px">Order</th>
+          <th>Service</th>
+          <th class="hide-sm">Category</th>
+          <th>Rate</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr></thead>
+        <tbody id="rows">
+          <tr><td colspan="6"><div class="empty-state"><div class="ei">⏳</div><p>Loading…</p></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" onclick="backdrop(event)">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2 id="modal-title">Add Price</h2>
+      <button class="btn-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="f-id">
+      <div class="form-group">
+        <label>Service Name *</label>
+        <input type="text" id="f-service" placeholder="e.g. Personal Care">
+      </div>
+      <div class="frow">
+        <div class="form-group">
+          <label>Category</label>
+          <input type="text" id="f-category" placeholder="e.g. Daily Living" list="cat-list">
+          <datalist id="cat-list"></datalist>
+        </div>
+        <div class="form-group">
+          <label>Display Order</label>
+          <input type="number" id="f-order" value="0" min="0">
+        </div>
+      </div>
+      <div class="frow">
+        <div class="form-group">
+          <label>Rate (AUD) *</label>
+          <input type="number" id="f-rate" placeholder="72.00" step="0.01" min="0">
+        </div>
+        <div class="form-group">
+          <label>Unit</label>
+          <input type="text" id="f-unit" value="per hour" placeholder="per hour">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notes (optional)</label>
+        <textarea id="f-notes" placeholder="Short description shown under the service name."></textarea>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="f-active" checked>
+        <label for="f-active">Active — show on the public pricing page</label>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span class="save-msg" id="save-msg"></span>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" id="btn-save" onclick="savePrice()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SB_URL = 'https://qliweczadyilywpftsbw.supabase.co';
+const SB_KEY = 'sb_publishable_TSBi90tG13rbTrsAk6tJQw_hlWUaFkB';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+function esc(s){ return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
+function money(n){ const v=Number(n); return isNaN(v)?'—':'$'+v.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+// ── Auth guard ──
+async function init(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if (!session){ window.location.href = './'; return; }
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadRows();
+}
+async function signOut(){ await sb.auth.signOut(); window.location.href = './'; }
+
+// ── Load ──
+async function loadRows(){
+  const tbody = document.getElementById('rows');
+  const { data, error } = await sb.from('aged_care_pricing').select('*')
+    .order('display_order',{ascending:true}).order('service',{ascending:true});
+  if (error){
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="ei">❌</div><p>${esc(error.message)}<br><small>Have you run admin/pricing-setup.sql in Supabase?</small></p></div></td></tr>`;
+    return;
+  }
+  document.getElementById('count').textContent = `(${data.length})`;
+  // datalist of existing categories
+  const cats = [...new Set(data.map(r=>r.category).filter(Boolean))];
+  document.getElementById('cat-list').innerHTML = cats.map(c=>`<option value="${esc(c)}">`).join('');
+
+  if (!data.length){
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="ei">💲</div><p>No prices yet. Click "Add Price" to create your first one.</p></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map(r=>`
+    <tr>
+      <td>${r.display_order}</td>
+      <td><div class="p-service">${esc(r.service)}</div>${r.notes?`<div class="p-notes">${esc(r.notes)}</div>`:''}</td>
+      <td class="hide-sm">${esc(r.category)||'—'}</td>
+      <td><span class="p-rate">${money(r.rate)}</span> <span class="p-unit">${esc(r.unit||'per hour')}</span></td>
+      <td><span class="badge ${r.active?'badge-on':'badge-off'}">${r.active?'Active':'Hidden'}</span></td>
+      <td><div class="row-actions">
+        <button class="btn-tbl" onclick='openModal(${JSON.stringify(r.id)})'>✏️ Edit</button>
+        <button class="btn-tbl del" onclick='deleteRow(${JSON.stringify(r.id)}, ${JSON.stringify(r.service)})'>🗑 Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+// ── Modal ──
+let cache = [];
+async function openModal(id=null){
+  document.getElementById('save-msg').textContent='';
+  document.getElementById('btn-save').disabled=false;
+  document.getElementById('f-id').value = id||'';
+  document.getElementById('modal-title').textContent = id?'Edit Price':'Add Price';
+  // defaults
+  setF({service:'',category:'',display_order:0,rate:'',unit:'per hour',notes:'',active:true});
+  if (id){
+    const { data } = await sb.from('aged_care_pricing').select('*').eq('id',id).single();
+    if (data) setF(data);
+  }
+  document.getElementById('modal').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function setF(r){
+  document.getElementById('f-service').value  = r.service||'';
+  document.getElementById('f-category').value = r.category||'';
+  document.getElementById('f-order').value    = r.display_order ?? 0;
+  document.getElementById('f-rate').value     = (r.rate ?? '')===null?'':(r.rate??'');
+  document.getElementById('f-unit').value     = r.unit||'per hour';
+  document.getElementById('f-notes').value    = r.notes||'';
+  document.getElementById('f-active').checked = r.active!==false;
+}
+function closeModal(){ document.getElementById('modal').style.display='none'; document.body.style.overflow=''; }
+function backdrop(e){ if(e.target===document.getElementById('modal')) closeModal(); }
+
+async function savePrice(){
+  const service = document.getElementById('f-service').value.trim();
+  const rateRaw = document.getElementById('f-rate').value;
+  if (!service){ alert('Service name is required.'); return; }
+  if (rateRaw==='' || isNaN(Number(rateRaw))){ alert('Please enter a valid rate.'); return; }
+  const btn=document.getElementById('btn-save'), msg=document.getElementById('save-msg');
+  btn.disabled=true; msg.textContent='Saving…';
+  const payload = {
+    service,
+    category:      document.getElementById('f-category').value.trim() || null,
+    display_order: parseInt(document.getElementById('f-order').value)||0,
+    rate:          Number(rateRaw),
+    unit:          document.getElementById('f-unit').value.trim() || 'per hour',
+    notes:         document.getElementById('f-notes').value.trim() || null,
+    active:        document.getElementById('f-active').checked,
+    updated_at:    new Date().toISOString(),
+  };
+  const id = document.getElementById('f-id').value;
+  let error;
+  if (id){ ({ error } = await sb.from('aged_care_pricing').update(payload).eq('id',id)); }
+  else   { ({ error } = await sb.from('aged_care_pricing').insert(payload)); }
+  if (error){ msg.textContent='❌ '+error.message; btn.disabled=false; return; }
+  msg.textContent='✓ Saved!';
+  setTimeout(()=>{ closeModal(); loadRows(); }, 600);
+}
+
+async function deleteRow(id, name){
+  if (!confirm(`Delete "${name}"? This removes it from the public pricing page.`)) return;
+  const { error } = await sb.from('aged_care_pricing').delete().eq('id',id);
+  if (error){ alert(error.message); return; }
+  loadRows();
+}
+
+init();
+</script>
+</body>
+</html>

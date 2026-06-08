@@ -96,6 +96,10 @@ document.getElementById('nav-placeholder').innerHTML = `
             <div class="dd-ico">🏡</div>
             <div><span class="dd-name">Home Maintenance</span><span class="dd-sub">Garden &amp; home tasks</span></div>
           </a>
+          <a href="${BASE}pricing.html" class="dd-item" style="background:rgba(217,111,71,.04);border-radius:10px;">
+            <div class="dd-ico" style="background:#fff5f0;">💲</div>
+            <div><span class="dd-name" style="color:var(--coral);">Fees &amp; Pricing</span><span class="dd-sub">View our service rates</span></div>
+          </a>
         </div>
       </div>
     </li>
@@ -144,6 +148,7 @@ document.getElementById('footer-placeholder').innerHTML = `
       <li><a href="${BASE}aged-care.html#social">Social Support</a></li>
       <li><a href="${BASE}aged-care.html#transport">Transport</a></li>
       <li><a href="${BASE}aged-care.html#medication">Medication Support</a></li>
+      <li><a href="${BASE}pricing.html">Fees &amp; Pricing</a></li>
     </ul></div>
     <div class="fc"><h4>Company</h4><ul>
       <li><a href="${BASE}about.html">About Us</a></li>
